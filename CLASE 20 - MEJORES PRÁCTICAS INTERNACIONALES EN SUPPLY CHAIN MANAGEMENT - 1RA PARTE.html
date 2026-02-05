@@ -1,0 +1,2477 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title></title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet" />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Inter", sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+
+      :root {
+        /* Colores Principales del Diseño (Acentos y Degradados) */
+        /* ======================================================= */
+        --color-principal: #00beff; /* Cian Brillante para acentos, bordes y el inicio del degradado principal */
+        --color-secundario: #1e50cd; /* Azul Medio, parte final del degradado de acento */
+
+        /* Fondos Oscuros de la Interfaz */
+        /* ======================================================= */
+        --fondo-oscuro-claro: #002a52; /* Fondo de secciones y contenido */
+        --fondo-oscuro-fuerte: #001a33; /* Fondo del encabezado (header) y pie de página (footer) */
+        /* ======================================================= */
+        --fondo-oscuro-medio: #003366; /* Fondo de encabezados y cajas de contenido */
+        --fondo-borde-claro: #004080; /* Bordes ligeros y color de fondo al hacer hover en encabezados */
+        --fondo-sombra-azul-header: #0050a0; /* ¡NUEVO! Sombra en el header */
+
+        /* Colores de Texto y Fondo General del Body */
+        /* ======================================================= */
+        --texto-blanco-1: #ffffff; /* Blanco puro para títulos y texto en fondo muy oscuro */
+        --texto-claro-2: #e6e6e6; /* Texto principal y claro */
+        --texto-medio-3: #cccccc; /* Texto de contenido de item (un poco más tenue) */
+
+        /* ======================================================= */
+        --fondo-body-inicio: #99e5ff; /* Color de inicio del degradado de fondo del body */
+        --fondo-body-fin: #a5b9eb; /* Color de final del degradado de fondo del body */
+
+        /* Colores de Acento Específicos (YouTube, Búsqueda) */
+        /* ======================================================= */
+        --rojo-youtube-claro: #e60000;
+        --rojo-youtube-fuerte: #a30000;
+        --timestamp-youtube: #ffcccc;
+        --fondo-resaltado: #00c339; /* Verde para el fondo del texto buscado */
+
+        /* Bases RGB para Transparencias (RGBA) */
+        /* ======================================================= */
+        --sombra-rgb: 0, 0, 0; /* Negro puro: Usado para sombras generales y profundidad */
+        --acento-rgb: 0, 190, 255; /* Cian Brillante: Usado para brillos y sombras de acento */
+        --rojo-rgb: 230, 0, 0; /* Rojo Puro: Usado para sombras de enlaces de YouTube */
+        /* ======================================================= */
+        --gradient-principal: linear-gradient(135deg, var(--color-principal) 0%, var(--color-secundario) 100%);
+      }
+
+      body {
+        background: linear-gradient(135deg, var(--fondo-body-inicio) 0%, var(--fondo-body-fin) 100%);
+        line-height: 1.2;
+        scroll-behavior: smooth;
+      }
+
+      strong#tituloDiplomado {
+        font-weight: 900;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      @keyframes slideDownSutil {
+        0% {
+          opacity: 0;
+          transform: translateY(-10px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .header.animacion-inicial {
+        animation: slideDownSutil 0.4s ease-out 1;
+        animation-fill-mode: forwards;
+        will-change: transform, opacity;
+      }
+
+      .header {
+        position: relative;
+        width: 100%;
+        z-index: 1000;
+        padding: 20px;
+        background: linear-gradient(135deg, var(--fondo-oscuro-fuerte) 0%, var(--fondo-oscuro-claro) 100%);
+        box-shadow: 0 5px 15px rgba(var(--sombra-rgb), 0.5);
+        text-align: center;
+        will-change: transform;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .header-text-box {
+        display: grid;
+        gap: 10px;
+        word-break: break-word;
+        margin: 0 15px;
+      }
+
+      .header.compact {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: fixed;
+      }
+
+      .header-spacer {
+        display: none;
+        transition: height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .header.compact + .header-spacer {
+        display: block;
+      }
+
+      .header-top {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .header.compact .header-top {
+        display: none;
+      }
+
+      .logo {
+        width: 140px;
+        height: auto;
+        margin: 0 15px;
+        transition: all 0.3s ease;
+        vertical-align: middle;
+      }
+
+      .header.compact .logo {
+        width: 90px;
+        margin: 0 10px;
+      }
+
+      .header .logo.compact-logo {
+        display: none;
+      }
+
+      .header.compact .logo.compact-logo {
+        display: block;
+      }
+
+      .header h1 {
+        font-size: 2rem;
+        color: var(--texto-blanco-1);
+        font-weight: 900;
+      }
+
+      .header.compact h1 {
+        font-size: 1rem;
+      }
+
+      .header p {
+        font-size: 1.2rem;
+        color: var(--texto-blanco-1);
+        font-weight: 700;
+      }
+
+      .header-content-box {
+        background: var(--gradient-principal);
+        border-radius: 12px;
+        padding: 20px 20px;
+        box-shadow: 0 8px 20px rgba(var(--acento-rgb), 0.6);
+        overflow: hidden;
+        margin-bottom: 15px;
+
+        opacity: 1;
+        transform: translateY(0);
+        will-change: transform;
+        transition: opacity 0.4s ease, transform 0.4s ease;
+      }
+
+      .header.compact .header-content-box {
+        opacity: 0;
+        max-height: 0;
+        padding-top: 0;
+        padding-bottom: 0;
+        margin-bottom: 0;
+        border: 0;
+        transform: translateY(-10px);
+      }
+
+      .header-content-box:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 30px rgba(var(--acento-rgb), 0.8);
+      }
+
+      .header-bottom-row {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+        flex-wrap: wrap;
+        width: 100%;
+      }
+
+      .header-second-row {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+        flex-wrap: wrap;
+        width: 100%;
+      }
+
+      .header.compact .header-bottom-row {
+        flex-grow: 1;
+      }
+
+      .logo-and-title {
+        opacity: 0;
+        overflow: hidden;
+        transform: translateY(-10px);
+        transition: opacity 0.4s ease, transform 0.4s ease;
+      }
+
+      .header.compact .logo-and-title {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .header.compact .header-bottom-row .logo-and-title {
+        will-change: transform;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-grow: 1;
+        width: 100%;
+        background: var(--gradient-principal);
+        border-radius: 12px;
+        padding: 10px;
+        box-shadow: 0 4px 10px rgba(var(--acento-rgb), 0.4);
+        gap: 10px;
+      }
+
+      .header.compact .header-bottom-row .logo-and-title:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(var(--acento-rgb), 0.5);
+      }
+
+      .header-compact-title {
+        display: none;
+        color: var(--texto-blanco-1);
+        font-size: 1.2rem;
+        font-weight: 700;
+        margin: 10px;
+        white-space: normal;
+      }
+
+      .header.compact .header-compact-title {
+        display: block;
+      }
+
+      .search-bar {
+        position: relative;
+        display: flex;
+        align-items: center;
+        width: 100%;
+        max-width: 450px;
+        background-color: var(--fondo-oscuro-medio);
+        border: 2px solid var(--fondo-borde-claro);
+        border-radius: 30px;
+        box-shadow: 0 4px 10px rgba(var(--sombra-rgb), 0.25);
+        will-change: border-color, background-color;
+        transition: border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+      }
+
+      .search-bar:focus-within {
+        border-color: var(--fondo-sombra-azul-header);
+        background-color: var(--fondo-borde-claro);
+      }
+
+      .clear-search {
+        cursor: pointer;
+        color: var(--texto-claro-2);
+        padding: 5px;
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1;
+        display: none;
+        transition: color 0.2s ease;
+        transform: scale(1.5);
+      }
+
+      .clear-search:hover {
+        color: var(--texto-blanco-1);
+      }
+
+      .search-bar input {
+        flex-grow: 1;
+        padding: 10px 18px;
+        font-weight: 400;
+        font-size: 1rem;
+        color: var(--texto-claro-2);
+        background-color: transparent;
+        border: none;
+        outline: none;
+        min-width: 0px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .header.compact .search-bar input {
+        padding: 10px 20px;
+      }
+
+      .search-actions {
+        display: flex;
+        align-items: center;
+      }
+
+      .action-button {
+        background: var(--gradient-principal);
+        border: none;
+        color: var(--texto-blanco-1);
+        padding: 8px 18px;
+        border-radius: 30px;
+        cursor: pointer;
+        font-size: 1rem;
+        font-weight: 600;
+        will-change: transform;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 10px rgba(var(--acento-rgb), 0.4);
+        max-width: 150px;
+        white-space: normal;
+      }
+
+      .action-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(var(--acento-rgb), 0.5);
+      }
+
+      .search-bar .action-button {
+        margin: 5px;
+      }
+
+      .controls {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+      }
+
+      @keyframes fadeInUpContent {
+        0% {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .mind-map {
+        transition: margin-top 0.4s ease;
+        margin: 50px 0;
+      }
+
+      .mind-map.animacion-contenido {
+        animation: fadeInUpContent 0.4s ease-out 1 forwards;
+        animation-delay: 0.2s;
+        opacity: 0;
+        will-change: opacity, transform;
+      }
+
+      .section {
+        margin-bottom: 20px;
+        background-color: var(--fondo-oscuro-claro);
+        border-radius: 12px;
+        border: 2px solid var(--fondo-oscuro-medio);
+        overflow: hidden;
+        box-shadow: 0 2px 10px rgba(var(--sombra-rgb), 0.25);
+        transition: border-color 0.3s ease;
+      }
+
+      .section-header {
+        padding: 20px;
+        background-color: var(--fondo-oscuro-medio);
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        will-change: background-color;
+        transition: background-color 0.3s ease, color 0.3s ease;
+      }
+
+      .section-title {
+        font-size: 1.4rem;
+        font-weight: 700;
+        color: var(--texto-claro-2);
+        margin-right: 10px;
+      }
+
+      .section-number {
+        background: var(--gradient-principal);
+        color: var(--texto-blanco-1);
+        padding: 5px 12px;
+        border-radius: 30px;
+        font-size: 15px;
+        font-weight: 700;
+        margin-right: 15px;
+      }
+
+      .toggle-icon {
+        font-size: 1.2rem;
+        color: var(--texto-claro-2);
+        will-change: transform;
+        transition: transform 0.3s ease;
+      }
+
+      .section.active > .section-header .toggle-icon {
+        transform: rotate(180deg);
+      }
+
+      .section-content {
+        max-height: 0;
+        overflow: hidden;
+        opacity: 0;
+        transition: max-height 0.5s ease-out, opacity 0.3s ease-in;
+      }
+
+      .section.active .section-content {
+        max-height: fit-content;
+        padding-bottom: 10px;
+        opacity: 1;
+      }
+
+      .subsection {
+        margin: 15px;
+        background-color: var(--fondo-oscuro-medio);
+        border-radius: 12px;
+        border: 2px solid var(--fondo-borde-claro);
+        overflow: hidden;
+        transition: border-color 0.3s ease;
+      }
+
+      .subsection:hover {
+        border-color: var(--fondo-sombra-azul-header);
+      }
+
+      .subsection:hover .subsection-header {
+        background-color: var(--fondo-sombra-azul-header);
+      }
+
+      .section:hover {
+        border-color: var(--fondo-borde-claro);
+      }
+
+      .section:hover .section-header {
+        background-color: var(--fondo-borde-claro);
+      }
+
+      .subsection-header {
+        padding: 15px;
+        background-color: var(--fondo-borde-claro);
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        will-change: background-color;
+        transition: background-color 0.3s ease, color 0.3s ease;
+      }
+
+      .subsection-title {
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: var(--texto-claro-2);
+        margin-right: 10px;
+      }
+
+      .subsection-number {
+        background: var(--gradient-principal);
+        color: var(--texto-blanco-1);
+        padding: 4px 10px;
+        border-radius: 30px;
+        font-size: 15px;
+        font-weight: 700;
+        margin-right: 12px;
+      }
+
+      .subsection-content {
+        max-height: 0;
+        overflow: hidden;
+        background-color: var(--fondo-oscuro-claro);
+        opacity: 0;
+        transition: max-height 0.5s ease-out, opacity 0.3s ease-in;
+      }
+
+      .subsection.active .subsection-content {
+        max-height: fit-content;
+        padding: 15px;
+        opacity: 1;
+      }
+
+      .subsection.active .toggle-icon {
+        transform: rotate(180deg);
+      }
+
+      .content-item {
+        margin-bottom: 10px;
+        padding: 15px;
+        background-color: var(--fondo-oscuro-medio);
+        border-radius: 12px;
+        border-left: 4px solid var(--color-principal);
+        box-shadow: 0 1px 5px rgba(var(--sombra-rgb), 0.25);
+      }
+
+      .content-text {
+        color: var(--texto-medio-3);
+        margin-bottom: 5px;
+        line-height: 1.4;
+        font-size: 1rem;
+        font-weight: 500;
+        position: relative;
+        padding-left: 15px;
+      }
+
+      .content-text::before {
+        content: "•";
+        color: var(--color-principal);
+        font-weight: 700;
+        display: inline-block;
+        position: absolute;
+        left: 0px;
+      }
+
+      .youtube-link {
+        display: inline-block;
+        padding: 10px 18px;
+        background: linear-gradient(135deg, var(--rojo-youtube-claro) 0%, var(--rojo-youtube-fuerte) 100%);
+        color: var(--texto-blanco-1);
+        cursor: pointer;
+        text-decoration: none;
+        border-radius: 30px;
+        font-size: 0.9rem;
+        font-weight: 500;
+        line-height: 1rem;
+        transition: all 0.3s ease;
+        margin-top: 10px;
+        box-shadow: 0 2px 5px rgba(var(--rojo-rgb), 0.4);
+        will-change: transform;
+      }
+
+      .youtube-link:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 3px 7.5px rgba(var(--rojo-rgb), 0.5);
+        will-change: transform;
+      }
+
+      .timestamp {
+        color: var(--timestamp-youtube);
+        font-size: 0.85rem;
+        margin-left: 10px;
+        font-weight: 400;
+      }
+
+      .highlight {
+        background-color: var(--fondo-resaltado);
+        color: var(--texto-blanco-1);
+        font-weight: 700;
+        padding: 4px;
+        border-radius: 6px;
+      }
+
+      .footer {
+        padding: 30px;
+        background: linear-gradient(135deg, var(--fondo-oscuro-fuerte) 0%, var(--fondo-oscuro-claro) 100%);
+        border-top: 1px solid var(--fondo-oscuro-medio);
+        text-align: center;
+        box-shadow: 0 -2px 10px rgba(var(--sombra-rgb), 0.25);
+      }
+
+      .footer-text {
+        color: var(--texto-claro-2);
+        font-size: 0.9rem;
+        line-height: 1.6;
+      }
+
+      .footer-logo {
+        width: 140px;
+        height: auto;
+        margin-bottom: 20px;
+      }
+
+      @media (max-width: 768px) {
+        .header-top {
+          flex-direction: column;
+        }
+
+        .logo {
+          margin: 0;
+        }
+
+        .header-text-box {
+          margin: 0;
+        }
+
+        .header h1 {
+          font-size: 1.5rem;
+        }
+
+        .header p {
+          font-size: 1rem;
+        }
+
+        .header.compact .header-bottom-row .logo-and-title {
+          gap: 5px;
+        }
+        .logo,
+        .footer-logo {
+          width: 105px;
+        }
+
+        .header.compact .header-bottom-row {
+          flex-direction: column;
+        }
+
+        .header.compact .header-compact-title {
+          margin: 0 5px;
+          font-size: 0.8rem;
+        }
+
+        .header.compact .logo.compact-logo {
+          width: 65px;
+          margin: 5px;
+        }
+
+        .action-button,
+        .search-bar input,
+        .clear-search {
+          font-size: 0.9rem;
+        }
+
+        .section-header {
+          padding: 15px;
+        }
+
+        .header.compact .controls {
+          flex-direction: row;
+        }
+
+        .section-title {
+          font-size: 1.1rem;
+        }
+
+        .subsection-title {
+          font-size: 1rem;
+        }
+        .section-number,
+        .subsection-number {
+          font-size: 13px;
+        }
+
+        .content-text {
+          font-size: 0.9rem;
+        }
+
+        .youtube-link {
+          font-size: 0.8rem;
+        }
+
+        .timestamp {
+          font-size: 0.75rem;
+        }
+
+        .header.compact .action-button {
+          padding: 6px 18px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header animacion-inicial">
+      <div class="header-content-box">
+        <div class="header-top">
+          <a href="https://www.edumin.pe/" target="_blank">
+            <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/LOGO%20BLANCO%20CANVA-mIKMypQ452RzmXVMUadb6mnvPaejXD.png" alt="EDUMIN Logo" class="logo" />
+          </a>
+          <div class="header-text-box">
+            <h1>
+              DIPLOMADO DE ALTA ESPECIALIZACIÓN EN<br />
+              <strong id="tituloDiplomado"></strong>
+            </h1>
+            <p id="tituloPrincipal"></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="header-bottom-row">
+        <div class="logo-and-title">
+          <a href="https://www.edumin.pe/" target="_blank">
+            <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/LOGO%20BLANCO%20CANVA-mIKMypQ452RzmXVMUadb6mnvPaejXD.png" alt="EDUMIN Logo" class="logo compact-logo" />
+          </a>
+          <span class="header-compact-title" id="tituloCompacto"></span>
+        </div>
+        <div class="header-second-row">
+          <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Buscar en el resumen interactivo…" autocomplete="off" />
+            <div class="search-actions">
+              <span class="clear-search" onclick="clearSearch()">&times;</span>
+              <button class="action-button" onclick="searchContent()">Buscar</button>
+            </div>
+          </div>
+
+          <div class="controls">
+            <button class="action-button" onclick="expandAll()">Mostrar todo</button>
+            <button class="action-button" onclick="collapseAll()">Colapsar todo</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="header-spacer"></div>
+
+    <div class="container">
+      <div class="mind-map animacion-contenido" id="mindMap">
+        <div class="section" data-section="1">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">1</span>
+              <span class="section-title">Introducción al imperativo estratégico de excelencia en la cadena de suministro minera</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">1.1</span>
+                  <span class="subsection-title">Presentación del curso y objetivos generales</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Bienvenida, rol de la asesora académica y normas de participación en la clase virtual.</div>
+                  <div class="content-text">Índice del curso: introducción y cuatro pilares para la excelencia en la cadena de suministro minera.</div>
+                  <div class="content-text">Enfoque: adaptar mejores prácticas globales de supply chain al sector minero.</div>
+                  <a href="https://www.youtube.com/watch?v=MP1pzknVBII&start=61" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:01:01)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">1.2</span>
+                  <span class="subsection-title">Contexto global y desafíos macro del sector minero</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Confluencia de presiones macroeconómicas, geopolíticas y sociales que afectan la resiliencia operativa.</div>
+                  <div class="content-text">Volatilidad de precios de commodities como litio, cobalto y níquel que obliga a ajustes operativos.</div>
+                  <div class="content-text">Nacionalismo de recursos, cambios regulatorios e inestabilidad política como riesgos para proyectos y cadenas de suministro.</div>
+                  <a href="https://www.youtube.com/watch?v=MP1pzknVBII&start=182" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:03:02)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">1.3</span>
+                  <span class="subsection-title">Contexto local (Perú) y necesidad de una cadena ágil y resiliente</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Perú como microcosmos: segundo productor mundial de cobre, pero con tensiones territoriales e inversión recuperándose tras la pandemia.</div>
+                  <div class="content-text">Mayor complejidad para permisos, riesgos climáticos (El Niño) y necesidad de gestión ágil, predictiva y resiliente en la cadena.</div>
+                  <a href="https://www.youtube.com/watch?v=MP1pzknVBII&start=250" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:04:10)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="2">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">2</span>
+              <span class="section-title">Planificación predictiva y gestión de inventarios de clase mundial</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">2.1</span>
+                  <span class="subsection-title">De la previsión tradicional a la planificación predictiva de la demanda con IA</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Limitaciones de los métodos históricos tradicionales que generan exceso de inventario y bajo nivel de servicio.</div>
+                  <div class="content-text">Uso de algoritmos de machine learning y análisis de big data para integrar tendencias de mercado, datos geológicos, sensores y factores macroeconómicos.</div>
+                  <div class="content-text">Beneficio proyectado: mejora en eficiencia de inventarios entre 20% y 30% mediante pronósticos avanzados.</div>
+                  <a href="https://www.youtube.com/watch?v=MP1pzknVBII&start=549" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:09:09)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">2.2</span>
+                  <span class="subsection-title">Integración estratégica mediante S&OP e IBP para alinear operaciones y finanzas</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">S&OP (Sales and Operations Planning) como proceso táctico mensual para equilibrar oferta y demanda en minería.</div>
+                  <div class="content-text">IBP (Integrated Business Planning) como evolución estratégica que incorpora planificación financiera, cartera de yacimientos y estrategia corporativa.</div>
+                  <div class="content-text">Ejemplo de uso: simulación de escenarios para evaluar impacto de priorización de minas o caídas de precios en decisiones de inversión.</div>
+                  <a href="https://www.youtube.com/watch?v=MP1pzknVBII&start=653" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:10:53)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">2.3</span>
+                  <span class="subsection-title">Herramientas colaborativas y CPFR para sincronizar proveedores y visibilidad</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">CPFR (Collaborative Planning, Forecasting and Replenishment) como marco para compartir pronósticos y planes con proveedores estratégicos.</div>
+                  <div class="content-text">Plataformas digitales compartidas que permiten sincronización proactiva entre producción, aprovisionamiento y logística.</div>
+                  <div class="content-text">Aplicabilidad local: tesis y casos que demuestran mejora de rentabilidad al integrar procesos S&OP/IBP en minería.</div>
+                  <a href="https://www.youtube.com/watch?v=MP1pzknVBII&start=628" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:10:28)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="3">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">3</span>
+              <span class="section-title">Gestión de inventarios MRO y mantenimiento predictivo para disponibilidad de activos</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">3.1</span>
+                  <span class="subsection-title">Dilema MRO: priorizar disponibilidad frente a costos de inventario</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Definición de MRO: gestión de inventarios de mantenimiento, reparación y operaciones.</div>
+                  <div class="content-text">Coste de paradas no planificadas de activos críticos que puede ascender a millones de dólares por día.</div>
+                  <div class="content-text">Objetivo estratégico: maximizar disponibilidad de activos más que minimizar costos de inventario.</div>
+                  <a href="https://www.youtube.com/watch?v=MP1pzknVBII&start=898" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:14:58)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">3.2</span>
+                  <span class="subsection-title">Evaluación de criticidad y clasificación ABC/VD para priorizar repuestos</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Definición de criticidad: repuesto cuyo fallo provoca detención inmediata y significativa de la producción.</div>
+                  <div class="content-text">Aplicación de clasificación ABC (por valor) y clasificación VED (Vital, Esencial, Deseable) para enfocar gestión.</div>
+                  <div class="content-text">Uso de matrices (ejes valor del ítem vs criticidad) para priorizar esfuerzos y políticas de stock.</div>
+                  <a href="https://www.youtube.com/watch?v=MP1pzknVBII&start=974" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:16:14)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">3.3</span>
+                  <span class="subsection-title">Mantenimiento predictivo (PdM) y tecnologías habilitantes</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Implantación de sensores IoT para monitorear vibración, temperatura, presión y corriente en tiempo real.</div>
+                  <div class="content-text">Modelos de IA y machine learning que analizan datos para predecir fallas y estimar vida útil restante.</div>
+                  <div class="content-text">Beneficios: reducción de stocks de seguridad, planificación Just-In-Time de repuestos, ahorro en envíos de emergencia.</div>
+                  <a href="https://www.youtube.com/watch?v=MP1pzknVBII&start=954" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:15:54)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">3.4</span>
+                  <span class="subsection-title">Plataformas CMMS/EAM como columna vertebral digital de la estrategia</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">CMMS (Computerized Maintenance Management System) y EAM (Enterprise Asset Management) para gestionar órdenes de trabajo y ciclo de vida de activos.</div>
+                  <div class="content-text">Funciones: automatizar puntos de pedido, centralizar datos de mantenimiento predictivo y servir como fuente única de verdad.</div>
+                  <div class="content-text">Facilitan colaboración entre equipos de mantenimiento y cadena de suministro para planificación conjunta.</div>
+                  <a href="https://www.youtube.com/watch?v=MP1pzknVBII&start=1126" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:18:46)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="4">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">4</span>
+              <span class="section-title">Casos prácticos, herramientas y ejercicios formativos</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">4.1</span>
+                  <span class="subsection-title">Uso del análisis ABC y diagrama de Pareto para priorizar inventario</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Principio de Pareto aplicado a inventarios: 20% de productos generan ~80% del costo total.</div>
+                  <div class="content-text">Procedimiento paso a paso: cálculo de costo total, porcentaje de participación, ordenamiento descendente, acumulado y asignación A/B/C.</div>
+                  <div class="content-text">Ejemplo práctico con frutería: implementación en Excel y creación de diagrama de Pareto para identificar grupo A, B y C.</div>
+                  <a href="https://www.youtube.com/watch?v=MP1pzknVBII&start=1237" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:20:37)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">4.2</span>
+                  <span class="subsection-title">Conceptos fundamentales y buenas prácticas de gestión y control de inventario</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Definición y objetivos de la gestión de inventarios: optimizar cantidades, reducir costos y mejorar disponibilidad.</div>
+                  <div class="content-text">Prácticas clave: planificación de la demanda, control de existencias, optimización de procesos, sistemas de almacenamiento y manejo de materiales.</div>
+                  <div class="content-text">Importancia del monitoreo de KPIs, análisis de desviaciones e innovación tecnológica para mejora continua.</div>
+                  <a href="https://www.youtube.com/watch?v=MP1pzknVBII&start=1856" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:30:56)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">4.3</span>
+                  <span class="subsection-title">Tipos de mantenimiento y su relación con la gestión de inventarios</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Mantenimiento preventivo: acciones programadas para prolongar vida útil y reducir fallas.</div>
+                  <div class="content-text">Mantenimiento predictivo: uso de datos y tecnología para predecir cuándo intervenir y evitar fallas.</div>
+                  <div class="content-text">Mantenimiento correctivo y proactivo: restauración tras falla y acciones para identificar y corregir causas raíz, respectivamente; implicaciones para gestión de repuestos.</div>
+                  <a href="https://www.youtube.com/watch?v=MP1pzknVBII&start=2235" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:37:15)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">4.4</span>
+                  <span class="subsection-title">Diseño de un plan de mantenimiento predictivo y matriz de salud de activos</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Definición de jerarquía de planta y niveles de activos para orientar informes y técnicas predictivas.</div>
+                  <div class="content-text">Asignación de técnicas de inspección (vibraciones, termografía, inspección visual), periodicidades, fallos detectables, alertas y alarmas.</div>
+                  <div class="content-text">Matriz de salud consolidada como radiografía del estado del activo para facilitar decisiones de mantenimiento e inventario.</div>
+                  <a href="https://www.youtube.com/watch?v=MP1pzknVBII&start=2651" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:44:11)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="5">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">5</span>
+              <span class="section-title">Inteligencia aplicada y optimización operacional: casos de uso avanzado</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">5.1</span>
+                  <span class="subsection-title">Mantenimiento inteligente prescriptivo mediante machine learning y optimización</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Diferencia entre mantenimiento prescriptivo y preventivo: prescriptivo integra condiciones operativas y contexto para recomendar acciones optimizadas.</div>
+                  <div class="content-text">Pipeline: modelo de machine learning que predice fecha probable de falla usando histórico, sensores y planes de producción; exportación de predicciones para optimización.</div>
+                  <a href="https://www.youtube.com/watch?v=MP1pzknVBII&start=2936" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:48:56)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">5.2</span>
+                  <span class="subsection-title">Integración de predicción y optimización considerando capacidad humana y producción</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Necesidad de considerar recursos limitados (número de mecánicos) y planes de producción al programar mantenimientos óptimos.</div>
+                  <div class="content-text">Formulación del problema como optimización en Python usando CPLEX: variables de decisión de producción y mantenimiento por máquina y día.</div>
+                  <div class="content-text">Restricciones clave: única intervención por máquina en periodo, límite diario de trabajos por número de mecánicos y reducción de producción durante mantenimiento.</div>
+                  <a href="https://www.youtube.com/watch?v=MP1pzknVBII&start=3037" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:50:37)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">5.3</span>
+                  <span class="subsection-title">Estructura de costos y comparación de estrategias de mantenimiento</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Componentes de la función objetivo: costos de mantenimiento, costos por incumplir producción y costos de operación de cada máquina.</div>
+                  <div class="content-text">Estrategias evaluadas: optimización formal vs heurística que programa mantenimiento cercano al punto de fallo.</div>
+                  <div class="content-text">Resultado: generación de calendario óptimo de mantenimiento y producción para minimizar costos totales y balancear disponibilidad de recursos.</div>
+                  <a href="https://www.youtube.com/watch?v=MP1pzknVBII&start=3302" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:55:02)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="6">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">6</span>
+              <span class="section-title">Recursos adicionales, multimedia y cierre del segmento antes del descanso</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">6.1</span>
+                  <span class="subsection-title">Videos formativos y material complementario para profundizar</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Lista de videos mostrados en clase: tutorial ABC/Pareto, introducción a gestión de inventarios, tipos de mantenimiento y casos intensivos de mantenimiento predictivo.</div>
+                  <div class="content-text">Recomendación de revisar videos largos y uso de IA para resumir contenidos cuando no haya tiempo para verlos completos.</div>
+                  <a href="https://www.youtube.com/watch?v=MP1pzknVBII&start=3446" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:57:26)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">6.2</span>
+                  <span class="subsection-title">Resumen de la sesión y espacio para preguntas antes del break</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Recapitulación: desde análisis ABC hasta implementación de mantenimiento predictivo con machine learning y optimización.</div>
+                  <div class="content-text">Invitación a preguntas y confirmación de comprensión por parte de los estudiantes antes del descanso de cinco minutos.</div>
+                  <a href="https://www.youtube.com/watch?v=MP1pzknVBII&start=3471" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:57:51)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">6.3</span>
+                  <span class="subsection-title">Organización práctica y recordatorios finales antes del descanso</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Pausa de 5 minutos para descanso físico; aviso de envío del enlace de asistencia para registrar participación.</div>
+                  <div class="content-text">Cierre temporal de la sesión y preparación para continuar con los siguientes pilares y temas al retorno del break.</div>
+                  <a href="https://www.youtube.com/watch?v=MP1pzknVBII&start=3589" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:59:49)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="7">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">7</span>
+              <span class="section-title">Más allá del aprovisionamiento transaccional</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">7.1</span>
+                  <span class="subsection-title">Paradigma antiguo de compras y sus limitaciones</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">El enfoque tradicional basado en licitaciones competitivas prioriza el precio como criterio principal y busca ahorros a corto plazo que pueden generar relaciones adversarias con proveedores.</div>
+                  <div class="content-text">La relación adversaria fomenta desconfianza, limita el intercambio de información e inhibe la innovación necesaria en entornos con equipos especializados y tecnología avanzada.</div>
+                  <div class="content-text">Este modelo resulta contraproducente para operaciones mineras que requieren colaboración técnica y continuidad operativa para minimizar riesgos.</div>
+                  <a href="https://www.youtube.com/watch?v=MP1pzknVBII&start=4094" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:08:14)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">7.2</span>
+                  <span class="subsection-title">Enfoque estratégico: strategic sourcing y gestión de categorías</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Strategic sourcing implica analizar el gasto total por categorías, conocer profundamente el mercado de proveedores y seleccionar proveedores estratégicos de alto rendimiento.</div>
+                  <div class="content-text">El objetivo se desplaza de disminuir precio de compra a optimizar el costo total de propiedad (TCO), incluyendo calidad, fiabilidad, mantenimiento y vida útil del producto o servicio.</div>
+                  <div class="content-text">La gestión de categorías facilita decisiones basadas en valor y riesgo, y orienta relaciones a largo plazo con proveedores clave.</div>
+                  <a href="https://www.youtube.com/watch?v=MP1pzknVBII&start=4135" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:08:55)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">7.3</span>
+                  <span class="subsection-title">Modelos de colaboración y cocreación de valor con proveedores</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">La base de las alianzas estratégicas es la colaboración activa para generar beneficios mutuos que no podrían obtenerse de forma aislada entre las partes.</div>
+                  <div class="content-text">Modelos prácticos incluyen intercambio de información e integración de sistemas, optimización conjunta de procesos y diseño conjunto de soluciones desde etapas tempranas de proyectos.</div>
+                  <div class="content-text">La cocreación permite aprovechar la experiencia técnica de proveedores para diseñar operaciones mineras más eficientes, seguras y sostenibles.</div>
+                  <a href="https://www.youtube.com/watch?v=MP1pzknVBII&start=4164" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:09:24)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="8">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">8</span>
+              <span class="section-title">Modelos de colaboración específicos y casos prácticos</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">8.1</span>
+                  <span class="subsection-title">Intercambio de información e integración digital con proveedores</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Compartir planes de producción, pronósticos de demanda y datos operativos en tiempo real mediante plataformas digitales integradas y tecnologías como blockchain.</div>
+                  <div class="content-text">La visibilidad compartida permite a proveedores anticipar necesidades, optimizar producción y logística, y responder rápidamente a cambios operativos.</div>
+                  <div class="content-text">La transparencia fomenta confianza y mejora la planificación conjunta para reducir stockouts y sobreinventarios.</div>
+                  <a href="https://www.youtube.com/watch?v=MP1pzknVBII&start=4178" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:09:38)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">8.2</span>
+                  <span class="subsection-title">Optimización conjunta de procesos y contratos de consignación</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Rediseño activo de procesos compartidos mediante prácticas como Inventario Gestionado por el Proveedor (VMI), donde el proveedor monitorea y reabastece inventarios en sitio.</div>
+                  <div class="content-text">Contratos de consignación permiten que el proveedor mantenga propiedad de stock ubicado en la mina, gestionando envíos y facturación por consumo mensual, reduciendo costos de inventario para la minera.</div>
+                  <div class="content-text">Ejemplos adicionales incluyen optimización conjunta de rutas logísticas y programas de mantenimiento colaborativo que reducen costos operativos.</div>
+                  <a href="https://www.youtube.com/watch?v=MP1pzknVBII&start=4208" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:10:08)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">8.3</span>
+                  <span class="subsection-title">Diseño e innovación conjunta: caso de monitoreo remoto</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Involucrar proveedores estratégicos desde las primeras etapas del ciclo de vida de un proyecto para codiseñar soluciones técnicas adaptadas a desafíos específicos.</div>
+                  <div class="content-text">Caso de estudio: alianza entre Titan Supply, Trend y Dubal ingeniería desarrolló solución de monitoreo telegrafico remoto para suscciones eléctricas, eliminando inspecciones manuales de alto riesgo.</div>
+                  <div class="content-text">La colaboración en ecosistemas de proveedores puede generar soluciones innovadoras que la minera difícilmente desarrollaría por sí sola.</div>
+                  <a href="https://www.youtube.com/watch?v=MP1pzknVBII&start=4287" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:11:27)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="9">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">9</span>
+              <span class="section-title">Rol estratégico de proveedores locales y desarrollo de capacidades</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">9.1</span>
+                  <span class="subsection-title">Importancia del desarrollo de proveedores locales como pilar estratégico</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">En países como Perú, desarrollar una base de proveedores locales robusta ha pasado de responsabilidad social a imperativo estratégico para la resiliencia de la cadena de suministro.</div>
+                  <div class="content-text">Reducir dependencia de proveedores internacionales disminuye plazos de entrega, costos logísticos y vulnerabilidad a interrupciones globales.</div>
+                  <div class="content-text">Fomentar proveedores locales fortalece relaciones comunitarias y contribuye a la licencia social para operar.</div>
+                  <a href="https://www.youtube.com/watch?v=MP1pzknVBII&start=4388" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:13:08)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">9.2</span>
+                  <span class="subsection-title">Creación de valor compartido: beneficios para mina y comunidad</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Beneficios para la minera: mejores tiempos de entrega, costos logísticos menores, mayor agilidad ante necesidades urgentes y reducción del riesgo de conflictos sociales que interrumpen operaciones.</div>
+                  <div class="content-text">Beneficios para la comunidad: diversificación económica local, empleo de calidad, transferencia de tecnología y conocimientos, y elevación de estándares empresariales regionales.</div>
+                  <div class="content-text">El desarrollo local crea un ciclo virtuoso que mejora resiliencia y desempeño ESG de la empresa.</div>
+                  <a href="https://www.youtube.com/watch?v=MP1pzknVBII&start=4438" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:13:58)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">9.3</span>
+                  <span class="subsection-title">Mejores prácticas para desarrollo y contratación de proveedores locales</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Implementar procesos transparentes con portales de proveedores y licitaciones claras, justas y accesibles que permitan competir a empresas locales.</div>
+                  <div class="content-text">Colaboración con gobiernos, cámaras de comercio y ONG para programas de capacitación, asistencia técnica y acceso a financiamiento que eleven estándares de calidad y seguridad.</div>
+                  <div class="content-text">Ofrecer contratos de mayor duración para dar estabilidad y permitir inversiones en equipos, tecnología y capital humano por parte de proveedores locales.</div>
+                  <a href="https://www.youtube.com/watch?v=MP1pzknVBII&start=4483" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:14:43)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="10">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">10</span>
+              <span class="section-title">Aprovisionamiento colaborativo y transformación digital de la cadena</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">10.1</span>
+                  <span class="subsection-title">Papel de proveedores especializados en la adopción de minería 4.0</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">La adopción de tecnologías de minería 4.0 (flotas autónomas, análisis predictivo) depende de la capacidad de los proveedores para desarrollar, implementar y mantener dichos sistemas avanzados.</div>
+                  <div class="content-text">La velocidad de transformación digital de una minera está limitada por la calidad de sus alianzas con proveedores tecnológicos.</div>
+                  <div class="content-text">Un modelo de aprovisionamiento colaborativo basado en confianza, transparencia y coinnovación es requisito para competir en el ámbito digital.</div>
+                  <a href="https://www.youtube.com/watch?v=MP1pzknVBII&start=4600" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:16:40)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">10.2</span>
+                  <span class="subsection-title">Función estratégica del área de compras en gestión de riesgos sociales y ambientales</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">La función de aprovisionamiento ha evolucionado de un rol puramente comercial a una interfaz estratégica para gestionar riesgos sociales y ambientales.</div>
+                  <div class="content-text">Decidir entre proveedores locales o internacionales y entre modelos colaborativos o transaccionales impacta directamente la licencia social y desempeño ESG.</div>
+                  <div class="content-text">Utilizar el poder de compra para fomentar desarrollo local convierte potenciales conflictos en valor compartido y asegura continuidad operativa.</div>
+                  <a href="https://www.youtube.com/watch?v=MP1pzknVBII&start=4646" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:17:26)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">10.3</span>
+                  <span class="subsection-title">Capacidades del gerente de cadena de suministro como actor clave estratégico</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">El gerente de la cadena de suministro debe ser un actor clave en la estrategia corporativa y en la relación con grupos de interés, integrando consideraciones operativas, sociales y tecnológicas.</div>
+                  <div class="content-text">Su rol incluye coordinación con stakeholders, implementación de políticas de compras responsables y evaluación de impactos en la licencia social.</div>
+                  <div class="content-text">La gobernanza del aprovisionamiento requiere reuniones periódicas, KPIs y mecanismos de seguimiento para garantizar alineamiento con objetivos corporativos.</div>
+                  <a href="https://www.youtube.com/watch?v=MP1pzknVBII&start=4665" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:17:45)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="11">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">11</span>
+              <span class="section-title">Material audiovisual y recapitulación final de la sesión</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">11.1</span>
+                  <span class="subsection-title">Resumen y utilidad de videos de refuerzo mostrados en clase</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Videos abordan alianzas estratégicas con proveedores, desarrollo de proveedores mediante selección, desarrollo de capacidades y evaluación para mitigar riesgos.</div>
+                  <div class="content-text">Otro video introductorio de logística presenta fundamentos de comunicación entre productor y proveedor, funciones y responsabilidades del área de compras.</div>
+                  <div class="content-text">Recomendación de realizar resúmenes como método de aprendizaje para quienes no puedan ver videos completos por limitaciones de tiempo laboral.</div>
+                  <a href="https://www.youtube.com/watch?v=MP1pzknVBII&start=4714" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:18:34)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">11.2</span>
+                  <span class="subsection-title">Funciones y responsabilidades del área de compras explicadas en material audiovisual</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">El equipo de compras debe identificar necesidades, alternativas, criterios de decisión y ponderar opciones mediante matrices para seleccionar la alternativa de mayor valor esperado.</div>
+                  <div class="content-text">Responsabilidades incluyen mantener continuidad de suministros, garantizar condiciones y plazos de entrega, vigilar precios de mercado y administrar aprovisionamiento junto con inventarios.</div>
+                  <div class="content-text">El perfil del personal de compras debe incluir formación, capacidad de decisión, organización y habilidades para colaborar con finanzas y producción.</div>
+                  <a href="https://www.youtube.com/watch?v=MP1pzknVBII&start=4873" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:21:13)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">11.3</span>
+                  <span class="subsection-title">Cierre de la sesión, preguntas y siguientes pasos sugeridos</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Se invitó a preguntas y se ofreció repetir contenidos según necesidad; se compartieron recursos adicionales y webinars para profundización.</div>
+                  <div class="content-text">Siguientes temas anunciados: pilar tres y cuatro sobre optimización logística, gobernanza de proveedores y marco KPI integral para logística minera.</div>
+                  <div class="content-text">Recomendación final: elaborar resúmenes personales de los videos y materiales como principal activo para el aprendizaje continuo.</div>
+                  <a href="https://www.youtube.com/watch?v=MP1pzknVBII&start=6064" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:41:04)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="section" data-section="12">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">12</span>
+              <span class="section-title">Logística colaborativa, sostenibilidad y medición del éxito mediante KPIs</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">12.1</span>
+                  <span class="subsection-title">Principios de la logística colaborativa y su importancia estratégica</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">La logística colaborativa promueve cooperación entre proveedores, distribuidores y clientes para reducir costos, aumentar eficiencia y mejorar tiempo de respuesta al mercado.</div>
+                  <div class="content-text">Liderazgo centrado en relaciones humanas y construcción de confianza es esencial para compartir información sensible y alcanzar objetivos comunes.</div>
+                  <div class="content-text">Integrar nuevas tecnologías (IA, IoT, análisis en tiempo real) como habilitadores para anticipar problemas y optimizar rutas e inventarios.</div>
+                  <a href="https://www.youtube.com/watch?v=MP1pzknVBII&start=5517" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:31:57)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">12.2</span>
+                  <span class="subsection-title">Sustentabilidad, gestión de riesgos y ética en la cadena de suministro colaborativa</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Incorporar criterios ambientales para reducir huella de carbono optimizando rutas, consumo de combustible y promoviendo prácticas de reciclaje y tecnologías limpias.</div>
+                  <div class="content-text">Asegurar prácticas laborales éticas y cumplimiento de derechos humanos en proveedores como parte de responsabilidad social y desempeño ESG.</div>
+                  <div class="content-text">Gestionar riesgos mediante diversificación de proveedores, inventarios de emergencia y planes de contingencia para garantizar resiliencia ante crisis.</div>
+                  <a href="https://www.youtube.com/watch?v=MP1pzknVBII&start=5766" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:36:06)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">12.3</span>
+                  <span class="subsection-title">Marco integral de KPIs para medir desempeño logístico minero</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Necesidad de un cuadro de mando integral que capture KPIs operativos, de seguridad, costos, tiempo de entrega, nivel de servicio y desempeño ESG.</div>
+                  <div class="content-text">KPIs deben permitir seguimiento continuo, análisis de variaciones y soporte a decisiones tácticas y estratégicas en aprovisionamiento y logística.</div>
+                  <div class="content-text">Implementar gobernanza que use KPIs en revisiones periódicas para identificar oportunidades de mejora, ajuste contractual e incentivos por desempeño.</div>
+                  <a href="https://www.youtube.com/watch?v=MP1pzknVBII&start=7182" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:59:42)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="13">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">13</span>
+              <span class="section-title">Logística colaborativa y grado de externalización: modelos 3PL y 4PL</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">13.1</span>
+                  <span class="subsection-title">Panorama de PL: del 1PL al 5PL y elección según complejidad</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">El concepto PL (party logistic) describe el grado de externalización desde gestión interna total hasta niveles más integrados y estratégicos.</div>
+                  <div class="content-text">La elección entre 3PL y 4PL depende de la complejidad operativa, escala del proyecto y objetivos a largo plazo de la minera.</div>
+                  <div class="content-text">Modelos 3PL y 4PL son especialmente relevantes para minería a gran escala y proyectos Greenfield en zonas remotas.</div>
+                  <a href="https://www.youtube.com/watch?v=MP1pzknVBII&start=6146" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:42:26)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">13.2</span>
+                  <span class="subsection-title">Rol, ventajas y desventajas de un 3PL en operaciones mineras</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Un 3PL es un ejecutor táctico que posee activos físicos (flota, almacenes, infraestructura portuaria) y ejecuta servicios como transporte, almacenamiento y gestión aduanera.</div>
+                  <div class="content-text">Ventajas: reducción de costos de capital, flexibilidad y escalabilidad en picos de demanda, experiencia especializada en manejo de materiales peligrosos y logística compleja.</div>
+                  <div class="content-text">Desventajas: control limitado sobre operaciones, visión fragmentada si se usan múltiples 3PLs, y enfoque táctico que limita participación en optimización estratégica de la cadena.</div>
+                  <a href="https://www.youtube.com/watch?v=MP1pzknVBII&start=6184" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:43:04)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">13.3</span>
+                  <span class="subsection-title">Rol, ventajas y desventajas de un 4PL como integrador estratégico</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Un 4PL actúa como cerebro o integrador de la cadena, no necesariamente posee activos físicos, pero diseña, construye y gestiona soluciones integrales para el cliente.</div>
+                  <div class="content-text">Ventajas: visión holística extremo a extremo, punto único de contacto para simplificar la gestión, impulso tecnológico mediante plataformas avanzadas con visibilidad en tiempo real.</div>
+                  <div class="content-text">Desventajas: mayor costo inicial, compromiso a largo plazo que reduce flexibilidad y potencial pérdida de conocimiento logístico interno por dependencia del 4PL.</div>
+                  <a href="https://www.youtube.com/watch?v=MP1pzknVBII&start=6464" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:47:44)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">13.4</span>
+                  <span class="subsection-title">Criterios para elegir entre 3PL y 4PL según operación minera</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Operaciones pequeñas y un solo sitio pueden ser gestionadas con uno o varios 3PLs especializados; proyectos a gran escala y remotos suelen beneficiarse de un 4PL.</div>
+                  <div class="content-text">Evaluar complejidad multimodal, necesidades de ingeniería de infraestructura, y capacidad para integrar tecnología y coordinar múltiples actores logísticos.</div>
+                  <div class="content-text">Considerar trade-offs entre control operativo, resiliencia, costo y capacidad de innovación a largo plazo.</div>
+                  <a href="https://www.youtube.com/watch?v=MP1pzknVBII&start=6528" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:48:48)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="14">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">14</span>
+              <span class="section-title">Casos de estudio y mejores prácticas en gestión logística minera</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">14.1</span>
+                  <span class="subsection-title">Caso Toromocho: solución 4PL para transporte de equipos desde Shanghai a mina a 4,500 m</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">El proyecto requirió mover equipos de gran tamaño y peso por vía marítima desde Shanghái, y luego tránsito terrestre a través de geografía montañosa hasta altura de 4,500 m.</div>
+                  <div class="content-text">Noatum Logistics actuó como 4PL, superando el rol de transportista para ejecutar planificación estratégica y gestión integral de extremo a extremo.</div>
+                  <div class="content-text">La solución incluyó ingeniería de modificación de infraestructura, consolidación de permisos, coordinación con autoridades y ejecución del transporte final garantizando llegadas seguras y puntuales.</div>
+                  <a href="https://www.youtube.com/watch?v=MP1pzknVBII&start=6629" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:50:29)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">14.2</span>
+                  <span class="subsection-title">Ingeniería de infraestructura y coordinación integral como marca de 4PL</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">El proyecto implicó construcción de apartaderos ferroviarios, refuerzo de puentes y ajustes en vías para permitir paso de cargas sobredimensionadas, demostrando la naturaleza de ingeniería del 4PL.</div>
+                  <div class="content-text">La coordinación integral abarcó flete marítimo, permisos, despacho aduanero, coordinación vial y ejecución de transporte final en condiciones complejas.</div>
+                  <div class="content-text">El éxito del caso muestra que la logística en minería es disciplina de ingeniería y gestión de proyectos, no solo un servicio operativo.</div>
+                  <a href="https://www.youtube.com/watch?v=MP1pzknVBII&start=6690" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:51:30)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">14.3</span>
+                  <span class="subsection-title">Mejores prácticas en selección, contratos y gobernanza de socios logísticos</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Selección rigurosa: evaluar experiencia sectorial, historial de seguridad, solidez financiera, capacidades tecnológicas y referencias relevantes del proveedor.</div>
+                  <div class="content-text">Contratos y acuerdos de nivel de servicio (SLAs): definir responsabilidades, KPIs, mecanismos de reporte, penalizaciones por incumplimiento e incentivos por desempeño excepcional.</div>
+                  <div class="content-text">Gobernanza y gestión de desempeño: establecer reuniones periódicas de revisión, business reviews o QBRs para analizar KPI, resolver problemas colaborativamente e identificar oportunidades de mejora continua.</div>
+                  <a href="https://www.youtube.com/watch?v=MP1pzknVBII&start=6803" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:53:23)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="15">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">15</span>
+              <span class="section-title">Integración tecnológica, externalización y gestión del outsourcing</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">15.1</span>
+                  <span class="subsection-title">Integración tecnológica entre socios logísticos y sistemas de la minera</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Asegurar que sistemas de gestión de transporte (TMS) y gestión de almacenes (WMS) del socio puedan integrarse con ERP de la empresa minera para visibilidad en tiempo real.</div>
+                  <div class="content-text">La integración tecnológica facilita una única fuente de verdad, mejora la toma de decisiones y permite seguimiento de flujos materiales con precisión.</div>
+                  <div class="content-text">Plataformas avanzadas habilitan análisis de datos, visibilidad y herramientas de optimización que apoyan decisiones estratégicas en la cadena.</div>
+                  <a href="https://www.youtube.com/watch?v=MP1pzknVBII&start=6878" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:54:38)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">15.2</span>
+                  <span class="subsection-title">Externalización (outsourcing) y pasos para su implementación eficiente</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Realizar análisis FODA de la organización para identificar actividades que pueden externalizarse sin perder control crítico y garantizando calidad.</div>
+                  <div class="content-text">Pasos clave: selección de servicios a externalizar, licitación y contratación comparativa, transición planificada para alineación cultural y operativa, y supervisión continua del servicio.</div>
+                  <div class="content-text">Evaluación periódica de resultados para medir rentabilidad, calidad y posicionamiento, manteniendo controles administrativos compartidos entre partes.</div>
+                  <a href="https://www.youtube.com/watch?v=MP1pzknVBII&start=6973" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:56:13)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">15.3</span>
+                  <span class="subsection-title">Riesgos y recomendaciones al externalizar actividades logísticas</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Externalizar reduce cargas de capital y permite centrarse en core business, pero exige supervisión para asegurar cumplimiento de calidad y continuidad operativa.</div>
+                  <div class="content-text">Riesgos incluyen pérdida de control, dependencia excesiva, problemas de compatibilidad tecnológica y limitaciones de respuesta en situaciones de emergencia.</div>
+                  <div class="content-text">Recomendaciones: mantener reservas o capacidades internas críticas, definir SLAs robustos y establecer canales de comunicación y gobernanza claros con el proveedor.</div>
+                  <a href="https://www.youtube.com/watch?v=MP1pzknVBII&start=6973" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:56:13)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="16">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">16</span>
+              <span class="section-title">Enfoque en costos y riesgos de priorizar solo costos</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">16.1</span>
+                  <span class="subsection-title">Riesgos de incentivar comportamiento que degrade calidad y fiabilidad</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Presionar a proveedores con únicamente criterio de precio puede provocar servicios poco fiables, aumentando retrasos en entregas de repuestos críticos.</div>
+                  <div class="content-text">Retrasos en repuestos críticos pueden generar paradas de producción costosas y pérdida de valor operativo para la empresa.</div>
+                  <div class="content-text">La búsqueda exclusiva del menor costo puede incrementar el riesgo operacional y dañar la reputación y continuidad del negocio.</div>
+                  <a href="https://www.youtube.com/watch?v=MP1pzknVBII&start=7202" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(02:00:02)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">16.2</span>
+                  <span class="subsection-title">Necesidad de un cuadro de mando integral para gestión logística</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Las empresas mineras líderes adoptan un marco que equilibra costo, fiabilidad, seguridad y sostenibilidad como tarjeta de control (scorecard).</div>
+                  <div class="content-text">El cuadro de mando integra múltiples dimensiones de desempeño para evitar que la eficiencia de costos comprometa otros objetivos.</div>
+                  <div class="content-text">Este enfoque busca preservar valor total de la cadena de suministro y proteger operaciones críticas frente a decisiones cortoplacistas.</div>
+                  <a href="https://www.youtube.com/watch?v=MP1pzknVBII&start=7230" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(02:00:30)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">16.3</span>
+                  <span class="subsection-title">Perspectivas clave que debe incluir un cuadro de mando logístico</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Debe contemplar costo y eficiencia, servicio y fiabilidad, utilización de activos, seguridad y cumplimiento, y sostenibilidad ambiental y social.</div>
+                  <div class="content-text">Cada perspectiva requiere KPIs específicos que midan rendimiento, cumplimiento y riesgos asociados con las operaciones logísticas.</div>
+                  <div class="content-text">La definición clara y equilibrada de estas perspectivas facilita la toma de decisiones y la evaluación continua del desempeño logístico.</div>
+                  <a href="https://www.youtube.com/watch?v=MP1pzknVBII&start=7236" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(02:00:36)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="17">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">17</span>
+              <span class="section-title">KPI de costo, servicio, activos, seguridad y sostenibilidad</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">17.1</span>
+                  <span class="subsection-title">Medidas de costo y eficiencia con ejemplos de KPIs</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Costo logístico total sobre ventas como indicador general de la eficiencia de recursos utilizados en logística.</div>
+                  <div class="content-text">Costo por tonelada transportada y costos operativos de almacén para evaluar eficiencia operacional por volumen o unidad.</div>
+                  <div class="content-text">Estos KPIs permiten comparar rendimiento a lo largo del tiempo y detectar anomalías en la estructura de costos.</div>
+                  <a href="https://www.youtube.com/watch?v=MP1pzknVBII&start=7246" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(02:00:46)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">17.2</span>
+                  <span class="subsection-title">Indicadores de servicio y fiabilidad orientados a clientes internos y externos</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Indicadores de cumplimiento de entregas y satisfacción del cliente para operaciones internas (mantenimiento, operaciones) y clientes externos.</div>
+                  <div class="content-text">KPIs de tasa de entrega a tiempo y OTIF para medir cumplimiento de cantidad, calidad, lugar y momento de entrega.</div>
+                  <div class="content-text">El monitoreo de estos indicadores permite identificar problemas de suministro que afecten la continuidad operativa.</div>
+                  <a href="https://www.youtube.com/watch?v=MP1pzknVBII&start=7264" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(02:01:04)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">17.3</span>
+                  <span class="subsection-title">KPIs de utilización de activos y productividad logística</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Medición de disponibilidad de capacidad de transporte y utilización de camiones para evaluar eficiencia de flota.</div>
+                  <div class="content-text">Eficiencia en el uso del espacio de almacenes y productividad de activos logísticos clave.</div>
+                  <div class="content-text">Estos indicadores ayudan a optimizar inversiones, reducir costos y mejorar planificación de capacidad.</div>
+                  <a href="https://www.youtube.com/watch?v=MP1pzknVBII&start=7276" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(02:01:16)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">17.4</span>
+                  <span class="subsection-title">Seguridad y cumplimiento como KPI no negociables</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Seguimiento de frecuencia de lesiones con tiempo perdido y número de incumplimientos regulatorios en operaciones logísticas.</div>
+                  <div class="content-text">Indicadores relacionados con seguridad pueden ser liderados por áreas de seguridad, pero medidos también desde logística para responsabilidad compartida.</div>
+                  <div class="content-text">Mantener registros y mediciones claras de seguridad evita riesgos legales y protege al personal y activos.</div>
+                  <a href="https://www.youtube.com/watch?v=MP1pzknVBII&start=7288" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(02:01:28)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">17.5</span>
+                  <span class="subsection-title">KPIs de sostenibilidad ambiental y social en logística</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Medición de emisiones de carbono por tonelada-kilómetro como indicador clave de impacto ambiental.</div>
+                  <div class="content-text">Consumo de agua y porcentaje del gasto destinado a proyectos de aprovechamiento o impacto social como métricas complementarias.</div>
+                  <div class="content-text">Integrar sostenibilidad en el cuadro de mando asegura cumplimiento normativo y responde a expectativas de stakeholders.</div>
+                  <a href="https://www.youtube.com/watch?v=MP1pzknVBII&start=7299" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(02:01:39)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="18">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">18</span>
+              <span class="section-title">KPIs específicos de inventarios, compras y transporte</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">18.1</span>
+                  <span class="subsection-title">Indicadores de inventario: rotación y días de suministro</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Índice de rotación de inventario mide la frecuencia con que el inventario se vende o se repone en un periodo determinado.</div>
+                  <div class="content-text">Un índice alto señala gestión eficiente; un índice excesivamente alto puede indicar riesgo de ruptura de stock.</div>
+                  <div class="content-text">Fórmula: rotación = costo de ventas / inventario promedio, con inventario promedio calculado por (inventario inicial + inventario final) / 2.</div>
+                  <a href="https://www.youtube.com/watch?v=MP1pzknVBII&start=7360" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(02:02:40)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">18.2</span>
+                  <span class="subsection-title">Días de suministro como medida del capital de trabajo y continuidad</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Días de suministro indican cuántos días de operación cubre el inventario actual, esencial para gestión de capital de trabajo.</div>
+                  <div class="content-text">Fórmula: días de suministro = inventario promedio / costo de ventas diario, donde el costo de ventas diario es costo anual / 365.</div>
+                  <div class="content-text">Esta métrica ayuda a planificar reposición y evitar paradas por falta de repuestos críticos.</div>
+                  <a href="https://www.youtube.com/watch?v=MP1pzknVBII&start=7398" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(02:03:18)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">18.3</span>
+                  <span class="subsection-title">KPIs de aprovisionamiento: tiempo ciclo de orden y tasa de entrega a tiempo de proveedores</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Tiempo de ciclo de la orden de compra mide desde la requisición hasta la recepción de bienes, indicando eficiencia de compras.</div>
+                  <div class="content-text">Fórmula: tiempo de ciclo = fecha de recepción del pedido - fecha de generación de la orden de compra.</div>
+                  <div class="content-text">Tasa de entrega a tiempo de proveedores mide porcentaje de pedidos recibidos en la fecha acordada, fundamental para planificación.</div>
+                  <a href="https://www.youtube.com/watch?v=MP1pzknVBII&start=7417" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(02:03:37)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">18.4</span>
+                  <span class="subsection-title">Indicadores de transporte y distribución: costo de flete por unidad y OTD/OTIF</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Costo de flete por unidad se calcula como costo total de transporte entre cantidad transportada, normalmente por tonelada o por kilómetro.</div>
+                  <div class="content-text">Entrega a tiempo (OTD) mide porcentaje de envíos que llegan en fecha y hora programadas, clave para satisfacción del cliente.</div>
+                  <div class="content-text">OTIF (on time in full) cuantifica pedidos entregados perfectamente en producto, cantidad, lugar y momento correctos; fórmula: pedidos perfectos / pedidos totales * 100.</div>
+                  <a href="https://www.youtube.com/watch?v=MP1pzknVBII&start=7461" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(02:04:21)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="19">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">19</span>
+              <span class="section-title">Definición, desafíos y estandarización de métricas críticas como OTIF</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">19.1</span>
+                  <span class="subsection-title">OTIF como indicador integral de excelencia logística y ejemplos de impacto</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">OTIF es la prueba ácida de la ejecución logística, porque exige cumplimiento completo de producto, cantidad, lugar y tiempo.</div>
+                  <div class="content-text">Un fallo en OTIF por repuesto crítico puede paralizar una mina o generar penalizaciones contractuales millonarias.</div>
+                  <div class="content-text">La métrica refleja la salud y fiabilidad de la cadena de suministro más allá del servicio al cliente.</div>
+                  <a href="https://www.youtube.com/watch?v=MP1pzknVBII&start=7508" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(02:05:08)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">19.2</span>
+                  <span class="subsection-title">Desafíos en la definición estandarizada de ventana temporal para considerar entrega a tiempo</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Falta de definición estándar en la industria sobre la ventana de tiempo para considerar una entrega como a tiempo dificulta benchmarking.</div>
+                  <div class="content-text">Es necesario establecer una definición interna clara y acordada con socios de la cadena de suministro para uniformidad.</div>
+                  <div class="content-text">Definir políticas internas sobre tolerancias temporales y condiciones para considerar un pedido como perfecto es indispensable.</div>
+                  <a href="https://www.youtube.com/watch?v=MP1pzknVBII&start=7564" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(02:06:04)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">19.3</span>
+                  <span class="subsection-title">Parámetros y políticas internas para definir entregas perfectas y tiempos objetivo</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Establecer estándares por tipo de repuesto o cliente interno/externo para determinar tiempos aceptables de entrega.</div>
+                  <div class="content-text">Implementar políticas que definan, por ejemplo, tiempo estándar para tipos de repuestos y acciones cuando se exceden.</div>
+                  <div class="content-text">La existencia de parámetros internos facilita la medición objetiva y la toma de acciones correctivas frente a fallas.</div>
+                  <a href="https://www.youtube.com/watch?v=MP1pzknVBII&start=7595" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(02:06:35)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="20">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">20</span>
+              <span class="section-title">Análisis práctico para detectar sobrecostos y buenas prácticas en compras</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">20.1</span>
+                  <span class="subsection-title">Identificar sobrecostos mediante análisis de precios históricos y benchmarking</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Para artículos recurrentes, comparar precios a lo largo del tiempo por artículo con tablas dinámicas para detectar desviaciones.</div>
+                  <div class="content-text">Analizar tendencias versus picos puntuales para distinguir aumentos sostenidos de variaciones temporales por falta de stock.</div>
+                  <div class="content-text">Complementar con cotizaciones a proveedores alternativos y un análisis de precio de mercado para validar sobrecostos.</div>
+                  <a href="https://www.youtube.com/watch?v=MP1pzknVBII&start=7653" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(02:07:33)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">20.2</span>
+                  <span class="subsection-title">Procedimiento al entrar a un departamento nuevo: histórico, consumo y proveedores</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Al asumir una familia de productos, revisar históricos de precios, proveedores habituales y patrones de consumo para entender situación actual.</div>
+                  <div class="content-text">Sacar consumos por artículo para identificar los más rotativos y priorizar contratos o licitaciones para esos productos.</div>
+                  <div class="content-text">Evaluar codificación y descripciones de ítems para evitar compras equivocadas por falta de detalles y reducir devoluciones.</div>
+                  <a href="https://www.youtube.com/watch?v=MP1pzknVBII&start=7968" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(02:12:48)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">20.3</span>
+                  <span class="subsection-title">Herramientas y acciones prácticas: tablas dinámicas, licitaciones y contratos de abastecimiento</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Usar Excel o sistemas (ERP) para depurar bases de datos, generar tablas dinámicas por artículo, periodo y proveedor.</div>
+                  <div class="content-text">Realizar licitaciones anuales o contratos de abastecimiento para familias de productos de alta rotación con entregas programadas.</div>
+                  <div class="content-text">Considerar contratos de consignación o acuerdos de suministro con entregas periódicas para optimizar rotación y reducir inventarios.</div>
+                  <a href="https://www.youtube.com/watch?v=MP1pzknVBII&start=7790" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(02:09:50)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">20.4</span>
+                  <span class="subsection-title">Gestión de proveedores, lead times y manejo de casos de exclusividad de marca</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Evaluar proveedores nuevos, desarrollar capacidades y mantener mínimo tres proveedores por ítem cuando sea posible para evitar dependencia.</div>
+                  <div class="content-text">Analizar lead times especialmente para ítems importados y planificar compras con tiempo para evitar paradas.</div>
+                  <div class="content-text">Cuando equipos requieren repuestos de marca exclusiva por garantías, gestionar importación urgente vía aérea con dealers autorizados para minimizar tiempo de inactividad.</div>
+                  <a href="https://www.youtube.com/watch?v=MP1pzknVBII&start=8036" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(02:13:56)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="21">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">21</span>
+              <span class="section-title">Casos prácticos, preguntas y cierre de la sesión formativa</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">21.1</span>
+                  <span class="subsection-title">Ejemplos reales de errores por mala codificación y sus consecuencias operativas</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Un caso de papel higiénico mal codificado provocó compra de producto no deseado y stock inutilizable, obligando a cambio de código y gestión de inventario.</div>
+                  <div class="content-text">La falta de descripciones precisas en el catálogo puede causar compras incorrectas y acumulación de inventario indeseado.</div>
+                  <div class="content-text">Corrección de códigos y trabajo conjunto con control de inventarios evita recurrencia y mejora alineamiento entre almacén y usuarios.</div>
+                  <a href="https://www.youtube.com/watch?v=MP1pzknVBII&start=8112" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(02:15:12)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">21.2</span>
+                  <span class="subsection-title">Respuestas a dudas sobre importaciones urgentes y restricciones de marca</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Cuando el fabricante exige repuestos originales por garantía y no hay representantes locales, la importación por vía aérea puede ser la única alternativa urgente.</div>
+                  <div class="content-text">Identificar dealers internacionales o distribuidores autorizados para agilizar envíos y proteger garantías del equipo.</div>
+                  <div class="content-text">Pagar sobrecostos por urgencia puede ser necesario para restablecer operación crítica, siempre documentando decisiones.</div>
+                  <a href="https://www.youtube.com/watch?v=MP1pzknVBII&start=8308" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(02:18:28)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">21.3</span>
+                  <span class="subsection-title">Cierre de la clase, próximos pasos y recordatorios para los participantes</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Se anuncia el envío de la grabación de la clase para repaso y la siguiente sesión programada para el viernes 31 en el mismo horario.</div>
+                  <div class="content-text">Se invita a los asistentes a traer preguntas y casos prácticos para enriquecer la próxima sesión y resolver dudas específicas.</div>
+                  <div class="content-text">Se finaliza la sesión agradeciendo participación y recordando los canales de contacto proyectados en pantalla para consultas.</div>
+                  <a href="https://www.youtube.com/watch?v=MP1pzknVBII&start=8488" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(02:21:28)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <a href="https://www.edumin.pe/" target="_blank">
+        <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/LOGO%20BLANCO%20CANVA-mIKMypQ452RzmXVMUadb6mnvPaejXD.png" alt="EDUMIN Logo" class="footer-logo" />
+      </a>
+      <p class="footer-text">
+        <b>Contenido desarrollado por EDUMIN - Centro de Capacitación Especializado en Minería, Industria y Negocios</b><br />
+        <i>Material exclusivo para estudiantes de EDUMIN</i><br />
+        <a href="https://www.edumin.pe/" target="_blank" style="color: var(--color-principal); text-decoration: none">https://www.edumin.pe/</a>
+      </p>
+    </div>
+
+    <script>
+      let originalTextMap = {};
+
+      const TITULO_DIPLOMADO = "SUPPLY CHAIN MANAGEMENT EN INDUSTRIA Y MINERÍA".toUpperCase();
+      const TITULO_CLASE = "CLASE 20: MEJORES PRÁCTICAS INTERNACIONALES EN SUPPLY CHAIN MANAGEMENT - 1rA PARTE".toUpperCase();
+
+      const elementoDiplomado = document.getElementById("tituloDiplomado");
+      if (elementoDiplomado) {
+        elementoDiplomado.innerText = TITULO_DIPLOMADO;
+      }
+
+      document.title = TITULO_CLASE;
+      const tituloPrincipal = document.getElementById("tituloPrincipal");
+      if (tituloPrincipal) {
+        tituloPrincipal.innerText = TITULO_CLASE;
+      }
+
+      const tituloCompacto = document.getElementById("tituloCompacto");
+      if (tituloCompacto) {
+        tituloCompacto.innerText = TITULO_CLASE;
+      }
+
+      function cacheOriginalTexts() {
+        const searchableItems = document.querySelectorAll(".section-title, .subsection-title, .content-text");
+
+        let idCounter = 0;
+
+        searchableItems.forEach((item) => {
+          if (!item.id) {
+            item.id = `search-item-${idCounter++}`;
+          }
+
+          originalTextMap[item.id] = item.textContent.trim();
+        });
+      }
+
+      document.addEventListener("DOMContentLoaded", cacheOriginalTexts);
+
+      function toggleSection(element) {
+        const section = element.closest(".section");
+        const wasActive = section.classList.contains("active");
+
+        section.classList.toggle("active");
+
+        if (wasActive) {
+          const subsections = section.querySelectorAll(".subsection");
+          subsections.forEach((subsection) => {
+            subsection.classList.remove("active");
+          });
+        }
+      }
+
+      function toggleSubsection(element) {
+        const subsection = element.closest(".subsection");
+        subsection.classList.toggle("active");
+      }
+
+      function expandAll() {
+        const sections = document.querySelectorAll(".section");
+        sections.forEach((section) => {
+          section.classList.add("active");
+        });
+
+        const subsections = document.querySelectorAll(".subsection");
+        subsections.forEach((subsection) => {
+          subsection.classList.add("active");
+        });
+      }
+
+      function collapseAll() {
+        const sections = document.querySelectorAll(".section");
+        sections.forEach((section) => {
+          section.classList.remove("active");
+        });
+
+        const subsections = document.querySelectorAll(".subsection");
+        subsections.forEach((subsection) => {
+          subsection.classList.remove("active");
+        });
+      }
+
+      function debounce(func, delay) {
+        let timeout;
+        return function (...args) {
+          const later = () => {
+            clearTimeout(timeout);
+            func.apply(this, args);
+          };
+          clearTimeout(timeout);
+          timeout = setTimeout(later, delay);
+        };
+      }
+
+      function clearSearch() {
+        const searchInput = document.getElementById("searchInput");
+        const clearBtn = document.querySelector(".search-actions .clear-search");
+        searchInput.value = "";
+        clearBtn.style.display = "none";
+        searchContent();
+        searchInput.focus();
+      }
+
+      const createDiacriticInsensitiveRegex = (term) => {
+        const charMap = {
+          a: "[aáAÁ]",
+          e: "[eéEÉ]",
+          i: "[iíIÍ]",
+          o: "[oóOÓ]",
+          u: "[uúUÚ]",
+        };
+
+        const regexString = term
+          .split("")
+          .map((char) => {
+            const lowerChar = char.toLowerCase();
+            return charMap[lowerChar] || char;
+          })
+          .join("");
+
+        return new RegExp(`(${regexString})`, "gi");
+      };
+      function searchContent() {
+        const inputElement = document.getElementById("searchInput");
+        const searchTerm = inputElement.value.trim();
+
+        const searchableElements = document.querySelectorAll(".content-text, .section-title, .subsection-title");
+        let found = false;
+        let firstMatchElement = null;
+
+        // 1. Limpia clases 'active'
+        document.querySelectorAll(".section.active").forEach((el) => el.classList.remove("active"));
+        document.querySelectorAll(".subsection.active").forEach((el) => el.classList.remove("active"));
+
+        // 2. RESTAURACIÓN DEL CONTENIDO (CORRECCIÓN CLAVE 1)
+        // Se usa el mapa en memoria para restaurar el HTML de los elementos
+        searchableElements.forEach((element) => {
+          // Usamos el ID del elemento para buscar el texto original en la memoria
+          element.innerHTML = originalTextMap[element.id] || element.textContent;
+        });
+
+        if (searchTerm.length < 3) {
+          // Si el término es muy corto, restauramos y salimos
+          return;
+        }
+
+        const searchRegex = createDiacriticInsensitiveRegex(searchTerm);
+
+        searchableElements.forEach((element) => {
+          // 3. OBTENCIÓN DEL TEXTO PARA BÚSQUEDA (CORRECCIÓN CLAVE 2)
+          // Usamos la variable de bucle 'element' para obtener el ID
+          const originalText = originalTextMap[element.id] || element.textContent; // ¡Corregido de 'item.id' a 'element.id'!
+
+          if (searchRegex.test(originalText)) {
+            found = true;
+
+            // Resaltado
+            element.innerHTML = originalText.replace(searchRegex, `<span class="highlight">$1</span>`);
+
+            // Activación de secciones y subsecciones
+            const subsection = element.closest(".subsection");
+            if (subsection) {
+              subsection.classList.add("active");
+              subsection.closest(".section")?.classList.add("active");
+            } else if (element.classList.contains("section-title")) {
+              element.closest(".section")?.classList.add("active");
+            }
+
+            if (!firstMatchElement) {
+              firstMatchElement = element;
+            }
+          }
+        });
+
+        // Lógica de desplazamiento
+        if (firstMatchElement) {
+          requestAnimationFrame(() => {
+            firstMatchElement.scrollIntoView({
+              behavior: "smooth",
+              block: "center",
+            });
+          });
+        } else if (searchTerm.length >= 3) {
+          alert("No se encontraron resultados para: " + searchTerm);
+        }
+      }
+
+      const debouncedSearch = debounce(searchContent, 300);
+
+      document.getElementById("searchInput").addEventListener("input", function () {
+        const clearBtn = document.querySelector(".search-actions .clear-search");
+        clearBtn.style.display = this.value.length > 0 ? "block" : "none";
+        debouncedSearch();
+      });
+
+      document.getElementById("searchInput").addEventListener("keypress", function (e) {
+        if (e.key === "Enter") {
+          clearTimeout(this._timeoutId);
+          searchContent();
+        }
+      });
+
+      // --- Lógica del Header Compacto ---
+      const header = document.querySelector(".header");
+      const headerSpacer = document.querySelector(".header-spacer");
+      let initialHeaderHeight = 0; // Altura del header original
+      let compactHeaderHeight = 0; // Altura del header en modo compacto
+      let scrollTriggerPoint = 0; // Punto de scroll para activar el cambio
+
+      function handleHeaderState() {
+        const scrollY = window.scrollY || document.documentElement.scrollTop;
+
+        if (scrollY > scrollTriggerPoint) {
+          if (!header.classList.contains("compact")) {
+            header.classList.add("compact");
+            headerSpacer.style.height = `${initialHeaderHeight}px`;
+          }
+        } else {
+          if (header.classList.contains("compact")) {
+            header.classList.remove("compact");
+            headerSpacer.style.height = "0px";
+          }
+        }
+      }
+
+      function initializeHeader() {
+        initialHeaderHeight = header.offsetHeight;
+        const headerClone = header.cloneNode(true);
+        headerClone.classList.add("compact");
+        headerClone.style.visibility = "hidden";
+        headerClone.style.position = "absolute";
+        document.body.appendChild(headerClone);
+        compactHeaderHeight = headerClone.offsetHeight;
+        document.body.removeChild(headerClone);
+
+        scrollTriggerPoint = initialHeaderHeight - compactHeaderHeight;
+      }
+
+      document.addEventListener("DOMContentLoaded", initializeHeader);
+      window.addEventListener("scroll", handleHeaderState);
+      window.addEventListener("resize", debounce(initializeHeader, 200));
+    </script>
+  </body>
+</html>

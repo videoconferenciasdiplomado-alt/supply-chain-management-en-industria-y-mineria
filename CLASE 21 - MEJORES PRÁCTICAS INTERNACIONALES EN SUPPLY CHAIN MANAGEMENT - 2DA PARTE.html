@@ -1,0 +1,2380 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title></title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet" />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Inter", sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+
+      :root {
+        /* Colores Principales del Diseño (Acentos y Degradados) */
+        /* ======================================================= */
+        --color-principal: #00beff; /* Cian Brillante para acentos, bordes y el inicio del degradado principal */
+        --color-secundario: #1e50cd; /* Azul Medio, parte final del degradado de acento */
+
+        /* Fondos Oscuros de la Interfaz */
+        /* ======================================================= */
+        --fondo-oscuro-claro: #002a52; /* Fondo de secciones y contenido */
+        --fondo-oscuro-fuerte: #001a33; /* Fondo del encabezado (header) y pie de página (footer) */
+        /* ======================================================= */
+        --fondo-oscuro-medio: #003366; /* Fondo de encabezados y cajas de contenido */
+        --fondo-borde-claro: #004080; /* Bordes ligeros y color de fondo al hacer hover en encabezados */
+        --fondo-sombra-azul-header: #0050a0; /* ¡NUEVO! Sombra en el header */
+
+        /* Colores de Texto y Fondo General del Body */
+        /* ======================================================= */
+        --texto-blanco-1: #ffffff; /* Blanco puro para títulos y texto en fondo muy oscuro */
+        --texto-claro-2: #e6e6e6; /* Texto principal y claro */
+        --texto-medio-3: #cccccc; /* Texto de contenido de item (un poco más tenue) */
+
+        /* ======================================================= */
+        --fondo-body-inicio: #99e5ff; /* Color de inicio del degradado de fondo del body */
+        --fondo-body-fin: #a5b9eb; /* Color de final del degradado de fondo del body */
+
+        /* Colores de Acento Específicos (YouTube, Búsqueda) */
+        /* ======================================================= */
+        --rojo-youtube-claro: #e60000;
+        --rojo-youtube-fuerte: #a30000;
+        --timestamp-youtube: #ffcccc;
+        --fondo-resaltado: #00c339; /* Verde para el fondo del texto buscado */
+
+        /* Bases RGB para Transparencias (RGBA) */
+        /* ======================================================= */
+        --sombra-rgb: 0, 0, 0; /* Negro puro: Usado para sombras generales y profundidad */
+        --acento-rgb: 0, 190, 255; /* Cian Brillante: Usado para brillos y sombras de acento */
+        --rojo-rgb: 230, 0, 0; /* Rojo Puro: Usado para sombras de enlaces de YouTube */
+        /* ======================================================= */
+        --gradient-principal: linear-gradient(135deg, var(--color-principal) 0%, var(--color-secundario) 100%);
+      }
+
+      body {
+        background: linear-gradient(135deg, var(--fondo-body-inicio) 0%, var(--fondo-body-fin) 100%);
+        line-height: 1.2;
+        scroll-behavior: smooth;
+      }
+
+      strong#tituloDiplomado {
+        font-weight: 900;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      @keyframes slideDownSutil {
+        0% {
+          opacity: 0;
+          transform: translateY(-10px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .header.animacion-inicial {
+        animation: slideDownSutil 0.4s ease-out 1;
+        animation-fill-mode: forwards;
+        will-change: transform, opacity;
+      }
+
+      .header {
+        position: relative;
+        width: 100%;
+        z-index: 1000;
+        padding: 20px;
+        background: linear-gradient(135deg, var(--fondo-oscuro-fuerte) 0%, var(--fondo-oscuro-claro) 100%);
+        box-shadow: 0 5px 15px rgba(var(--sombra-rgb), 0.5);
+        text-align: center;
+        will-change: transform;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .header-text-box {
+        display: grid;
+        gap: 10px;
+        word-break: break-word;
+        margin: 0 15px;
+      }
+
+      .header.compact {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: fixed;
+      }
+
+      .header-spacer {
+        display: none;
+        transition: height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .header.compact + .header-spacer {
+        display: block;
+      }
+
+      .header-top {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .header.compact .header-top {
+        display: none;
+      }
+
+      .logo {
+        width: 140px;
+        height: auto;
+        margin: 0 15px;
+        transition: all 0.3s ease;
+        vertical-align: middle;
+      }
+
+      .header.compact .logo {
+        width: 90px;
+        margin: 0 10px;
+      }
+
+      .header .logo.compact-logo {
+        display: none;
+      }
+
+      .header.compact .logo.compact-logo {
+        display: block;
+      }
+
+      .header h1 {
+        font-size: 2rem;
+        color: var(--texto-blanco-1);
+        font-weight: 900;
+      }
+
+      .header.compact h1 {
+        font-size: 1rem;
+      }
+
+      .header p {
+        font-size: 1.2rem;
+        color: var(--texto-blanco-1);
+        font-weight: 700;
+      }
+
+      .header-content-box {
+        background: var(--gradient-principal);
+        border-radius: 12px;
+        padding: 20px 20px;
+        box-shadow: 0 8px 20px rgba(var(--acento-rgb), 0.6);
+        overflow: hidden;
+        margin-bottom: 15px;
+
+        opacity: 1;
+        transform: translateY(0);
+        will-change: transform;
+        transition: opacity 0.4s ease, transform 0.4s ease;
+      }
+
+      .header.compact .header-content-box {
+        opacity: 0;
+        max-height: 0;
+        padding-top: 0;
+        padding-bottom: 0;
+        margin-bottom: 0;
+        border: 0;
+        transform: translateY(-10px);
+      }
+
+      .header-content-box:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 30px rgba(var(--acento-rgb), 0.8);
+      }
+
+      .header-bottom-row {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+        flex-wrap: wrap;
+        width: 100%;
+      }
+
+      .header-second-row {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+        flex-wrap: wrap;
+        width: 100%;
+      }
+
+      .header.compact .header-bottom-row {
+        flex-grow: 1;
+      }
+
+      .logo-and-title {
+        opacity: 0;
+        overflow: hidden;
+        transform: translateY(-10px);
+        transition: opacity 0.4s ease, transform 0.4s ease;
+      }
+
+      .header.compact .logo-and-title {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .header.compact .header-bottom-row .logo-and-title {
+        will-change: transform;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-grow: 1;
+        width: 100%;
+        background: var(--gradient-principal);
+        border-radius: 12px;
+        padding: 10px;
+        box-shadow: 0 4px 10px rgba(var(--acento-rgb), 0.4);
+        gap: 10px;
+      }
+
+      .header.compact .header-bottom-row .logo-and-title:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(var(--acento-rgb), 0.5);
+      }
+
+      .header-compact-title {
+        display: none;
+        color: var(--texto-blanco-1);
+        font-size: 1.2rem;
+        font-weight: 700;
+        margin: 10px;
+        white-space: normal;
+      }
+
+      .header.compact .header-compact-title {
+        display: block;
+      }
+
+      .search-bar {
+        position: relative;
+        display: flex;
+        align-items: center;
+        width: 100%;
+        max-width: 450px;
+        background-color: var(--fondo-oscuro-medio);
+        border: 2px solid var(--fondo-borde-claro);
+        border-radius: 30px;
+        box-shadow: 0 4px 10px rgba(var(--sombra-rgb), 0.25);
+        will-change: border-color, background-color;
+        transition: border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+      }
+
+      .search-bar:focus-within {
+        border-color: var(--fondo-sombra-azul-header);
+        background-color: var(--fondo-borde-claro);
+      }
+
+      .clear-search {
+        cursor: pointer;
+        color: var(--texto-claro-2);
+        padding: 5px;
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1;
+        display: none;
+        transition: color 0.2s ease;
+        transform: scale(1.5);
+      }
+
+      .clear-search:hover {
+        color: var(--texto-blanco-1);
+      }
+
+      .search-bar input {
+        flex-grow: 1;
+        padding: 10px 18px;
+        font-weight: 400;
+        font-size: 1rem;
+        color: var(--texto-claro-2);
+        background-color: transparent;
+        border: none;
+        outline: none;
+        min-width: 0px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .header.compact .search-bar input {
+        padding: 10px 20px;
+      }
+
+      .search-actions {
+        display: flex;
+        align-items: center;
+      }
+
+      .action-button {
+        background: var(--gradient-principal);
+        border: none;
+        color: var(--texto-blanco-1);
+        padding: 8px 18px;
+        border-radius: 30px;
+        cursor: pointer;
+        font-size: 1rem;
+        font-weight: 600;
+        will-change: transform;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 10px rgba(var(--acento-rgb), 0.4);
+        max-width: 150px;
+        white-space: normal;
+      }
+
+      .action-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(var(--acento-rgb), 0.5);
+      }
+
+      .search-bar .action-button {
+        margin: 5px;
+      }
+
+      .controls {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+      }
+
+      @keyframes fadeInUpContent {
+        0% {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .mind-map {
+        transition: margin-top 0.4s ease;
+        margin: 50px 0;
+      }
+
+      .mind-map.animacion-contenido {
+        animation: fadeInUpContent 0.4s ease-out 1 forwards;
+        animation-delay: 0.2s;
+        opacity: 0;
+        will-change: opacity, transform;
+      }
+
+      .section {
+        margin-bottom: 20px;
+        background-color: var(--fondo-oscuro-claro);
+        border-radius: 12px;
+        border: 2px solid var(--fondo-oscuro-medio);
+        overflow: hidden;
+        box-shadow: 0 2px 10px rgba(var(--sombra-rgb), 0.25);
+        transition: border-color 0.3s ease;
+      }
+
+      .section-header {
+        padding: 20px;
+        background-color: var(--fondo-oscuro-medio);
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        will-change: background-color;
+        transition: background-color 0.3s ease, color 0.3s ease;
+      }
+
+      .section-title {
+        font-size: 1.4rem;
+        font-weight: 700;
+        color: var(--texto-claro-2);
+        margin-right: 10px;
+      }
+
+      .section-number {
+        background: var(--gradient-principal);
+        color: var(--texto-blanco-1);
+        padding: 5px 12px;
+        border-radius: 30px;
+        font-size: 15px;
+        font-weight: 700;
+        margin-right: 15px;
+      }
+
+      .toggle-icon {
+        font-size: 1.2rem;
+        color: var(--texto-claro-2);
+        will-change: transform;
+        transition: transform 0.3s ease;
+      }
+
+      .section.active > .section-header .toggle-icon {
+        transform: rotate(180deg);
+      }
+
+      .section-content {
+        max-height: 0;
+        overflow: hidden;
+        opacity: 0;
+        transition: max-height 0.5s ease-out, opacity 0.3s ease-in;
+      }
+
+      .section.active .section-content {
+        max-height: fit-content;
+        padding-bottom: 10px;
+        opacity: 1;
+      }
+
+      .subsection {
+        margin: 15px;
+        background-color: var(--fondo-oscuro-medio);
+        border-radius: 12px;
+        border: 2px solid var(--fondo-borde-claro);
+        overflow: hidden;
+        transition: border-color 0.3s ease;
+      }
+
+      .subsection:hover {
+        border-color: var(--fondo-sombra-azul-header);
+      }
+
+      .subsection:hover .subsection-header {
+        background-color: var(--fondo-sombra-azul-header);
+      }
+
+      .section:hover {
+        border-color: var(--fondo-borde-claro);
+      }
+
+      .section:hover .section-header {
+        background-color: var(--fondo-borde-claro);
+      }
+
+      .subsection-header {
+        padding: 15px;
+        background-color: var(--fondo-borde-claro);
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        will-change: background-color;
+        transition: background-color 0.3s ease, color 0.3s ease;
+      }
+
+      .subsection-title {
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: var(--texto-claro-2);
+        margin-right: 10px;
+      }
+
+      .subsection-number {
+        background: var(--gradient-principal);
+        color: var(--texto-blanco-1);
+        padding: 4px 10px;
+        border-radius: 30px;
+        font-size: 15px;
+        font-weight: 700;
+        margin-right: 12px;
+      }
+
+      .subsection-content {
+        max-height: 0;
+        overflow: hidden;
+        background-color: var(--fondo-oscuro-claro);
+        opacity: 0;
+        transition: max-height 0.5s ease-out, opacity 0.3s ease-in;
+      }
+
+      .subsection.active .subsection-content {
+        max-height: fit-content;
+        padding: 15px;
+        opacity: 1;
+      }
+
+      .subsection.active .toggle-icon {
+        transform: rotate(180deg);
+      }
+
+      .content-item {
+        margin-bottom: 10px;
+        padding: 15px;
+        background-color: var(--fondo-oscuro-medio);
+        border-radius: 12px;
+        border-left: 4px solid var(--color-principal);
+        box-shadow: 0 1px 5px rgba(var(--sombra-rgb), 0.25);
+      }
+
+      .content-text {
+        color: var(--texto-medio-3);
+        margin-bottom: 5px;
+        line-height: 1.4;
+        font-size: 1rem;
+        font-weight: 500;
+        position: relative;
+        padding-left: 15px;
+      }
+
+      .content-text::before {
+        content: "•";
+        color: var(--color-principal);
+        font-weight: 700;
+        display: inline-block;
+        position: absolute;
+        left: 0px;
+      }
+
+      .youtube-link {
+        display: inline-block;
+        padding: 10px 18px;
+        background: linear-gradient(135deg, var(--rojo-youtube-claro) 0%, var(--rojo-youtube-fuerte) 100%);
+        color: var(--texto-blanco-1);
+        cursor: pointer;
+        text-decoration: none;
+        border-radius: 30px;
+        font-size: 0.9rem;
+        font-weight: 500;
+        line-height: 1rem;
+        transition: all 0.3s ease;
+        margin-top: 10px;
+        box-shadow: 0 2px 5px rgba(var(--rojo-rgb), 0.4);
+        will-change: transform;
+      }
+
+      .youtube-link:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 3px 7.5px rgba(var(--rojo-rgb), 0.5);
+        will-change: transform;
+      }
+
+      .timestamp {
+        color: var(--timestamp-youtube);
+        font-size: 0.85rem;
+        margin-left: 10px;
+        font-weight: 400;
+      }
+
+      .highlight {
+        background-color: var(--fondo-resaltado);
+        color: var(--texto-blanco-1);
+        font-weight: 700;
+        padding: 4px;
+        border-radius: 6px;
+      }
+
+      .footer {
+        padding: 30px;
+        background: linear-gradient(135deg, var(--fondo-oscuro-fuerte) 0%, var(--fondo-oscuro-claro) 100%);
+        border-top: 1px solid var(--fondo-oscuro-medio);
+        text-align: center;
+        box-shadow: 0 -2px 10px rgba(var(--sombra-rgb), 0.25);
+      }
+
+      .footer-text {
+        color: var(--texto-claro-2);
+        font-size: 0.9rem;
+        line-height: 1.6;
+      }
+
+      .footer-logo {
+        width: 140px;
+        height: auto;
+        margin-bottom: 20px;
+      }
+
+      @media (max-width: 768px) {
+        .header-top {
+          flex-direction: column;
+        }
+
+        .logo {
+          margin: 0;
+        }
+
+        .header-text-box {
+          margin: 0;
+        }
+
+        .header h1 {
+          font-size: 1.5rem;
+        }
+
+        .header p {
+          font-size: 1rem;
+        }
+
+        .header.compact .header-bottom-row .logo-and-title {
+          gap: 5px;
+        }
+        .logo,
+        .footer-logo {
+          width: 105px;
+        }
+
+        .header.compact .header-bottom-row {
+          flex-direction: column;
+        }
+
+        .header.compact .header-compact-title {
+          margin: 0 5px;
+          font-size: 0.8rem;
+        }
+
+        .header.compact .logo.compact-logo {
+          width: 65px;
+          margin: 5px;
+        }
+
+        .action-button,
+        .search-bar input,
+        .clear-search {
+          font-size: 0.9rem;
+        }
+
+        .section-header {
+          padding: 15px;
+        }
+
+        .header.compact .controls {
+          flex-direction: row;
+        }
+
+        .section-title {
+          font-size: 1.1rem;
+        }
+
+        .subsection-title {
+          font-size: 1rem;
+        }
+        .section-number,
+        .subsection-number {
+          font-size: 13px;
+        }
+
+        .content-text {
+          font-size: 0.9rem;
+        }
+
+        .youtube-link {
+          font-size: 0.8rem;
+        }
+
+        .timestamp {
+          font-size: 0.75rem;
+        }
+
+        .header.compact .action-button {
+          padding: 6px 18px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header animacion-inicial">
+      <div class="header-content-box">
+        <div class="header-top">
+          <a href="https://www.edumin.pe/" target="_blank">
+            <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/LOGO%20BLANCO%20CANVA-mIKMypQ452RzmXVMUadb6mnvPaejXD.png" alt="EDUMIN Logo" class="logo" />
+          </a>
+          <div class="header-text-box">
+            <h1>
+              DIPLOMADO DE ALTA ESPECIALIZACIÓN EN<br />
+              <strong id="tituloDiplomado"></strong>
+            </h1>
+            <p id="tituloPrincipal"></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="header-bottom-row">
+        <div class="logo-and-title">
+          <a href="https://www.edumin.pe/" target="_blank">
+            <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/LOGO%20BLANCO%20CANVA-mIKMypQ452RzmXVMUadb6mnvPaejXD.png" alt="EDUMIN Logo" class="logo compact-logo" />
+          </a>
+          <span class="header-compact-title" id="tituloCompacto"></span>
+        </div>
+        <div class="header-second-row">
+          <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Buscar en el resumen interactivo…" autocomplete="off" />
+            <div class="search-actions">
+              <span class="clear-search" onclick="clearSearch()">&times;</span>
+              <button class="action-button" onclick="searchContent()">Buscar</button>
+            </div>
+          </div>
+
+          <div class="controls">
+            <button class="action-button" onclick="expandAll()">Mostrar todo</button>
+            <button class="action-button" onclick="collapseAll()">Colapsar todo</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="header-spacer"></div>
+
+    <div class="container">
+      <div class="mind-map animacion-contenido" id="mindMap">
+        <div class="section" data-section="1">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">1</span>
+              <span class="section-title">Introducción a la sesión y apertura de la clase</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">1.1</span>
+                  <span class="subsection-title">Bienvenida, roles y dinámica inicial de la sesión</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Presentación de la moderadora académica, indicación de canales de consulta como chat y micrófono durante la sesión.</div>
+                  <div class="content-text">Profesor Gonzalo toma la palabra para iniciar la clase y abrir espacio a preguntas pendientes de sesiones anteriores.</div>
+                  <div class="content-text">Aviso de reproducción de un video introductorio para “calentar” el tema de indicadores logísticos y KPIs.</div>
+                  <a href="https://www.youtube.com/watch?v=jtZ4KO7_slo&start=10" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:00:10)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">1.2</span>
+                  <span class="subsection-title">Video introductorio sobre KPIs e indicadores logísticos</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Definición de indicadores de desempeño logístico como métricas para cuantificar gestión logística y cadena de abastecimiento.</div>
+                  <div class="content-text">Diferenciación entre abastecimiento (traer insumos) y logística (coordinar entregas, facturación y procesos hacia clientes).</div>
+                  <a href="https://www.youtube.com/watch?v=jtZ4KO7_slo&start=104" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:01:44)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">1.3</span>
+                  <span class="subsection-title">Ámbitos de aplicación y premisas de un buen indicador</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Procesos evaluables mediante indicadores: recepción, almacenamiento, inventarios, despachos, distribución, entregas, facturación y flujos de información.</div>
+                  <div class="content-text">Premisa clave: el indicador debe servir para la toma de decisiones y basarse en información real; la visualización es secundaria.</div>
+                  <a href="https://www.youtube.com/watch?v=jtZ4KO7_slo&start=190" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:03:10)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="2">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">2</span>
+              <span class="section-title">Clasificación de indicadores logísticos y recursos didácticos</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">2.1</span>
+                  <span class="subsection-title">Tipos generales de indicadores logísticos presentados en el video</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Indicadores de abastecimiento, transporte, distribución, planificación de la cadena de abastecimiento y gestión de pedidos.</div>
+                  <div class="content-text">Se sugieren tablas con listados extensos de indicadores que el alumno debe pausar y analizar.</div>
+                  <a href="https://www.youtube.com/watch?v=jtZ4KO7_slo&start=248" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:04:08)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">2.2</span>
+                  <span class="subsection-title">Propuesta metodológica para profundizar en indicadores individuales</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Sugerencia de pausar el video y elegir indicadores específicos para solicitar videos explicativos posteriores.</div>
+                  <div class="content-text">Regla: se priorizará el primer indicador mencionado por cada usuario para desarrollar contenido adicional.</div>
+                  <a href="https://www.youtube.com/watch?v=jtZ4KO7_slo&start=273" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:04:33)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">2.3</span>
+                  <span class="subsection-title">Recomendaciones de estudio y recursos adicionales</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Invitación a ver videos complementarios del canal sobre KPIs antes de profundizar en indicadores logísticos más específicos.</div>
+                  <div class="content-text">Uso de IA para resumir videos y acelerar aprendizaje para quienes dispongan de poco tiempo.</div>
+                  <a href="https://www.youtube.com/watch?v=jtZ4KO7_slo&start=370" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:06:10)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="3">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">3</span>
+              <span class="section-title">Barreras para la transformación logística y tendencias futuras en minería</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">3.1</span>
+                  <span class="subsection-title">Barreras financieras, organizacionales y culturales que frenan la transformación digital</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Barreras financieras: alto costo inicial en automatización, software avanzado (ERP, EAM) y modernización de infraestructura, particularmente difícil de justificar en empresas pequeñas o sectores cíclicos.</div>
+                  <div class="content-text">Barreras organizacionales/culturales: resistencia al cambio, falta de compromiso directivo, silos departamentales que impiden colaboración y adopción de nuevas tecnologías.</div>
+                  <div class="content-text">Ejemplo real: resistencia a la adopción de PC y cambios en Buenaventura como ilustración de la necesidad de adaptación individual y organizacional.</div>
+                  <a href="https://www.youtube.com/watch?v=jtZ4KO7_slo&start=449" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:07:29)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">3.2</span>
+                  <span class="subsection-title">Brechas de talento, tecnológicas e infraestructurales que limitan el avance</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Escasez de profesionales con habilidades en análisis de datos, IA, gestión de sistemas digitales y ciberseguridad, limitando la creación de valor a partir de nuevas tecnologías.</div>
+                  <div class="content-text">Infraestructura limitada en emplazamientos remotos: conectividad insuficiente, mala calidad de datos, falta de estándares y complejidad de integración con sistemas legacy que pueden retrasar o fallar proyectos.</div>
+                  <a href="https://www.youtube.com/watch?v=jtZ4KO7_slo&start=582" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:09:42)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">3.3</span>
+                  <span class="subsection-title">Barreras regulatorias, de gobernanza y el impacto del entorno político</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Entornos regulatorios inestables y trámites burocráticos lentos afectan permisos e inversiones en infraestructura.</div>
+                  <div class="content-text">Nacionalismo de recursos y cambios fiscales imprevistos elevan riesgos y desalientan inversiones de largo plazo para modernización.</div>
+                  <a href="https://www.youtube.com/watch?v=jtZ4KO7_slo&start=629" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:10:29)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="4">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">4</span>
+              <span class="section-title">Tendencias convergentes que redefinen la logística minera</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">4.1</span>
+                  <span class="subsection-title">Hiperautomatización y operaciones autónomas como siguiente fase evolutiva</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Expansión de automatización desde equipos individuales a flujos de trabajo completos, con la visión de operaciones logísticas autónomas desde mina hasta puerto.</div>
+                  <div class="content-text">Beneficios esperados: mayor productividad, eficiencia y mejora de la seguridad al reducir exposición humana.</div>
+                  <a href="https://www.youtube.com/watch?v=jtZ4KO7_slo&start=669" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:11:09)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">4.2</span>
+                  <span class="subsection-title">Digitalización de extremo a extremo y creación de gemelos digitales</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Desarrollo de gemelos digitales (digital twins) que replican en tiempo real activos, procesos y flujos desde la mina hasta el cliente final.</div>
+                  <div class="content-text">Soporte por sensores IoT, ERP y fuentes externas para simulación, optimización predictiva y visibilidad en tiempo real.</div>
+                  <a href="https://www.youtube.com/watch?v=jtZ4KO7_slo&start=700" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:11:40)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">4.3</span>
+                  <span class="subsection-title">Sostenibilidad, economía circular y trazabilidad total</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Integración de sostenibilidad como principio organizador: minimización de consumo de recursos, diseño para reducir residuos y fomento de reciclaje y minería urbana.</div>
+                  <div class="content-text">Uso de tecnologías como blockchain para trazabilidad del origen responsable de materiales y cumplimiento de exigencias regulatorias y de mercado.</div>
+                  <a href="https://www.youtube.com/watch?v=jtZ4KO7_slo&start=740" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:12:20)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">4.4</span>
+                  <span class="subsection-title">Resiliencia como principio de diseño de cadenas de suministro</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Aprendizaje de interrupciones recientes: la eficiencia de costes sola no basta, se requiere resiliencia mediante redundancia, multisourcing y regionalización.</div>
+                  <div class="content-text">Empleo de análisis predictivos para anticipar riesgos y diseñar cadenas más adaptativas.</div>
+                  <a href="https://www.youtube.com/watch?v=jtZ4KO7_slo&start=776" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:12:56)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="5">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">5</span>
+              <span class="section-title">Riesgos categorizados y estrategias de mitigación resumidas</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">5.1</span>
+                  <span class="subsection-title">Clasificación de riesgos, ejemplos de impacto y mitigaciones sugeridas</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Categorías de riesgo: geopolítico, regulatorio, mercado, operacional, logístico y ciberseguridad.</div>
+                  <div class="content-text">Ejemplo de riesgo geopolítico: nacionalismo de recursos que puede implicar aumento de impuestos o revocación de licencias, impactando viabilidad financiera; mitigación propuesta: aprovisionamiento colaborativo y fortalecimiento de relaciones locales.</div>
+                  <a href="https://www.youtube.com/watch?v=jtZ4KO7_slo&start=805" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:13:25)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">5.2</span>
+                  <span class="subsection-title">Lectura y discusión de cuadros resumen por el profesor</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">El profesor invita a los alumnos a leer los cuadros que contienen categorías de riesgo, impactos potenciales y estrategias de mitigación con mejores prácticas.</div>
+                  <div class="content-text">Espacio abierto a preguntas y confirmación de comprensión por parte de los estudiantes.</div>
+                  <a href="https://www.youtube.com/watch?v=jtZ4KO7_slo&start=805" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:13:25)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">5.3</span>
+                  <span class="subsection-title">Preguntas sobre volatilidad de precios y su efecto en la logística</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Explicación sobre cómo la volatilidad del precio de los commodities afecta tanto la producción (incremento de operación ante precios altos) como los costos de adquisición (aumento de precios de materias primas y fletes).</div>
+                  <div class="content-text">Ejemplos concretos: booms del oro que aceleran producción y consumo de insumos, impacto del precio del acero o combustible en costos logísticos y de compra.</div>
+                  <a href="https://www.youtube.com/watch?v=jtZ4KO7_slo&start=857" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:14:17)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="6">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">6</span>
+              <span class="section-title">Perfil y competencias esperadas de un analista comprador logístico</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">6.1</span>
+                  <span class="subsection-title">Habilidades duras técnicas necesarias para un comprador logístico senior</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Dominio de herramientas como Excel, inglés, formación técnica (ingeniería industrial o administración) y conocimientos sobre compras, licitaciones y contratos.</div>
+                  <div class="content-text">Capacidades para analizar consumos, rotaciones y generar propuestas de ahorro y planificación de inventarios.</div>
+                  <a href="https://www.youtube.com/watch?v=jtZ4KO7_slo&start=1019" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:16:59)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">6.2</span>
+                  <span class="subsection-title">Habilidades blandas y prácticas que distinguen un comprador eficaz</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Comunicación, negociación, proactividad y capacidad de preguntar y validar antes de tomar decisiones en el contexto minero.</div>
+                  <div class="content-text">Gestión del relacionamiento con usuarios y proveedores, seguimiento constante de órdenes, y cuidado con homologaciones y estándares para evitar fallos operativos.</div>
+                  <a href="https://www.youtube.com/watch?v=jtZ4KO7_slo&start=1057" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:17:37)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">6.3</span>
+                  <span class="subsection-title">Uso de herramientas modernas e IA para aumentar productividad y control</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Recomendación de usar IA como apoyo para tareas de análisis y generar segundas comprobaciones; integración con Power BI y otras herramientas para mejorar eficiencia.</div>
+                  <div class="content-text">Importancia del seguimiento semanal de órdenes de compra y responsabilidad hasta la conformidad del usuario en almacén.</div>
+                  <a href="https://www.youtube.com/watch?v=jtZ4KO7_slo&start=1240" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:20:40)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="7">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">7</span>
+              <span class="section-title">Recomendaciones estratégicas para la transformación logística en minería</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">7.1</span>
+                  <span class="subsection-title">Desarrollo de una hoja de ruta tecnológica integrada y su propósito</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Necesidad de una hoja de ruta a largo plazo que integre tecnología operacional (sensores IoT, control de flotas) con TI (ERP, CMMS, plataformas) para crear flujo de datos sin fisuras.</div>
+                  <div class="content-text">Objetivo final: habilitar gemelo digital y tomar decisiones predictivas basadas en datos de campo hasta la alta dirección.</div>
+                  <a href="https://www.youtube.com/watch?v=jtZ4KO7_slo&start=1400" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:23:20)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">7.2</span>
+                  <span class="subsection-title">Liderazgo, cultura colaborativa y equipos multifuncionales</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Liderazgo activo para derribar silos entre operaciones, mantenimiento, finanzas y cadena de suministro; establecimiento de objetivos compartidos y KPIs integrados que incentiven optimización del sistema en su conjunto.</div>
+                  <div class="content-text">Extensión de transformación hacia proveedores mediante alianzas estratégicas y coinnovación, no solo enfoques transaccionales.</div>
+                  <a href="https://www.youtube.com/watch?v=jtZ4KO7_slo&start=1444" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:24:04)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">7.3</span>
+                  <span class="subsection-title">Sourcing estratégico, integración ESG y desarrollo de talento</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Replantear el outsourcing como acelerador estratégico mediante socios 3PL/4PL que aporten tecnología y experiencia, no solo reducción de costos.</div>
+                  <div class="content-text">Integración de criterios ESG en decisiones de suministro, priorizando selección de proveedores con desempeño ambiental y social adecuado.</div>
+                  <div class="content-text">Inversión en talento: atraer y capacitar perfiles en ciencia de datos, análisis, gestión de sistemas digitales y mejora continua.</div>
+                  <a href="https://www.youtube.com/watch?v=jtZ4KO7_slo&start=1483" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:24:43)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="8">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">8</span>
+              <span class="section-title">Auditoría y homologación de proveedores en minería</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">8.1</span>
+                  <span class="subsection-title">Modalidades de auditoría y homologación de proveedores</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Auditoría presencial o documental y procesos de homologación para proveedores nuevos o existentes según parámetros definidos por la empresa.</div>
+                  <div class="content-text">Posibilidad de contratar certificadoras externas (SGS, Bureau Veritas, DNV) que realizan evaluaciones con cuestionarios, visitas a planta y emisión de notas o certificados.</div>
+                  <a href="https://www.youtube.com/watch?v=jtZ4KO7_slo&start=1798" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:29:58)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">8.2</span>
+                  <span class="subsection-title">Parámetros evaluables en procesos de homologación o selección</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Parámetros: aspectos ambientales, capacidad de producción, estados financieros, políticas de cumplimiento, calidad y referencias de clientes.</div>
+                  <div class="content-text">Procedimiento alternativo cuando contratar una auditoría externa es inviable: solicitar certificaciones vigentes del proveedor y documentos probatorios.</div>
+                  <a href="https://www.youtube.com/watch?v=jtZ4KO7_slo&start=1835" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:30:35)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">8.3</span>
+                  <span class="subsection-title">Matrices de comparación y uso práctico en licitaciones</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">En licitaciones se solicita documentación técnica, financiera y certificaciones, y se construye una matriz que combina criterios cuantitativos y cualitativos para puntuación final.</div>
+                  <div class="content-text">Estrategia frecuente en minería: trabajar principalmente con proveedores homologados y mantener lista de aprobados con calificaciones mínimas para reducir riesgos operativos.</div>
+                  <a href="https://www.youtube.com/watch?v=jtZ4KO7_slo&start=1886" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:31:26)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="9">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">9</span>
+              <span class="section-title">Importación, dealers internacionales y gestión de repuestos obsoletos</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">9.1</span>
+                  <span class="subsection-title">Diferenciación entre compras locales, nacionales y necesidad de importación</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Si no existe el producto a nivel nacional es necesario importar desde fabricantes o dealers internacionales y coordinar transporte desde puertos y logística de aduanas.</div>
+                  <div class="content-text">Importancia de dealers confiables para encontrar repuestos difíciles de conseguir y enviar vía courier en situaciones de emergencia.</div>
+                  <a href="https://www.youtube.com/watch?v=jtZ4KO7_slo&start=2078" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:34:38)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">9.2</span>
+                  <span class="subsection-title">Plazos, modalidades de envío y condiciones comerciales con dealers</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Plazos variables: desde una semana hasta varias semanas o meses según disponibilidad y obsolescencia del ítem, con posibilidad de envíos aéreos para urgencias y marítimos para cargas no urgentes.</div>
+                  <div class="content-text">Práctica usual: dealers pueden requerir pago adelantado para asegurar compra y gestión de stock; necesidad de validar confianza y condiciones comerciales.</div>
+                  <a href="https://www.youtube.com/watch?v=jtZ4KO7_slo&start=2194" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:36:34)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">9.3</span>
+                  <span class="subsection-title">Consideraciones sobre garantías, repuestos originales y alternativas</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Para equipos nuevos en garantía es obligatorio utilizar repuestos del fabricante para no perder cobertura; en equipos fuera de garantía se pueden considerar alternativas compatibles que representen ahorro.</div>
+                  <div class="content-text">Evaluación técnica y aprobación por usuario antes de cambiar marcas o proveedores para evitar fallos operativos; comunicación efectiva con proveedor y usuario como salvaguarda.</div>
+                  <a href="https://www.youtube.com/watch?v=jtZ4KO7_slo&start=2255" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:37:35)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="10">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">10</span>
+              <span class="section-title">Caso práctico: decisión estratégica de outsourcing para el proyecto APU Ausangate</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">10.1</span>
+                  <span class="subsection-title">Objetivo del caso y contexto general del proyecto APU Ausangate</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Objetivo general: evaluar la capacidad de los estudiantes para analizar un escenario logístico complejo y decidir entre modelos 3PL y 4PL para el proyecto.</div>
+                  <div class="content-text">Contexto: yacimiento Greenfield en región remota de Cusco, con acceso limitado por carretera, ausencia de ferrocarril cercano y puerto a más de 100 km, en fase inicial de construcción.</div>
+                  <a href="https://www.youtube.com/watch?v=jtZ4KO7_slo&start=2505" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:41:45)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">10.2</span>
+                  <span class="subsection-title">Descripción operativa, requerimientos y complejidad del proyecto</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Transporte internacional de equipos sobredimensionados desde puertos en Europa y Asia, apoyo logístico constante de materiales de construcción y posteriores insumos operativos.</div>
+                  <div class="content-text">Requisitos de gobernabilidad: compromiso de contratación local, minimizar impacto ambiental y gestionar múltiples proveedores internacionales en condiciones climáticas extremas.</div>
+                  <a href="https://www.youtube.com/watch?v=jtZ4KO7_slo&start=2549" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:42:29)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">10.3</span>
+                  <span class="subsection-title">Metodología del trabajo, tareas del grupo y criterios de evaluación</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Trabajo en un solo grupo que actúa como equipo directivo de la minera, análisis y debate basado en pilar de optimización logística mediante outsourcing estratégico.</div>
+                  <div class="content-text">Actividades solicitadas: identificar desafíos jurídicos y logísticos, evaluar ventajas y desventajas de 3PL versus 4PL, analizar impacto en gestión de riesgos, visibilidad tecnológica, flexibilidad y cumplimiento ESG.</div>
+                  <a href="https://www.youtube.com/watch?v=jtZ4KO7_slo&start=2615" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:43:35)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">10.4</span>
+                  <span class="subsection-title">Decisión final requerida y formato de presentación ante el directorio</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Cada grupo debe tomar una decisión fundamentada (3PL o 4PL) y justificarla con argumentos extraídos del informe y conceptos como rol del socio logístico, integración tecnológica, gestión de complejidad e impacto estratégico.</div>
+                  <div class="content-text">Presentación final estructurada como recomendación al directorio de la minera, comparando y justificando la opción elegida sin introducir material externo al caso.</div>
+                  <a href="https://www.youtube.com/watch?v=jtZ4KO7_slo&start=2657" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:44:17)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="11">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">11</span>
+              <span class="section-title">Cierre práctico y logística de la actividad grupal</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">11.1</span>
+                  <span class="subsection-title">Organización de grupos, capturas de pantalla y entrada a salas de trabajo</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Instrucciones para tomar capturas de pantalla del material del caso y conformación de un único grupo de trabajo con los alumnos conectados.</div>
+                  <div class="content-text">Coordinación para ingresar a la sala asignada y trabajar el caso con tiempo suficiente y sin presión.</div>
+                  <a href="https://www.youtube.com/watch?v=jtZ4KO7_slo&start=2702" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:45:02)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">11.2</span>
+                  <span class="subsection-title">Evaluación, tiempos y seguimiento del caso práctico</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Temporizador y tiempo asignado comunicado por el profesor para desarrollar la actividad de manera pausada.</div>
+                  <div class="content-text">Seguimiento por parte del docente y monitor académico para asegurar participación de todos los integrantes y posterior presentación.</div>
+                  <a href="https://www.youtube.com/watch?v=jtZ4KO7_slo&start=2801" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:46:41)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="12">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">12</span>
+              <span class="section-title">Inicio de la sesión y pausa de descanso</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">12.1</span>
+                  <span class="subsection-title">Espera de participantes y coordinación inicial</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Se espera la entrada de todos los participantes antes de comenzar la segunda parte de la sesión, indicando ausencias y sincronización para iniciar la presentación.</div>
+                  <div class="content-text">Se confirma la presencia de la mayoría y se identifica a personas que aún no han entrado, coordinando la espera para iniciar formalmente.</div>
+                  <div class="content-text">Se prepara la transición hacia la reanudación de actividades con instrucciones para presentar avances cuando todos estén listos.</div>
+                  <a href="https://www.youtube.com/watch?v=jtZ4KO7_slo&start=5533" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:32:13)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">12.2</span>
+                  <span class="subsection-title">Solicitud de pausa breve y estiramiento</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Se propone tomar los cinco minutos de descanso que no se habían usado para que todos estiren las piernas y retomen la sesión con mejor disposición física.</div>
+                  <div class="content-text">Se detalla el acuerdo de la monitora y profesor para pausar y regresar en cinco minutos, con música de espera durante el intervalo.</div>
+                  <div class="content-text">Se indica la reconexión y el retorno puntual para continuar con la parte dos de la sesión práctica.</div>
+                  <a href="https://www.youtube.com/watch?v=jtZ4KO7_slo&start=5581" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:33:01)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">12.3</span>
+                  <span class="subsection-title">Reanudación y solicitud de presentaciones</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Tras la pausa, se anuncia la continuación de la segunda parte y se solicita a David y Miguel que presenten los avances del caso práctico.</div>
+                  <div class="content-text">Se confirma que el caso pudo terminarse y se pide mostrar la presentación en pantalla para revisión colectiva.</div>
+                  <div class="content-text">Se identifican problemas de visibilidad iniciales que luego se solucionan para evaluar la propuesta con claridad.</div>
+                  <a href="https://www.youtube.com/watch?v=jtZ4KO7_slo&start=5951" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:39:11)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="13">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">13</span>
+              <span class="section-title">Presentación del caso práctico sobre selección de 3PL vs 4PL</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">13.1</span>
+                  <span class="subsection-title">Objetivo del informe y contexto del proyecto minero en zona remota</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">El objetivo principal del informe es evaluar modelos logísticos 3PL (third-party logistics) y 4PL (fourth-party logistics) para seleccionar la mejor alternativa para un proyecto en zona de difícil acceso.</div>
+                  <div class="content-text">Se resalta que la zona es complicada para llegar y que la logística constituye factores críticos para el cumplimiento del cronograma y la implementación de campamentos e infraestructura.</div>
+                  <div class="content-text">Se vincula la elección del modelo logístico con la gestión del cronograma de construcción y la continuidad operativa del proyecto minero.</div>
+                  <a href="https://www.youtube.com/watch?v=jtZ4KO7_slo&start=6066" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:41:06)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">13.2</span>
+                  <span class="subsection-title">Identificación de factores críticos de riesgo para la logística en alta montaña</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Se presentan tres factores críticos: infraestructura vial (rutas remotas con posible un solo carril y riesgo de derrumbes), licencia social (riesgos de conflictos y bloqueo por comunidades) y complejidad de manejo de cargas sobredimensionadas.</div>
+                  <div class="content-text">Se enfatiza la necesidad de gestionar riesgos como derrumbes, accidentes, tráfico, conflictos sociales y sincronización de cargas pesadas durante la implementación de infraestructura.</div>
+                  <div class="content-text">Se relaciona cada factor de riesgo con su impacto potencial en cronograma, seguridad y continuidad operativa del proyecto.</div>
+                  <a href="https://www.youtube.com/watch?v=jtZ4KO7_slo&start=6100" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:41:40)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">13.3</span>
+                  <span class="subsection-title">KPIs clave y decisión por el modelo 4PL</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Se mencionan seis KPIs claves a gestionar por el proveedor estratégico, enfocados en visibilidad de carga crítica, adherencia al cronograma, incidentes de seguridad comunitaria, optimización de contratación local y la disponibilidad de una torre de control tecnológica.</div>
+                  <div class="content-text">Se opta por recomendar el modelo 4PL por su carácter estratégico y su capacidad de contratar y coordinar subproveedores 3PL, unificando KPIs y responsabilidades.</div>
+                  <div class="content-text">Se justifica la elección del 4PL por ofrecer control centralizado, visibilidad de operaciones y trabajo directo con la minera para minimizar retrasos y riesgos.</div>
+                  <a href="https://www.youtube.com/watch?v=jtZ4KO7_slo&start=6147" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:42:27)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="14">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">14</span>
+              <span class="section-title">Ventajas del modelo 4PL y mitigación de riesgos</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">14.1</span>
+                  <span class="subsection-title">Centralización de la gestión logística y responsabilidades</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">El 4PL actúa como un proveedor estratégico que centraliza la gestión de múltiples 3PL, facilitando auditorías y control único sobre KPIs críticos.</div>
+                  <div class="content-text">Se contrasta con la fragmentación propia de varios 3PL, que dificultan la auditoría y la alineación de objetivos entre varios proveedores.</div>
+                  <div class="content-text">La propuesta es contar con un "arquitecto estratégico" que coordine todas las actividades logísticas y tenga control sobre tiempos, seguridad y calidad de servicios.</div>
+                  <a href="https://www.youtube.com/watch?v=jtZ4KO7_slo&start=6272" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:44:32)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">14.2</span>
+                  <span class="subsection-title">Ejemplo comparativo y experiencia previa en proyectos</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Se menciona un proyecto previo (Proyecto Tromo) que enfrentó desafíos de integración logística y donde la adopción del modelo 4PL llevó a una mejor coordinación entre experiencia global y local.</div>
+                  <div class="content-text">Se subraya que el mayor riesgo financiero no es el costo del flete sino el costo por retrasos en la construcción o pérdida de la licencia social, por lo que la continuidad y visibilidad son prioritarias.</div>
+                  <div class="content-text">Se establece que la selección del 4PL debe ser minuciosa y basada en evaluación exhaustiva para garantizar cumplimiento, continuidad y aprobación por parte del directorio.</div>
+                  <a href="https://www.youtube.com/watch?v=jtZ4KO7_slo&start=6331" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:45:31)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">14.3</span>
+                  <span class="subsection-title">Procesos de contratación y criterios no negociables</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Se describen procesos de contratación como RFI (request for information) y RFP/RFQ (request for proposal/quotation) para recabar información y cotizaciones de potenciales 4PL o 3PL.</div>
+                  <div class="content-text">Se identifican criterios contractuales considerados no negociables: seguridad, cumplimiento del cronograma, sistemas de gestión (SG) y control de costos.</div>
+                  <div class="content-text">Se plantea la necesidad de negociar con socios que tengan presencia local y experiencia minera comprobada para asegurar la correcta implementación contractual.</div>
+                  <a href="https://www.youtube.com/watch?v=jtZ4KO7_slo&start=6383" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:46:23)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="15">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">15</span>
+              <span class="section-title">Proceso de licitación, evaluación de operadores y cuadro comparativo</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">15.1</span>
+                  <span class="subsection-title">Invitación, precalificación y documentación requerida para postores</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">El proceso inicia con la invitación a varios operadores logísticos y la evaluación de su documentación: estados financieros, certificaciones ISO y cartas de clientes como parte de la precalificación u homologación.</div>
+                  <div class="content-text">Solo los operadores que aprobaren la precalificación serían invitados a cotizar formalmente en el RFQ, reduciendo el universo de postores a los más sólidos.</div>
+                  <div class="content-text">Se requiere información detallada de la carga (pesos, volumen, origen, condiciones de entrega y altura de destino) para que los operadores realicen una cotización completa.</div>
+                  <a href="https://www.youtube.com/watch?v=jtZ4KO7_slo&start=6656" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:50:56)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">15.2</span>
+                  <span class="subsection-title">Ejemplo de cuadro comparativo de cotizaciones y criterios de comparación</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Se presenta un cuadro real como modelo de evaluación: gastos en origen, flete, recargos, seguro, gastos en destino, naviera y total, además de detalles de servicio como fechas estimadas y frecuencia.</div>
+                  <div class="content-text">Criterios comparativos incluyen días de tránsito, tipo de servicio (directo o transbordo), días libres de almacenaje, condiciones de pago y frecuencia del servicio, que permiten comparar no solo costos sino riesgos operativos.</div>
+                  <div class="content-text">Se destaca la preferencia por servicios directos frente a transbordos para minimizar el riesgo de pérdida o retraso de la carga, así como la importancia de condiciones financieras y plazos de pago ofrecidos por cada operador.</div>
+                  <a href="https://www.youtube.com/watch?v=jtZ4KO7_slo&start=6708" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:51:48)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">15.3</span>
+                  <span class="subsection-title">Tiempo estimado para análisis y toma de decisión de contratación</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">El tiempo para completar la evaluación depende de la complejidad del proyecto; en un proyecto grande puede demorarse hasta un mes si se requiere recopilar mucha información.</div>
+                  <div class="content-text">La velocidad del proceso se acelera si ya se dispone de packing list, valor FOB, puertos de origen y demás datos necesarios para que los agentes confeccionen sus cotizaciones.</div>
+                  <div class="content-text">Se distingue entre procesos previos (RFI) para calificar y el proceso de cotización (RFQ) que entrega los cuadros comparativos para la toma de decisión final.</div>
+                  <a href="https://www.youtube.com/watch?v=jtZ4KO7_slo&start=6782" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:53:02)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="16">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">16</span>
+              <span class="section-title">Control operativo en campo y KPIs para seguimiento de proveedores</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">16.1</span>
+                  <span class="subsection-title">Establecimiento de indicadores de tiempo para controlar entregas</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Se recomienda medir tiempos ofrecidos por proveedor versus tiempos reales de entrega, generando indicadores que muestren cumplimiento temporal en fábrica y por parte del operador logístico.</div>
+                  <div class="content-text">El KPI de tiempos puede calcularse como la relación entre días reales y días ofrecidos, aplicable tanto al proveedor de equipo como al operador logístico que gestiona transporte multimodal.</div>
+                  <div class="content-text">Estos indicadores permiten detectar desviaciones que impacten el cronograma de obra y activar medidas correctivas tempranas.</div>
+                  <a href="https://www.youtube.com/watch?v=jtZ4KO7_slo&start=6931" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:55:31)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">16.2</span>
+                  <span class="subsection-title">KPIs de costos y control de desviaciones económicas</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Se sugiere medir la diferencia entre costo real incurrido y costo según cotización para identificar sobrecostos por daños, reembalaje o servicios adicionales no previstos.</div>
+                  <div class="content-text">El KPI de costos ayuda a determinar responsabilidades (operador logístico, naviera u otros) y a evaluar si la cotización inicial fue suficientemente precisa.</div>
+                  <div class="content-text">Con indicadores de costo se puede cuantificar el impacto financiero de incidentes logísticos y definir cláusulas contractuales o seguros que mitiguen esos riesgos.</div>
+                  <a href="https://www.youtube.com/watch?v=jtZ4KO7_slo&start=7002" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:56:42)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">16.3</span>
+                  <span class="subsection-title">Prácticas operativas previas al embarque y responsabilidades de embalaje</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Se recomienda que el operador logístico inspeccione el embalaje en fábrica para garantizar que la carga esté correctamente acondicionada antes del transporte internacional.</div>
+                  <div class="content-text">Se discute la importancia de definir condiciones INCOTERMS (por ejemplo EXW, FCA, CFR) para aclarar responsabilidades de transporte, aduana y riesgos en cada tramo del traslado.</div>
+                  <div class="content-text">Se establece que la opción habitual en estos proyectos suele ser EXW o FCA, de modo que el operador logístico coordine la recolección y control de embalaje desde origen.</div>
+                  <a href="https://www.youtube.com/watch?v=jtZ4KO7_slo&start=7068" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:57:48)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="17">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">17</span>
+              <span class="section-title">Preguntas, ejemplos de empresas y cierre de la sesión</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">17.1</span>
+                  <span class="subsection-title">Interacción con asistentes y respuestas a dudas prácticas</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Se invita a los asistentes a formular preguntas sobre el caso práctico, la licitación y el control operativo, fomentando la participación de David, César y otros.</div>
+                  <div class="content-text">El docente responde dudas sobre tiempos, procesos de calificación y tipos de INCOTERMS más usados, clarificando conceptos y pasos a seguir en un proceso real.</div>
+                  <div class="content-text">Se anima el uso de IA como herramienta de apoyo en la investigación y estructuración de propuestas, validando su utilidad para eficiencia en análisis logísticos.</div>
+                  <a href="https://www.youtube.com/watch?v=jtZ4KO7_slo&start=7112" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:58:32)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">17.2</span>
+                  <span class="subsection-title">Ejemplos de mineras que han utilizado servicios logísticos especializados</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Se mencionan empresas mineras que han recurrido a especialistas en logística para optimizar transporte, almacenaje e integración de cadenas, incluyendo nombres como Southern (Sauder), Antamina, Hualgayoc (Hatay), Las Bambas, Chinalco, Yanacocha, Quechua (Queabco) y Marcobre.</div>
+                  <div class="content-text">Estos ejemplos ilustran la práctica de externalizar procesos logísticos no core para ganar eficiencia y permitir que la minera se concentre en su actividad principal.</div>
+                  <div class="content-text">Se concluye la sesión con la referencia a casos reales y la recomendación de realizar procesos de selección rigurosos para garantizar la continuidad y mitigación de riesgos.</div>
+                  <a href="https://www.youtube.com/watch?v=jtZ4KO7_slo&start=7150" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:59:10)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="18">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">18</span>
+              <span class="section-title">Diferenciación entre 3PL y 4PL en minería</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">18.1</span>
+                  <span class="subsection-title">Definición de servicios logísticos externalizados y alcance de 3PL versus 4PL</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">El 3PL se centra en recepción, almacenamiento, transporte y distribución, entregando operaciones logísticas básicas para las empresas mineras.</div>
+                  <div class="content-text">El 4PL incorpora servicios integrales adicionales, como integración de cadena de abastecimiento, coordinación total y potencialmente compras y aduanas.</div>
+                  <div class="content-text">En minería, la compra especializada suele considerarse parte del core business y no se suele tercerizar, lo que limita algunos 4PL completos.</div>
+                  <a href="https://www.youtube.com/watch?v=jtZ4KO7_slo&start=7206" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(02:00:06)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">18.2</span>
+                  <span class="subsection-title">Razones por las que las mineras mantienen compras internas y no tercerizan adquisiciones</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Las compras mineras requieren conocimiento técnico especializado sobre insumos, especificaciones y proveedores del sector minero.</div>
+                  <div class="content-text">Externalizar compras implica riesgo por falta de dominio del negocio y posibilidad de decisiones inadecuadas sobre adquisiciones críticas.</div>
+                  <div class="content-text">Los compradores mineros poseen experiencia sectorial que resulta difícil de reemplazar por un proveedor logístico externo.</div>
+                  <a href="https://www.youtube.com/watch?v=jtZ4KO7_slo&start=7274" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(02:01:14)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">18.3</span>
+                  <span class="subsection-title">Áreas que sí suelen tercerizar las mineras y condiciones para hacerlo</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Distribución y transporte suelen ser tercerizables: envío de mercadería centralizada desde Lima hacia mina, gestión de entregas “puesta en mina”.</div>
+                  <div class="content-text">Almacenamiento y gestión logística nocturna o para emergencias pueden ser externalizados si el proveedor cumple estándares de resiliencia.</div>
+                  <div class="content-text">Las mineras evalúan el trade-off entre resiliencia operativa y ahorro económico; algunas prefieren almacenes propios operados 24/7.</div>
+                  <a href="https://www.youtube.com/watch?v=jtZ4KO7_slo&start=7288" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(02:01:28)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">18.4</span>
+                  <span class="subsection-title">Desafíos operativos y tecnológicos al integrar proveedores logísticos con operaciones mineras</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Las empresas mineras tienen procesos cerrados, sistemas y horarios que demandan adaptación intensa de proveedores.</div>
+                  <div class="content-text">La duplicidad de sistemas (software propio de la minera y del proveedor) genera procesos redundantes y complicaciones operativas.</div>
+                  <div class="content-text">Necesidad de proveedores con capacidad para operar 24/7 y afrontar emergencias continuas propias de la operación minera.</div>
+                  <a href="https://www.youtube.com/watch?v=jtZ4KO7_slo&start=7334" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(02:02:14)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="19">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">19</span>
+              <span class="section-title">Ejemplos concretos de proveedores y cómo se clasifican</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">19.1</span>
+                  <span class="subsection-title">ITA Group como ejemplo de 4PL integral con servicios completos</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">ITA Group presenta en su web un sistema 4PL que ofrece soluciones integrales desde agencia de carga hasta logística de compras.</div>
+                  <div class="content-text">Servicios mencionados incluyen: depósito de temporada, custodia, aduana, transporte, logística operativa y compras integradas.</div>
+                  <div class="content-text">El concepto mostrado permite a la minera elegir qué componentes recibir del 4PL, por ejemplo delegar todo menos compras si lo desea.</div>
+                  <a href="https://www.youtube.com/watch?v=jtZ4KO7_slo&start=7390" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(02:03:10)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">19.2</span>
+                  <span class="subsection-title">Confipetro, Lidinet y otros actores logísticos mencionados como proveedores en minería</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Confipetro, Lidinet y empresas similares figuran entre los principales proveedores y operadores logísticos para la minería.</div>
+                  <div class="content-text">Estas empresas ofrecen servicios de transporte, almacenaje y distribución alineados con modelos 3PL/4PL según alcance contratado.</div>
+                  <div class="content-text">Se indica que algunas empresas operan almacenes tercerizados en Lima que consolidan mercaderías para envío a las minas.</div>
+                  <a href="https://www.youtube.com/watch?v=jtZ4KO7_slo&start=7200" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(02:00:00)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">19.3</span>
+                  <span class="subsection-title">Dinet (Lidinet) como ejemplo de 3PL orientado a transporte y última milla</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Dinet muestra en su web servicios de “última milla” y almacenes urbanos pequeños, enfocándose en transporte local y distribución.</div>
+                  <div class="content-text">No incluye áreas como compras, importaciones o aduanas en su oferta, lo que lo clasifica como 3PL tradicional.</div>
+                  <div class="content-text">Su propuesta se centra en mover paquetes y gestionar almacenaje urbano, sin integrar la cadena de suministro completa.</div>
+                  <a href="https://www.youtube.com/watch?v=jtZ4KO7_slo&start=7487" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(02:04:47)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">19.4</span>
+                  <span class="subsection-title">Casos mineros reales citados para ilustrar modelos de tercerización</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Se mencionan casos como Yanacocha y Antamina donde la logística y almacenes estaban tercerizados o centralizados en Lima.</div>
+                  <div class="content-text">El flujo descrito: envío a depósito central en Lima y posterior envío directo a mina, con el proveedor encargándose de la entrega final.</div>
+                  <div class="content-text">Estos ejemplos sirven para mostrar cómo las mineras pueden delegar distribución y almacenaje manteniendo compras internas.</div>
+                  <a href="https://www.youtube.com/watch?v=jtZ4KO7_slo&start=7218" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(02:00:18)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="20">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">20</span>
+              <span class="section-title">Ventajas, dudas y consideraciones prácticas sobre tercerizar logística minera</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">20.1</span>
+                  <span class="subsection-title">Ventajas operativas y económicas percibidas por las mineras al tercerizar logística</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">La externalización puede permitir a la minera delegar transporte, almacenamiento y distribución a especialistas logísticos.</div>
+                  <div class="content-text">Posibilidad de optimizar rutas, aprovechar infraestructura del proveedor y reducir inversión en activos propios si se desea.</div>
+                  <div class="content-text">Las mineras con capacidad financiera podrían preferir pagar por comodidad y evitar gestionar ciertas operaciones.</div>
+                  <a href="https://www.youtube.com/watch?v=jtZ4KO7_slo&start=7311" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(02:01:51)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">20.2</span>
+                  <span class="subsection-title">Dudas y riesgos operativos asociados a la tercerización en contexto minero</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Preocupaciones sobre si los proveedores pueden ajustarse a los horarios 24/7 y a las exigencias de emergencias continuas de la mina.</div>
+                  <div class="content-text">Riesgo de desalineación de estándares, penalizaciones por horarios fuera de ventana y falta de resiliencia en la cadena.</div>
+                  <div class="content-text">Complejidad de integrar procesos y sistemas entre la minera y el proveedor, generando duplicidad de funciones.</div>
+                  <a href="https://www.youtube.com/watch?v=jtZ4KO7_slo&start=7318" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(02:01:58)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">20.3</span>
+                  <span class="subsection-title">Preferencias y decisiones prácticas: almacén propio versus contratación</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Algunas empresas prefieren invertir en almacenes propios abiertos 24/7 para garantizar respuesta inmediata a emergencias.</div>
+                  <div class="content-text">Otras optan por contratar 4PL completos si buscan externalizar la carga operativa y cuentan con presupuesto para ello.</div>
+                  <div class="content-text">La decisión depende del nivel de control deseado, capacidad de gestión interna y tolerancia a la complejidad tecnológica.</div>
+                  <a href="https://www.youtube.com/watch?v=jtZ4KO7_slo&start=7353" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(02:02:33)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">20.4</span>
+                  <span class="subsection-title">Recomendaciones implícitas sobre el alcance del contrato y negociación con proveedores</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Definir claramente en el contrato qué servicios se externalizan (por ejemplo excluir compras) y cuáles se mantienen internamente.</div>
+                  <div class="content-text">Evaluar la capacidad del proveedor para gestionar aduanas, compras y operaciones críticas antes de delegar funciones avanzadas.</div>
+                  <div class="content-text">Establecer acuerdos de servicio (SLAs) que contemplen horarios 24/7, respuesta a emergencias y sincronización de sistemas.</div>
+                  <a href="https://www.youtube.com/watch?v=jtZ4KO7_slo&start=7439" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(02:03:59)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="21">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">21</span>
+              <span class="section-title">Cierre de la sesión, logística de la clase y próximos pasos</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">21.1</span>
+                  <span class="subsection-title">Conclusión de la clase y disponibilidad para aclarar dudas en la siguiente sesión</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Se confirma que la explicación sobre 3PL/4PL quedó entendida y se invita a realizar más preguntas en la próxima clase.</div>
+                  <div class="content-text">El docente ofrece la posibilidad de dedicar la última sesión a preguntas puntuales o casos especiales solicitados por alumnos.</div>
+                  <div class="content-text">Se recuerda que hay un temario y PPT disponible, pero la última clase puede ser dinámica según las peticiones.</div>
+                  <a href="https://www.youtube.com/watch?v=jtZ4KO7_slo&start=7450" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(02:04:10)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">21.2</span>
+                  <span class="subsection-title">Información sobre recursos mostrados y revisión en pantalla</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">El docente compartió pantalla mostrando la web de ITA Group para ejemplificar un 4PL integral y la web de Dinet para ejemplificar un 3PL.</div>
+                  <div class="content-text">Se destacó visualmente la diferencia entre ambas ofertas: integración completa frente a transporte y almacenes urbanos.</div>
+                  <div class="content-text">Los ejemplos en pantalla reforzaron la comprensión práctica de las capacidades de cada tipo de proveedor.</div>
+                  <a href="https://www.youtube.com/watch?v=jtZ4KO7_slo&start=7404" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(02:03:24)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">21.3</span>
+                  <span class="subsection-title">Indicaciones finales sobre la próxima clase y entrega de la grabación</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">La última clase será el miércoles siguiente y se invita a los alumnos a llevar preguntas o casos para revisar.</div>
+                  <div class="content-text">Se anuncia que la grabación de la clase se compartirá en los grupos de WhatsApp en breve para quien desee revisarla.</div>
+                  <div class="content-text">Mensaje de despedida y agradecimiento por la participación, finalizando la sesión y la interacción de cierre.</div>
+                  <a href="https://www.youtube.com/watch?v=jtZ4KO7_slo&start=7595" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(02:06:35)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <a href="https://www.edumin.pe/" target="_blank">
+        <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/LOGO%20BLANCO%20CANVA-mIKMypQ452RzmXVMUadb6mnvPaejXD.png" alt="EDUMIN Logo" class="footer-logo" />
+      </a>
+      <p class="footer-text">
+        <b>Contenido desarrollado por EDUMIN - Centro de Capacitación Especializado en Minería, Industria y Negocios</b><br />
+        <i>Material exclusivo para estudiantes de EDUMIN</i><br />
+        <a href="https://www.edumin.pe/" target="_blank" style="color: var(--color-principal); text-decoration: none">https://www.edumin.pe/</a>
+      </p>
+    </div>
+
+    <script>
+      let originalTextMap = {};
+
+      const TITULO_DIPLOMADO = "SUPPLY CHAIN MANAGEMENT EN INDUSTRIA Y MINERÍA".toUpperCase();
+      const TITULO_CLASE = "CLASE 21: MEJORES PRÁCTICAS INTERNACIONALES EN SUPPLY CHAIN MANAGEMENT - 2DA PARTE".toUpperCase();
+
+      const elementoDiplomado = document.getElementById("tituloDiplomado");
+      if (elementoDiplomado) {
+        elementoDiplomado.innerText = TITULO_DIPLOMADO;
+      }
+
+      document.title = TITULO_CLASE;
+      const tituloPrincipal = document.getElementById("tituloPrincipal");
+      if (tituloPrincipal) {
+        tituloPrincipal.innerText = TITULO_CLASE;
+      }
+
+      const tituloCompacto = document.getElementById("tituloCompacto");
+      if (tituloCompacto) {
+        tituloCompacto.innerText = TITULO_CLASE;
+      }
+
+      function cacheOriginalTexts() {
+        const searchableItems = document.querySelectorAll(".section-title, .subsection-title, .content-text");
+
+        let idCounter = 0;
+
+        searchableItems.forEach((item) => {
+          if (!item.id) {
+            item.id = `search-item-${idCounter++}`;
+          }
+
+          originalTextMap[item.id] = item.textContent.trim();
+        });
+      }
+
+      document.addEventListener("DOMContentLoaded", cacheOriginalTexts);
+
+      function toggleSection(element) {
+        const section = element.closest(".section");
+        const wasActive = section.classList.contains("active");
+
+        section.classList.toggle("active");
+
+        if (wasActive) {
+          const subsections = section.querySelectorAll(".subsection");
+          subsections.forEach((subsection) => {
+            subsection.classList.remove("active");
+          });
+        }
+      }
+
+      function toggleSubsection(element) {
+        const subsection = element.closest(".subsection");
+        subsection.classList.toggle("active");
+      }
+
+      function expandAll() {
+        const sections = document.querySelectorAll(".section");
+        sections.forEach((section) => {
+          section.classList.add("active");
+        });
+
+        const subsections = document.querySelectorAll(".subsection");
+        subsections.forEach((subsection) => {
+          subsection.classList.add("active");
+        });
+      }
+
+      function collapseAll() {
+        const sections = document.querySelectorAll(".section");
+        sections.forEach((section) => {
+          section.classList.remove("active");
+        });
+
+        const subsections = document.querySelectorAll(".subsection");
+        subsections.forEach((subsection) => {
+          subsection.classList.remove("active");
+        });
+      }
+
+      function debounce(func, delay) {
+        let timeout;
+        return function (...args) {
+          const later = () => {
+            clearTimeout(timeout);
+            func.apply(this, args);
+          };
+          clearTimeout(timeout);
+          timeout = setTimeout(later, delay);
+        };
+      }
+
+      function clearSearch() {
+        const searchInput = document.getElementById("searchInput");
+        const clearBtn = document.querySelector(".search-actions .clear-search");
+        searchInput.value = "";
+        clearBtn.style.display = "none";
+        searchContent();
+        searchInput.focus();
+      }
+
+      const createDiacriticInsensitiveRegex = (term) => {
+        const charMap = {
+          a: "[aáAÁ]",
+          e: "[eéEÉ]",
+          i: "[iíIÍ]",
+          o: "[oóOÓ]",
+          u: "[uúUÚ]",
+        };
+
+        const regexString = term
+          .split("")
+          .map((char) => {
+            const lowerChar = char.toLowerCase();
+            return charMap[lowerChar] || char;
+          })
+          .join("");
+
+        return new RegExp(`(${regexString})`, "gi");
+      };
+      function searchContent() {
+        const inputElement = document.getElementById("searchInput");
+        const searchTerm = inputElement.value.trim();
+
+        const searchableElements = document.querySelectorAll(".content-text, .section-title, .subsection-title");
+        let found = false;
+        let firstMatchElement = null;
+
+        // 1. Limpia clases 'active'
+        document.querySelectorAll(".section.active").forEach((el) => el.classList.remove("active"));
+        document.querySelectorAll(".subsection.active").forEach((el) => el.classList.remove("active"));
+
+        // 2. RESTAURACIÓN DEL CONTENIDO (CORRECCIÓN CLAVE 1)
+        // Se usa el mapa en memoria para restaurar el HTML de los elementos
+        searchableElements.forEach((element) => {
+          // Usamos el ID del elemento para buscar el texto original en la memoria
+          element.innerHTML = originalTextMap[element.id] || element.textContent;
+        });
+
+        if (searchTerm.length < 3) {
+          // Si el término es muy corto, restauramos y salimos
+          return;
+        }
+
+        const searchRegex = createDiacriticInsensitiveRegex(searchTerm);
+
+        searchableElements.forEach((element) => {
+          // 3. OBTENCIÓN DEL TEXTO PARA BÚSQUEDA (CORRECCIÓN CLAVE 2)
+          // Usamos la variable de bucle 'element' para obtener el ID
+          const originalText = originalTextMap[element.id] || element.textContent; // ¡Corregido de 'item.id' a 'element.id'!
+
+          if (searchRegex.test(originalText)) {
+            found = true;
+
+            // Resaltado
+            element.innerHTML = originalText.replace(searchRegex, `<span class="highlight">$1</span>`);
+
+            // Activación de secciones y subsecciones
+            const subsection = element.closest(".subsection");
+            if (subsection) {
+              subsection.classList.add("active");
+              subsection.closest(".section")?.classList.add("active");
+            } else if (element.classList.contains("section-title")) {
+              element.closest(".section")?.classList.add("active");
+            }
+
+            if (!firstMatchElement) {
+              firstMatchElement = element;
+            }
+          }
+        });
+
+        // Lógica de desplazamiento
+        if (firstMatchElement) {
+          requestAnimationFrame(() => {
+            firstMatchElement.scrollIntoView({
+              behavior: "smooth",
+              block: "center",
+            });
+          });
+        } else if (searchTerm.length >= 3) {
+          alert("No se encontraron resultados para: " + searchTerm);
+        }
+      }
+
+      const debouncedSearch = debounce(searchContent, 300);
+
+      document.getElementById("searchInput").addEventListener("input", function () {
+        const clearBtn = document.querySelector(".search-actions .clear-search");
+        clearBtn.style.display = this.value.length > 0 ? "block" : "none";
+        debouncedSearch();
+      });
+
+      document.getElementById("searchInput").addEventListener("keypress", function (e) {
+        if (e.key === "Enter") {
+          clearTimeout(this._timeoutId);
+          searchContent();
+        }
+      });
+
+      // --- Lógica del Header Compacto ---
+      const header = document.querySelector(".header");
+      const headerSpacer = document.querySelector(".header-spacer");
+      let initialHeaderHeight = 0; // Altura del header original
+      let compactHeaderHeight = 0; // Altura del header en modo compacto
+      let scrollTriggerPoint = 0; // Punto de scroll para activar el cambio
+
+      function handleHeaderState() {
+        const scrollY = window.scrollY || document.documentElement.scrollTop;
+
+        if (scrollY > scrollTriggerPoint) {
+          if (!header.classList.contains("compact")) {
+            header.classList.add("compact");
+            headerSpacer.style.height = `${initialHeaderHeight}px`;
+          }
+        } else {
+          if (header.classList.contains("compact")) {
+            header.classList.remove("compact");
+            headerSpacer.style.height = "0px";
+          }
+        }
+      }
+
+      function initializeHeader() {
+        initialHeaderHeight = header.offsetHeight;
+        const headerClone = header.cloneNode(true);
+        headerClone.classList.add("compact");
+        headerClone.style.visibility = "hidden";
+        headerClone.style.position = "absolute";
+        document.body.appendChild(headerClone);
+        compactHeaderHeight = headerClone.offsetHeight;
+        document.body.removeChild(headerClone);
+
+        scrollTriggerPoint = initialHeaderHeight - compactHeaderHeight;
+      }
+
+      document.addEventListener("DOMContentLoaded", initializeHeader);
+      window.addEventListener("scroll", handleHeaderState);
+      window.addEventListener("resize", debounce(initializeHeader, 200));
+    </script>
+  </body>
+</html>

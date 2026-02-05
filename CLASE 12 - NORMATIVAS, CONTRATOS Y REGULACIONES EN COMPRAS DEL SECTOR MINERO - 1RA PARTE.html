@@ -1,0 +1,1594 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title></title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet" />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Inter", sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+
+      :root {
+        /* Colores Principales del Diseño (Acentos y Degradados) */
+        /* ======================================================= */
+        --color-principal: #00beff; /* Cian Brillante para acentos, bordes y el inicio del degradado principal */
+        --color-secundario: #1e50cd; /* Azul Medio, parte final del degradado de acento */
+
+        /* Fondos Oscuros de la Interfaz */
+        /* ======================================================= */
+        --fondo-oscuro-claro: #002a52; /* Fondo de secciones y contenido */
+        --fondo-oscuro-fuerte: #001a33; /* Fondo del encabezado (header) y pie de página (footer) */
+        /* ======================================================= */
+        --fondo-oscuro-medio: #003366; /* Fondo de encabezados y cajas de contenido */
+        --fondo-borde-claro: #004080; /* Bordes ligeros y color de fondo al hacer hover en encabezados */
+        --fondo-sombra-azul-header: #0050a0; /* ¡NUEVO! Sombra en el header */
+
+        /* Colores de Texto y Fondo General del Body */
+        /* ======================================================= */
+        --texto-blanco-1: #ffffff; /* Blanco puro para títulos y texto en fondo muy oscuro */
+        --texto-claro-2: #e6e6e6; /* Texto principal y claro */
+        --texto-medio-3: #cccccc; /* Texto de contenido de item (un poco más tenue) */
+
+        /* ======================================================= */
+        --fondo-body-inicio: #99e5ff; /* Color de inicio del degradado de fondo del body */
+        --fondo-body-fin: #a5b9eb; /* Color de final del degradado de fondo del body */
+
+        /* Colores de Acento Específicos (YouTube, Búsqueda) */
+        /* ======================================================= */
+        --rojo-youtube-claro: #e60000;
+        --rojo-youtube-fuerte: #a30000;
+        --timestamp-youtube: #ffcccc;
+        --fondo-resaltado: #00c339; /* Verde para el fondo del texto buscado */
+
+        /* Bases RGB para Transparencias (RGBA) */
+        /* ======================================================= */
+        --sombra-rgb: 0, 0, 0; /* Negro puro: Usado para sombras generales y profundidad */
+        --acento-rgb: 0, 190, 255; /* Cian Brillante: Usado para brillos y sombras de acento */
+        --rojo-rgb: 230, 0, 0; /* Rojo Puro: Usado para sombras de enlaces de YouTube */
+        /* ======================================================= */
+        --gradient-principal: linear-gradient(135deg, var(--color-principal) 0%, var(--color-secundario) 100%);
+      }
+
+      body {
+        background: linear-gradient(135deg, var(--fondo-body-inicio) 0%, var(--fondo-body-fin) 100%);
+        line-height: 1.2;
+        scroll-behavior: smooth;
+      }
+
+      strong#tituloDiplomado {
+        font-weight: 900;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      @keyframes slideDownSutil {
+        0% {
+          opacity: 0;
+          transform: translateY(-10px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .header.animacion-inicial {
+        animation: slideDownSutil 0.4s ease-out 1;
+        animation-fill-mode: forwards;
+        will-change: transform, opacity;
+      }
+
+      .header {
+        position: relative;
+        width: 100%;
+        z-index: 1000;
+        padding: 20px;
+        background: linear-gradient(135deg, var(--fondo-oscuro-fuerte) 0%, var(--fondo-oscuro-claro) 100%);
+        box-shadow: 0 5px 15px rgba(var(--sombra-rgb), 0.5);
+        text-align: center;
+        will-change: transform;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .header-text-box {
+        display: grid;
+        gap: 10px;
+        word-break: break-word;
+        margin: 0 15px;
+      }
+
+      .header.compact {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: fixed;
+      }
+
+      .header-spacer {
+        display: none;
+        transition: height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .header.compact + .header-spacer {
+        display: block;
+      }
+
+      .header-top {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .header.compact .header-top {
+        display: none;
+      }
+
+      .logo {
+        width: 140px;
+        height: auto;
+        margin: 0 15px;
+        transition: all 0.3s ease;
+        vertical-align: middle;
+      }
+
+      .header.compact .logo {
+        width: 90px;
+        margin: 0 10px;
+      }
+
+      .header .logo.compact-logo {
+        display: none;
+      }
+
+      .header.compact .logo.compact-logo {
+        display: block;
+      }
+
+      .header h1 {
+        font-size: 2rem;
+        color: var(--texto-blanco-1);
+        font-weight: 900;
+      }
+
+      .header.compact h1 {
+        font-size: 1rem;
+      }
+
+      .header p {
+        font-size: 1.2rem;
+        color: var(--texto-blanco-1);
+        font-weight: 700;
+      }
+
+      .header-content-box {
+        background: var(--gradient-principal);
+        border-radius: 12px;
+        padding: 20px 20px;
+        box-shadow: 0 8px 20px rgba(var(--acento-rgb), 0.6);
+        overflow: hidden;
+        margin-bottom: 15px;
+
+        opacity: 1;
+        transform: translateY(0);
+        will-change: transform;
+        transition:
+          opacity 0.4s ease,
+          transform 0.4s ease;
+      }
+
+      .header.compact .header-content-box {
+        opacity: 0;
+        max-height: 0;
+        padding-top: 0;
+        padding-bottom: 0;
+        margin-bottom: 0;
+        border: 0;
+        transform: translateY(-10px);
+      }
+
+      .header-content-box:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 30px rgba(var(--acento-rgb), 0.8);
+      }
+
+      .header-bottom-row {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+        flex-wrap: wrap;
+        width: 100%;
+      }
+
+      .header-second-row {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+        flex-wrap: wrap;
+        width: 100%;
+      }
+
+      .header.compact .header-bottom-row {
+        flex-grow: 1;
+      }
+
+      .logo-and-title {
+        opacity: 0;
+        overflow: hidden;
+        transform: translateY(-10px);
+        transition:
+          opacity 0.4s ease,
+          transform 0.4s ease;
+      }
+
+      .header.compact .logo-and-title {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .header.compact .header-bottom-row .logo-and-title {
+        will-change: transform;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-grow: 1;
+        width: 100%;
+        background: var(--gradient-principal);
+        border-radius: 12px;
+        padding: 10px;
+        box-shadow: 0 4px 10px rgba(var(--acento-rgb), 0.4);
+        gap: 10px;
+      }
+
+      .header.compact .header-bottom-row .logo-and-title:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(var(--acento-rgb), 0.5);
+      }
+
+      .header-compact-title {
+        display: none;
+        color: var(--texto-blanco-1);
+        font-size: 1.2rem;
+        font-weight: 700;
+        margin: 10px;
+        white-space: normal;
+      }
+
+      .header.compact .header-compact-title {
+        display: block;
+      }
+
+      .search-bar {
+        position: relative;
+        display: flex;
+        align-items: center;
+        width: 100%;
+        max-width: 450px;
+        background-color: var(--fondo-oscuro-medio);
+        border: 2px solid var(--fondo-borde-claro);
+        border-radius: 30px;
+        box-shadow: 0 4px 10px rgba(var(--sombra-rgb), 0.25);
+        will-change: border-color, background-color;
+        transition:
+          border-color 0.3s ease,
+          box-shadow 0.3s ease,
+          background-color 0.3s ease;
+      }
+
+      .search-bar:focus-within {
+        border-color: var(--fondo-sombra-azul-header);
+        background-color: var(--fondo-borde-claro);
+      }
+
+      .clear-search {
+        cursor: pointer;
+        color: var(--texto-claro-2);
+        padding: 5px;
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1;
+        display: none;
+        transition: color 0.2s ease;
+        transform: scale(1.5);
+      }
+
+      .clear-search:hover {
+        color: var(--texto-blanco-1);
+      }
+
+      .search-bar input {
+        flex-grow: 1;
+        padding: 10px 18px;
+        font-weight: 400;
+        font-size: 1rem;
+        color: var(--texto-claro-2);
+        background-color: transparent;
+        border: none;
+        outline: none;
+        min-width: 0px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .header.compact .search-bar input {
+        padding: 10px 20px;
+      }
+
+      .search-actions {
+        display: flex;
+        align-items: center;
+      }
+
+      .action-button {
+        background: var(--gradient-principal);
+        border: none;
+        color: var(--texto-blanco-1);
+        padding: 8px 18px;
+        border-radius: 30px;
+        cursor: pointer;
+        font-size: 1rem;
+        font-weight: 600;
+        will-change: transform;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 10px rgba(var(--acento-rgb), 0.4);
+        max-width: 150px;
+        white-space: normal;
+      }
+
+      .action-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(var(--acento-rgb), 0.5);
+      }
+
+      .search-bar .action-button {
+        margin: 5px;
+      }
+
+      .controls {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+      }
+
+      @keyframes fadeInUpContent {
+        0% {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .mind-map {
+        transition: margin-top 0.4s ease;
+        margin: 50px 0;
+      }
+
+      .mind-map.animacion-contenido {
+        animation: fadeInUpContent 0.4s ease-out 1 forwards;
+        animation-delay: 0.2s;
+        opacity: 0;
+        will-change: opacity, transform;
+      }
+
+      .section {
+        margin-bottom: 20px;
+        background-color: var(--fondo-oscuro-claro);
+        border-radius: 12px;
+        border: 2px solid var(--fondo-oscuro-medio);
+        overflow: hidden;
+        box-shadow: 0 2px 10px rgba(var(--sombra-rgb), 0.25);
+        transition: border-color 0.3s ease;
+      }
+
+      .section-header {
+        padding: 20px;
+        background-color: var(--fondo-oscuro-medio);
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        will-change: background-color;
+        transition:
+          background-color 0.3s ease,
+          color 0.3s ease;
+      }
+
+      .section-title {
+        font-size: 1.4rem;
+        font-weight: 700;
+        color: var(--texto-claro-2);
+        margin-right: 10px;
+      }
+
+      .section-number {
+        background: var(--gradient-principal);
+        color: var(--texto-blanco-1);
+        padding: 5px 12px;
+        border-radius: 30px;
+        font-size: 15px;
+        font-weight: 700;
+        margin-right: 15px;
+      }
+
+      .toggle-icon {
+        font-size: 1.2rem;
+        color: var(--texto-claro-2);
+        will-change: transform;
+        transition: transform 0.3s ease;
+      }
+
+      .section.active > .section-header .toggle-icon {
+        transform: rotate(180deg);
+      }
+
+      .section-content {
+        max-height: 0;
+        overflow: hidden;
+        opacity: 0;
+        transition:
+          max-height 0.5s ease-out,
+          opacity 0.3s ease-in;
+      }
+
+      .section.active .section-content {
+        max-height: fit-content;
+        padding-bottom: 10px;
+        opacity: 1;
+      }
+
+      .subsection {
+        margin: 15px;
+        background-color: var(--fondo-oscuro-medio);
+        border-radius: 12px;
+        border: 2px solid var(--fondo-borde-claro);
+        overflow: hidden;
+        transition: border-color 0.3s ease;
+      }
+
+      .subsection:hover {
+        border-color: var(--fondo-sombra-azul-header);
+      }
+
+      .subsection:hover .subsection-header {
+        background-color: var(--fondo-sombra-azul-header);
+      }
+
+      .section:hover {
+        border-color: var(--fondo-borde-claro);
+      }
+
+      .section:hover .section-header {
+        background-color: var(--fondo-borde-claro);
+      }
+
+      .subsection-header {
+        padding: 15px;
+        background-color: var(--fondo-borde-claro);
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        will-change: background-color;
+        transition:
+          background-color 0.3s ease,
+          color 0.3s ease;
+      }
+
+      .subsection-title {
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: var(--texto-claro-2);
+        margin-right: 10px;
+      }
+
+      .subsection-number {
+        background: var(--gradient-principal);
+        color: var(--texto-blanco-1);
+        padding: 4px 10px;
+        border-radius: 30px;
+        font-size: 15px;
+        font-weight: 700;
+        margin-right: 12px;
+      }
+
+      .subsection-content {
+        max-height: 0;
+        overflow: hidden;
+        background-color: var(--fondo-oscuro-claro);
+        opacity: 0;
+        transition:
+          max-height 0.5s ease-out,
+          opacity 0.3s ease-in;
+      }
+
+      .subsection.active .subsection-content {
+        max-height: fit-content;
+        padding: 15px;
+        opacity: 1;
+      }
+
+      .subsection.active .toggle-icon {
+        transform: rotate(180deg);
+      }
+
+      .content-item {
+        margin-bottom: 10px;
+        padding: 15px;
+        background-color: var(--fondo-oscuro-medio);
+        border-radius: 12px;
+        border-left: 4px solid var(--color-principal);
+        box-shadow: 0 1px 5px rgba(var(--sombra-rgb), 0.25);
+      }
+
+      .content-text {
+        color: var(--texto-medio-3);
+        margin-bottom: 5px;
+        line-height: 1.4;
+        font-size: 1rem;
+        font-weight: 500;
+        position: relative;
+        padding-left: 15px;
+      }
+
+      .content-text::before {
+        content: "•";
+        color: var(--color-principal);
+        font-weight: 700;
+        display: inline-block;
+        position: absolute;
+        left: 0px;
+      }
+
+      .youtube-link {
+        display: inline-block;
+        padding: 10px 18px;
+        background: linear-gradient(135deg, var(--rojo-youtube-claro) 0%, var(--rojo-youtube-fuerte) 100%);
+        color: var(--texto-blanco-1);
+        cursor: pointer;
+        text-decoration: none;
+        border-radius: 30px;
+        font-size: 0.9rem;
+        font-weight: 500;
+        line-height: 1rem;
+        transition: all 0.3s ease;
+        margin-top: 10px;
+        box-shadow: 0 2px 5px rgba(var(--rojo-rgb), 0.4);
+        will-change: transform;
+      }
+
+      .youtube-link:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 3px 7.5px rgba(var(--rojo-rgb), 0.5);
+        will-change: transform;
+      }
+
+      .timestamp {
+        color: var(--timestamp-youtube);
+        font-size: 0.85rem;
+        margin-left: 10px;
+        font-weight: 400;
+      }
+
+      .highlight {
+        background-color: var(--fondo-resaltado);
+        color: var(--texto-blanco-1);
+        font-weight: 700;
+        padding: 4px;
+        border-radius: 6px;
+      }
+
+      .footer {
+        padding: 30px;
+        background: linear-gradient(135deg, var(--fondo-oscuro-fuerte) 0%, var(--fondo-oscuro-claro) 100%);
+        border-top: 1px solid var(--fondo-oscuro-medio);
+        text-align: center;
+        box-shadow: 0 -2px 10px rgba(var(--sombra-rgb), 0.25);
+      }
+
+      .footer-text {
+        color: var(--texto-claro-2);
+        font-size: 0.9rem;
+        line-height: 1.6;
+      }
+
+      .footer-logo {
+        width: 140px;
+        height: auto;
+        margin-bottom: 20px;
+      }
+
+      @media (max-width: 768px) {
+        .header-top {
+          flex-direction: column;
+        }
+
+        .logo {
+          margin: 0;
+        }
+
+        .header-text-box {
+          margin: 0;
+        }
+
+        .header h1 {
+          font-size: 1.5rem;
+        }
+
+        .header p {
+          font-size: 1rem;
+        }
+
+        .header.compact .header-bottom-row .logo-and-title {
+          gap: 5px;
+        }
+        .logo,
+        .footer-logo {
+          width: 105px;
+        }
+
+        .header.compact .header-bottom-row {
+          flex-direction: column;
+        }
+
+        .header.compact .header-compact-title {
+          margin: 0 5px;
+          font-size: 0.8rem;
+        }
+
+        .header.compact .logo.compact-logo {
+          width: 65px;
+          margin: 5px;
+        }
+
+        .action-button,
+        .search-bar input,
+        .clear-search {
+          font-size: 0.9rem;
+        }
+
+        .section-header {
+          padding: 15px;
+        }
+
+        .header.compact .controls {
+          flex-direction: row;
+        }
+
+        .section-title {
+          font-size: 1.1rem;
+        }
+
+        .subsection-title {
+          font-size: 1rem;
+        }
+        .section-number,
+        .subsection-number {
+          font-size: 13px;
+        }
+
+        .content-text {
+          font-size: 0.9rem;
+        }
+
+        .youtube-link {
+          font-size: 0.8rem;
+        }
+
+        .timestamp {
+          font-size: 0.75rem;
+        }
+
+        .header.compact .action-button {
+          padding: 6px 18px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header animacion-inicial">
+      <div class="header-content-box">
+        <div class="header-top">
+          <a href="https://www.edumin.pe/" target="_blank">
+            <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/LOGO%20BLANCO%20CANVA-mIKMypQ452RzmXVMUadb6mnvPaejXD.png" alt="EDUMIN Logo" class="logo" />
+          </a>
+          <div class="header-text-box">
+            <h1>
+              DIPLOMADO DE ALTA ESPECIALIZACIÓN EN<br />
+              <strong id="tituloDiplomado"></strong>
+            </h1>
+            <p id="tituloPrincipal"></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="header-bottom-row">
+        <div class="logo-and-title">
+          <a href="https://www.edumin.pe/" target="_blank">
+            <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/LOGO%20BLANCO%20CANVA-mIKMypQ452RzmXVMUadb6mnvPaejXD.png" alt="EDUMIN Logo" class="logo compact-logo" />
+          </a>
+          <span class="header-compact-title" id="tituloCompacto"></span>
+        </div>
+        <div class="header-second-row">
+          <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Buscar en el resumen interactivo…" autocomplete="off" />
+            <div class="search-actions">
+              <span class="clear-search" onclick="clearSearch()">&times;</span>
+              <button class="action-button" onclick="searchContent()">Buscar</button>
+            </div>
+          </div>
+
+          <div class="controls">
+            <button class="action-button" onclick="expandAll()">Mostrar todo</button>
+            <button class="action-button" onclick="collapseAll()">Colapsar todo</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="header-spacer"></div>
+
+    <div class="container">
+      <div class="mind-map animacion-contenido" id="mindMap">
+        <div class="section" data-section="1">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">1</span>
+              <span class="section-title">Introducción y logística de la clase</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">1.1</span>
+                  <span class="subsection-title">Presentación del material y recursos</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">El profesor comparte plantillas y Excel usados en clase: Plantillas mencionadas: matriz de Kraljić (Kragic) y análisis Pareto. Casos prácticos: matriz Kraljić y costo total de pertenencia.</div>
+                  <div class="content-text">Coordinación con monitor y envío de archivos a la plataforma académica: Archivos incluyen PPT, Excel y casos prácticos para practicar.</div>
+                  <a href="https://www.youtube.com/watch?v=edHjSH5_4fA&start=196" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:03:16)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">1.2</span>
+                  <span class="subsection-title">Objetivos de la sesión y contenidos previstos</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Tema central: evaluación, homologación y gestión de desempeño de proveedores: Temas listados: criterios de evaluación, métodos y herramientas, proceso de homologación, auditoría, gestión de riesgos, monitoreo y casos de estudio.</div>
+                  <div class="content-text">Contexto del retraso y planificación de dos sesiones para cubrir el tema: Se advierte que la homologación es un proceso sistemático y crucial para la cadena de suministro.</div>
+                  <a href="https://www.youtube.com/watch?v=edHjSH5_4fA&start=316" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:05:16)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="2">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">2</span>
+              <span class="section-title">Homologación de proveedores: definición, objetivos e importancia</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">2.1</span>
+                  <span class="subsection-title">Definición y propósito</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Homologación: proceso de evaluación y validación de capacidades del proveedor frente a criterios predefinidos: Busca asegurar que proveedores cumplan estándares de calidad, fiabilidad y ética.</div>
+                  <div class="content-text">Puede ser realizada internamente o por terceros especializados: Ejemplos de empresas certificadoras: SGS, Bureau Veritas con certificados anuales y puntajes.</div>
+                  <a href="https://www.youtube.com/watch?v=edHjSH5_4fA&start=408" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:06:48)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">2.2</span>
+                  <span class="subsection-title">Objetivos clave de la homologación</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Calidad asegurada: Verificación del cumplimiento de estándares de la organización.</div>
+                  <div class="content-text">Reducción de riesgos: Mitigar fallos en la cadena derivados de proveedores inadecuados.</div>
+                  <div class="content-text">Optimización de costos: Identificar proveedores con mejor valor, considerando costo total de pertenencia.</div>
+                  <div class="content-text">Mejora continua: Evaluaciones periódicas y retroalimentación para elevar desempeño.</div>
+                  <a href="https://www.youtube.com/watch?v=edHjSH5_4fA&start=407" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:06:47)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">2.3</span>
+                  <span class="subsection-title">Importancia en la cadena de suministro</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Eficiencia operativa: lista de proveedores homologados reduce tiempo en selección: Facilita procesos de adquisición y reduce recursos invertidos.</div>
+                  <div class="content-text">Confiabilidad y seguridad: asegura cumplimiento normativo y estándares de seguridad: Crítico en industrias como la minería y farmacéutica.</div>
+                  <div class="content-text">Relaciones sostenibles y reputación: fomenta confianza a largo plazo: Evita sanciones y protege imagen corporativa.</div>
+                  <a href="https://www.youtube.com/watch?v=edHjSH5_4fA&start=455" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:07:35)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="3">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">3</span>
+              <span class="section-title">Fases y criterios de homologación</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">3.1</span>
+                  <span class="subsection-title">Parámetros y criterios de evaluación</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Cumplimiento legal: Verificar requisitos legales nacionales e internacionales, aduanas e importaciones.</div>
+                  <div class="content-text">Cumplimiento financiero: Evaluar solvencia económica y capacidad de sostener suministro; revisar estados financieros.</div>
+                  <div class="content-text">Evaluación comercial y referencias: Consultar comportamiento con otros clientes y referencias comerciales.</div>
+                  <div class="content-text">Capacidad operativa e infraestructura: Verificar si el proveedor puede abastecer volúmenes, frecuencia y disponibilidad de stock.</div>
+                  <div class="content-text">Gestión de calidad y certificaciones: Considerar ISO u otras normas según exigencia del producto o servicio; alcance de certificaciones debe relacionarse con el producto.</div>
+                  <div class="content-text">Cumplimiento ambiental y responsabilidad social: Alinear con políticas corporativas ambientales y prácticas laborales.</div>
+                  <a href="https://www.youtube.com/watch?v=edHjSH5_4fA&start=898" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:14:58)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">3.2</span>
+                  <span class="subsection-title">Fases del proceso</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Análisis y clasificación de proveedores: Identificar proveedores estratégicos vs. no estratégicos usando herramientas (matriz Kraljić, método ABC).</div>
+                  <div class="content-text">Preparación y diseño de cuestionarios de homologación: Cuestionarios con anexos y solicitud de soportes documentales; estándar general y específicos por tipo de proveedor.</div>
+                  <div class="content-text">Aplicación de cuestionarios y evaluación inicial: Filtrado de proveedores según puntajes y cumplimiento de requisitos; uso de puntajes ponderados (0-10, 0-100, etc.).</div>
+                  <div class="content-text">Métodos complementarios de homologación: Auditorías in situ, pruebas de producto, evaluación por histórico y producción piloto.</div>
+                  <div class="content-text">Informe final y gestión de la base de proveedores: Clasificación: homologados, en proceso y acompañamiento a los que requieren mejora; registro en ficha de evaluación.</div>
+                  <a href="https://www.youtube.com/watch?v=edHjSH5_4fA&start=1169" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:19:29)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="4">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">4</span>
+              <span class="section-title">Métodos de homologación</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">4.1</span>
+                  <span class="subsection-title">Métodos de verificación y ejemplos</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Auditorías a instalaciones: Chequeo de cumplimiento y corroboración de información declarada en cuestionarios.</div>
+                  <div class="content-text">Pruebas de producto: Ejemplo: tests microbiológicos y físico-químicos para materias primas (ej. leche); pruebas piloto en homologación industrial.</div>
+                  <div class="content-text">Homologación por histórico: Evaluación basada en comportamiento previo con la compañía (calidad, cumplimiento de entregas); mantener histórico y clasificaciones internas.</div>
+                  <div class="content-text">Proceso posterior a auditoría por terceros: Empresas certificadoras remiten informe y certificado digital en plazo promedio de 7 días.</div>
+                  <a href="https://www.youtube.com/watch?v=edHjSH5_4fA&start=1699" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:28:19)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="5">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">5</span>
+              <span class="section-title">Uso práctico de IA para resumir y gestionar información</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">5.1</span>
+                  <span class="subsection-title">Demostración de herramientas y tutorial práctico</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Método mostrado para resumir videos de YouTube con Gemini (Google): Pasos: activar aplicaciones en configuración, habilitar YouTube, iniciar conversación nueva, usar comando con arroba y pegar enlace. Modelos: Flash (rápido) y Pro (avanzado); Flash suficiente para resúmenes rápidos.</div>
+                  <div class="content-text">Alternativas y limitaciones: Copilot de Microsoft Edge y otras IAs pueden ofrecer resúmenes; Gemini preferido por contexto y funciones gratuitas.</div>
+                  <a href="https://www.youtube.com/watch?v=edHjSH5_4fA&start=2039" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:33:59)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">5.2</span>
+                  <span class="subsection-title">Aplicación a documentos y ejemplos prácticos</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Carga y resumen de PDFs y libros escaneados: Ejemplo: resumen de "Estrategia competitiva" de Michael Porter (394 páginas); Gemini puede procesar PDFs digitalizados y ofrecer índice y referencias.</div>
+                  <div class="content-text">Ventajas y recomendaciones: Ahorro de tiempo, exportación a Word/Excel, posibilidad de escuchar resúmenes; usar IA como apoyo, no sustituto del juicio profesional.</div>
+                  <div class="content-text">Limitaciones técnicas: Algunos PDFs escaneados como imágenes pierden precisión en la ubicación página-por-página; límite de archivos por conversación en distintas versiones.</div>
+                  <a href="https://www.youtube.com/watch?v=edHjSH5_4fA&start=2743" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:45:43)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="6">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">6</span>
+              <span class="section-title">Métodos, herramientas y criterios cuantitativos de evaluación</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">6.1</span>
+                  <span class="subsection-title">Criterios cuantitativos y coste total de pertenencia</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Precio y costo total de pertenencia: Incluir no solo precio del producto sino transporte, manipulación, embalaje, capacitación, repuestos, combustible y mantenimiento.</div>
+                  <div class="content-text">Plazo de entrega y puntualidad: Medir cumplimiento de fechas para evitar interrupciones en la cadena.</div>
+                  <div class="content-text">Capacidad de producción y disponibilidad de stock: Evaluar volumen y frecuencia de suministro según demanda.</div>
+                  <div class="content-text">Historial de incidencias y no conformidades: Número y gravedad de incidencias pasadas como indicador de confiabilidad.</div>
+                  <div class="content-text">Certificaciones técnicas y de calidad: ISO 9000, normas ambientales y otras certificaciones relevantes.</div>
+                  <a href="https://www.youtube.com/watch?v=edHjSH5_4fA&start=3912" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:05:12)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">6.2</span>
+                  <span class="subsection-title">Métodos de evaluación y herramientas tecnológicas</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Métodos de evaluación comunes: Método categórico para precalificación, método de puntos ponderados (matriz de criterios), análisis de costos y modelos dimensionales, evaluación 360 grados.</div>
+                  <div class="content-text">Software y plataformas: SAP Ariba, Coupa para gestión de compras; SRM para gestión de relaciones con proveedores; Tableau o Power BI para análisis visual de datos.</div>
+                  <div class="content-text">IA y Machine Learning: Uso de modelos para analizar históricos y patrones, optimizar selección basada en datos; integrar con SRM y plataformas de precalificación como Aquiles.</div>
+                  <div class="content-text">Plataformas de scoring y terceros internacionales: Mención de empresas que proveen score/tags y clasificadores de riesgo a nivel internacional como referencia para priorización.</div>
+                  <a href="https://www.youtube.com/watch?v=edHjSH5_4fA&start=4791" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:19:51)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="7">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">7</span>
+              <span class="section-title">Proceso de evaluación, auditorías y toma de decisiones</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">7.1</span>
+                  <span class="subsection-title">Pasos del proceso de evaluación</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Inventario y listado de proveedores potenciales: Incluir experiencia, capacidades y categoría de productos o servicios.</div>
+                  <div class="content-text">Aplicación de cuestionarios y análisis de resultados: Analizar fortalezas y brechas; decidir auditorías in situ según criterios y riesgo.</div>
+                  <div class="content-text">Auditoría de proveedores y decisión de homologación: Aceptación, rechazo o postergación con plan de mejoras; comunicar a áreas internas y registrar en base de datos.</div>
+                  <div class="content-text">Re-evaluación y mantenimiento: Frecuencias: anual, semestral, trimestral o mensual según criticidad; seguimiento a acciones correctivas.</div>
+                  <a href="https://www.youtube.com/watch?v=edHjSH5_4fA&start=4996" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:23:16)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">7.2</span>
+                  <span class="subsection-title">Tipos de auditorías y planificación</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Tipos de auditoría: Anunciadas, no anunciadas, de escritorio (documental), de calidad y de cumplimiento normativo.</div>
+                  <div class="content-text">Planificación y ejecución: Definir objetivos, recopilar información, diseñar checklist, ejecutar observaciones e entrevistas, generar informe y seguimiento.</div>
+                  <div class="content-text">Prioridad basada en análisis de riesgos: Auditar primero proveedores con mayor riesgo para calidad, seguridad o continuidad.</div>
+                  <div class="content-text">Importancia de la auditoría in situ para verificar cumplimiento real: Confirma prácticas de sustentabilidad, condiciones operativas y coincidencia con documentación.</div>
+                  <a href="https://www.youtube.com/watch?v=edHjSH5_4fA&start=5295" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:28:15)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="8">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">8</span>
+              <span class="section-title">Auditorías: roles, buenas prácticas y limitaciones</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">8.1</span>
+                  <span class="subsection-title">Roles y preparación</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Quién atiende la auditoría: Depende del tamaño: responsable sanitario en empresas pequeñas, área de auditorías internas en empresas mayores.</div>
+                  <div class="content-text">Preparación interna: Auditoría interna como autoevaluación prioritaria para detectar oportunidades antes de auditorías externas.</div>
+                  <a href="https://www.youtube.com/watch?v=edHjSH5_4fA&start=5651" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:34:11)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">8.2</span>
+                  <span class="subsection-title">Buenas prácticas y manejo de auditorías difíciles</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Manejo de auditores prepotentes: Mantener diplomacia, documentar y evaluar al auditor; focalizar en resultados y seguimiento.</div>
+                  <div class="content-text">Auditorías regulatorias: Deben poder ingresar y ser atendidas con procedimiento definido; responsable sanitario coordina recepción.</div>
+                  <a href="https://www.youtube.com/watch?v=edHjSH5_4fA&start=5707" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:35:07)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="9">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">9</span>
+              <span class="section-title">Gestión de riesgos en la evaluación de proveedores</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">9.1</span>
+                  <span class="subsection-title">Identificación y clasificación de riesgos</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Riesgos operacionales: Fallas de entrega, incumplimiento de especificaciones, problemas de capacidad o seguridad en instalaciones.</div>
+                  <div class="content-text">Riesgos de cumplimiento y legales: Incumplimiento de regulaciones que pueden exponer a sanciones o litigios.</div>
+                  <div class="content-text">Riesgos financieros: Inestabilidad, insolvencia o problemas de liquidez del proveedor.</div>
+                  <div class="content-text">Riesgos reputacionales y de conducta: Asociaciones con proveedores con mala reputación o prácticas no éticas.</div>
+                  <div class="content-text">Riesgos de ciberseguridad: Vulnerabilidades en sistemas del proveedor que expongan datos o permitan ataques.</div>
+                  <a href="https://www.youtube.com/watch?v=edHjSH5_4fA&start=6290" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:44:50)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">9.2</span>
+                  <span class="subsection-title">Estrategias de mitigación y continuidad</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Debida diligencia: Investigación exhaustiva sobre reputación, situación financiera y cumplimiento normativo.</div>
+                  <div class="content-text">Cláusulas contractuales y KPIs: Incluir requisitos de seguridad, planes de continuidad y derechos de auditoría; definir KPIs relacionados con la gestión de riesgos.</div>
+                  <div class="content-text">Monitoreo continuo y planes de contingencia: Seguimiento periódico, identificación de proveedores alternativos y diversificación de la base de suministro.</div>
+                  <div class="content-text">Ranking de materias primas según riesgo (BRCGS y otros estándares): Clasificar materias primas en alto, medio y bajo riesgo para definir criterios de aprobación y seguimiento; actualizar evaluación cada tres años o ante cambios.</div>
+                  <a href="https://www.youtube.com/watch?v=edHjSH5_4fA&start=6356" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:45:56)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="10">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">10</span>
+              <span class="section-title">Herramientas externas y plataformas de precalificación</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">10.1</span>
+                  <span class="subsection-title">Soluciones de mercado y validación</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Plataformas como Aquiles: Registro, precalificación y gestión de proveedores según niveles de riesgo; comunidad de proveedores precalificados y reducción de esfuerzo de precalificación.</div>
+                  <div class="content-text">Beneficios operativos: Acceso a datos validados, publicación del estado de precalificación online y soporte para identificar, priorizar y seleccionar proveedores.</div>
+                  <a href="https://www.youtube.com/watch?v=edHjSH5_4fA&start=6768" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:52:48)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">10.2</span>
+                  <span class="subsection-title">Integración con procesos internos</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Modelos híbridos: Combinar cuestionarios, auditorías y análisis históricos; sincronizar SRM, BI y sistemas de compras para seguimiento continuo.</div>
+                  <div class="content-text">Valor para equipos de compras: Liberar tiempo para foco estratégico y gestión contractual; mejorar precisión de datos y evidencia actualizada.</div>
+                  <a href="https://www.youtube.com/watch?v=edHjSH5_4fA&start=6819" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:53:39)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="11">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">11</span>
+              <span class="section-title">Cierre, preguntas y actividades prácticas</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">11.1</span>
+                  <span class="subsection-title">Resolución de dudas y casos prácticos</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Espacio para preguntas y repaso de conceptos clave: Se sugieren ver videos de refuerzo y practicar resumen de contenidos con herramientas IA.</div>
+                  <div class="content-text">Casos prácticos propuestos: Análisis de proveedores en automotriz, tecnología y retail; ejercicios de ponderación y diseño de fichas de evaluación.</div>
+                  <a href="https://www.youtube.com/watch?v=edHjSH5_4fA&start=6912" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:55:12)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">11.2</span>
+                  <span class="subsection-title">Recomendaciones finales y seguimiento</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Documentación y evidencia: Mantener fichas de evaluación, registros de auditorías y planes de mejora.</div>
+                  <div class="content-text">Frecuencia y disciplina: Evaluaciones periódicas según criticidad; combinar auditorías, monitoreo de KPIs y re-evaluaciones para asegurar cumplimiento continuo.</div>
+                  <div class="content-text">Próximos pasos y seguimiento académico: Envío de grabación y contactos de coordinación académica; próxima sesión práctica con simulación de auditorías de homologación.</div>
+                  <div class="content-text">Beneficios comunicados a proveedores tras homologación: Relaciones comerciales más estrechas con clientes mineros, enriquecimiento del currículum empresarial y apertura de oportunidades comerciales.</div>
+                  <a href="https://www.youtube.com/watch?v=edHjSH5_4fA&start=5252" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:27:32)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="12">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">12</span>
+              <span class="section-title">Casos prácticos y ejemplos empresariales</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">12.1</span>
+                  <span class="subsection-title">Caso Luz Central</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Evaluación por criterios ponderados: Criterios ejemplo: calidad (40%), competencia de personal (20%), plazo de entrega (20%), flexibilidad (5%), fiabilidad de la información (5%), precio (10%).</div>
+                  <div class="content-text">Escala y puntuación: Uso de escala 0-10; cálculo por ponderación para seleccionar proveedores; frecuencia semestral y registro en ficha de evaluación.</div>
+                  <a href="https://www.youtube.com/watch?v=edHjSH5_4fA&start=594" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:09:54)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">12.2</span>
+                  <span class="subsection-title">Ejemplos internacionales: Toyota, Apple y Walmart</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Toyota: Auditorías exhaustivas, pruebas piloto, evaluación técnica, responsabilidad ambiental, certificación y monitoreo continuo.</div>
+                  <div class="content-text">Apple: Cumplimiento legal, responsabilidad social y ambiental, auditorías por terceros, informes regulares y mejora continua.</div>
+                  <div class="content-text">Walmart: Cumplimiento normativo, pruebas de calidad, evaluación de capacidad logística, aprobación final y programas de mejora con monitoreo regular.</div>
+                  <a href="https://www.youtube.com/watch?v=edHjSH5_4fA&start=6921" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:55:21)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">12.3</span>
+                  <span class="subsection-title">Ejemplo local: Real Plaza y otros</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Real Plaza: Uso de cuestionarios y auditorías in situ; evaluación de capacidad operativa, calidad y cumplimiento normativo.</div>
+                  <div class="content-text">Lecciones prácticas: Adaptar requisitos según tipo de proveedor (fabricante, distribuidor, empaques primarios/secundarios) y combinar auditorías documentales con visitas según análisis de riesgo.</div>
+                  <a href="https://www.youtube.com/watch?v=edHjSH5_4fA&start=7188" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:59:48)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <a href="https://www.edumin.pe/" target="_blank">
+        <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/LOGO%20BLANCO%20CANVA-mIKMypQ452RzmXVMUadb6mnvPaejXD.png" alt="EDUMIN Logo" class="footer-logo" />
+      </a>
+      <p class="footer-text">
+        <b>Contenido desarrollado por EDUMIN - Centro de Capacitación Especializado en Minería, Industria y Negocios</b><br />
+        <i>Material exclusivo para estudiantes de EDUMIN</i><br />
+        <a href="https://www.edumin.pe/" target="_blank" style="color: var(--color-principal); text-decoration: none">https://www.edumin.pe/</a>
+      </p>
+    </div>
+
+    <script>
+      let originalTextMap = {};
+
+      const TITULO_DIPLOMADO = "SUPPLY CHAIN MANAGEMENT EN INDUSTRIA Y MINERÍA".toUpperCase();
+      const TITULO_CLASE = "CLASE 12: NORMATIVAS, CONTRATOS Y REGULACIONES EN COMPRAS DEL SECTOR MINERO - 1RA PARTE".toUpperCase();
+
+      const elementoDiplomado = document.getElementById("tituloDiplomado");
+      if (elementoDiplomado) {
+        elementoDiplomado.innerText = TITULO_DIPLOMADO;
+      }
+
+      document.title = TITULO_CLASE;
+      const tituloPrincipal = document.getElementById("tituloPrincipal");
+      if (tituloPrincipal) {
+        tituloPrincipal.innerText = TITULO_CLASE;
+      }
+
+      const tituloCompacto = document.getElementById("tituloCompacto");
+      if (tituloCompacto) {
+        tituloCompacto.innerText = TITULO_CLASE;
+      }
+
+      function cacheOriginalTexts() {
+        const searchableItems = document.querySelectorAll(".section-title, .subsection-title, .content-text");
+
+        let idCounter = 0;
+
+        searchableItems.forEach((item) => {
+          if (!item.id) {
+            item.id = `search-item-${idCounter++}`;
+          }
+
+          originalTextMap[item.id] = item.textContent.trim();
+        });
+      }
+
+      document.addEventListener("DOMContentLoaded", cacheOriginalTexts);
+
+      function toggleSection(element) {
+        const section = element.closest(".section");
+        const wasActive = section.classList.contains("active");
+
+        section.classList.toggle("active");
+
+        if (wasActive) {
+          const subsections = section.querySelectorAll(".subsection");
+          subsections.forEach((subsection) => {
+            subsection.classList.remove("active");
+          });
+        }
+      }
+
+      function toggleSubsection(element) {
+        const subsection = element.closest(".subsection");
+        subsection.classList.toggle("active");
+      }
+
+      function expandAll() {
+        const sections = document.querySelectorAll(".section");
+        sections.forEach((section) => {
+          section.classList.add("active");
+        });
+
+        const subsections = document.querySelectorAll(".subsection");
+        subsections.forEach((subsection) => {
+          subsection.classList.add("active");
+        });
+      }
+
+      function collapseAll() {
+        const sections = document.querySelectorAll(".section");
+        sections.forEach((section) => {
+          section.classList.remove("active");
+        });
+
+        const subsections = document.querySelectorAll(".subsection");
+        subsections.forEach((subsection) => {
+          subsection.classList.remove("active");
+        });
+      }
+
+      function debounce(func, delay) {
+        let timeout;
+        return function (...args) {
+          const later = () => {
+            clearTimeout(timeout);
+            func.apply(this, args);
+          };
+          clearTimeout(timeout);
+          timeout = setTimeout(later, delay);
+        };
+      }
+
+      function clearSearch() {
+        const searchInput = document.getElementById("searchInput");
+        const clearBtn = document.querySelector(".search-actions .clear-search");
+        searchInput.value = "";
+        clearBtn.style.display = "none";
+        searchContent();
+        searchInput.focus();
+      }
+
+      const createDiacriticInsensitiveRegex = (term) => {
+        const charMap = {
+          a: "[aáAÁ]",
+          e: "[eéEÉ]",
+          i: "[iíIÍ]",
+          o: "[oóOÓ]",
+          u: "[uúUÚ]",
+        };
+
+        const regexString = term
+          .split("")
+          .map((char) => {
+            const lowerChar = char.toLowerCase();
+            return charMap[lowerChar] || char;
+          })
+          .join("");
+
+        return new RegExp(`(${regexString})`, "gi");
+      };
+      function searchContent() {
+        const inputElement = document.getElementById("searchInput");
+        const searchTerm = inputElement.value.trim();
+
+        const searchableElements = document.querySelectorAll(".content-text, .section-title, .subsection-title");
+        let found = false;
+        let firstMatchElement = null;
+
+        // 1. Limpia clases 'active'
+        document.querySelectorAll(".section.active").forEach((el) => el.classList.remove("active"));
+        document.querySelectorAll(".subsection.active").forEach((el) => el.classList.remove("active"));
+
+        // 2. RESTAURACIÓN DEL CONTENIDO (CORRECCIÓN CLAVE 1)
+        // Se usa el mapa en memoria para restaurar el HTML de los elementos
+        searchableElements.forEach((element) => {
+          // Usamos el ID del elemento para buscar el texto original en la memoria
+          element.innerHTML = originalTextMap[element.id] || element.textContent;
+        });
+
+        if (searchTerm.length < 3) {
+          // Si el término es muy corto, restauramos y salimos
+          return;
+        }
+
+        const searchRegex = createDiacriticInsensitiveRegex(searchTerm);
+
+        searchableElements.forEach((element) => {
+          // 3. OBTENCIÓN DEL TEXTO PARA BÚSQUEDA (CORRECCIÓN CLAVE 2)
+          // Usamos la variable de bucle 'element' para obtener el ID
+          const originalText = originalTextMap[element.id] || element.textContent; // ¡Corregido de 'item.id' a 'element.id'!
+
+          if (searchRegex.test(originalText)) {
+            found = true;
+
+            // Resaltado
+            element.innerHTML = originalText.replace(searchRegex, `<span class="highlight">$1</span>`);
+
+            // Activación de secciones y subsecciones
+            const subsection = element.closest(".subsection");
+            if (subsection) {
+              subsection.classList.add("active");
+              subsection.closest(".section")?.classList.add("active");
+            } else if (element.classList.contains("section-title")) {
+              element.closest(".section")?.classList.add("active");
+            }
+
+            if (!firstMatchElement) {
+              firstMatchElement = element;
+            }
+          }
+        });
+
+        // Lógica de desplazamiento
+        if (firstMatchElement) {
+          requestAnimationFrame(() => {
+            firstMatchElement.scrollIntoView({
+              behavior: "smooth",
+              block: "center",
+            });
+          });
+        } else if (searchTerm.length >= 3) {
+          alert("No se encontraron resultados para: " + searchTerm);
+        }
+      }
+
+      const debouncedSearch = debounce(searchContent, 300);
+
+      document.getElementById("searchInput").addEventListener("input", function () {
+        const clearBtn = document.querySelector(".search-actions .clear-search");
+        clearBtn.style.display = this.value.length > 0 ? "block" : "none";
+        debouncedSearch();
+      });
+
+      document.getElementById("searchInput").addEventListener("keypress", function (e) {
+        if (e.key === "Enter") {
+          clearTimeout(this._timeoutId);
+          searchContent();
+        }
+      });
+
+      // --- Lógica del Header Compacto ---
+      const header = document.querySelector(".header");
+      const headerSpacer = document.querySelector(".header-spacer");
+      let initialHeaderHeight = 0; // Altura del header original
+      let compactHeaderHeight = 0; // Altura del header en modo compacto
+      let scrollTriggerPoint = 0; // Punto de scroll para activar el cambio
+
+      function handleHeaderState() {
+        const scrollY = window.scrollY || document.documentElement.scrollTop;
+
+        if (scrollY > scrollTriggerPoint) {
+          if (!header.classList.contains("compact")) {
+            header.classList.add("compact");
+            headerSpacer.style.height = `${initialHeaderHeight}px`;
+          }
+        } else {
+          if (header.classList.contains("compact")) {
+            header.classList.remove("compact");
+            headerSpacer.style.height = "0px";
+          }
+        }
+      }
+
+      function initializeHeader() {
+        initialHeaderHeight = header.offsetHeight;
+        const headerClone = header.cloneNode(true);
+        headerClone.classList.add("compact");
+        headerClone.style.visibility = "hidden";
+        headerClone.style.position = "absolute";
+        document.body.appendChild(headerClone);
+        compactHeaderHeight = headerClone.offsetHeight;
+        document.body.removeChild(headerClone);
+
+        scrollTriggerPoint = initialHeaderHeight - compactHeaderHeight;
+      }
+
+      document.addEventListener("DOMContentLoaded", initializeHeader);
+      window.addEventListener("scroll", handleHeaderState);
+      window.addEventListener("resize", debounce(initializeHeader, 200));
+    </script>
+  </body>
+</html>

@@ -1,0 +1,1627 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title></title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet" />
+    <style>
+/* Estilos de balanceo de texto */
+.header-content-box,
+.header-compact-title,
+.footer,
+.section-title,
+.subsection-title {
+    text-wrap: balance;
+}
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Inter", sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+
+      :root {
+        /* Colores Principales del Diseño (Acentos y Degradados) */
+        /* ======================================================= */
+        --color-principal: #00beff; /* Cian Brillante para acentos, bordes y el inicio del degradado principal */
+        --color-secundario: #1e50cd; /* Azul Medio, parte final del degradado de acento */
+
+        /* Fondos Oscuros de la Interfaz */
+        /* ======================================================= */
+        --fondo-oscuro-claro: #002a52; /* Fondo de secciones y contenido */
+        --fondo-oscuro-fuerte: #001a33; /* Fondo del encabezado (header) y pie de página (footer) */
+        /* ======================================================= */
+        --fondo-oscuro-medio: #003366; /* Fondo de encabezados y cajas de contenido */
+        --fondo-borde-claro: #004080; /* Bordes ligeros y color de fondo al hacer hover en encabezados */
+        --fondo-sombra-azul-header: #0050a0; /* ¡NUEVO! Sombra en el header */
+
+        /* Colores de Texto y Fondo General del Body */
+        /* ======================================================= */
+        --texto-blanco-1: #ffffff; /* Blanco puro para títulos y texto en fondo muy oscuro */
+        --texto-claro-2: #e6e6e6; /* Texto principal y claro */
+        --texto-medio-3: #cccccc; /* Texto de contenido de item (un poco más tenue) */
+
+        /* ======================================================= */
+        --fondo-body-inicio: #99e5ff; /* Color de inicio del degradado de fondo del body */
+        --fondo-body-fin: #a5b9eb; /* Color de final del degradado de fondo del body */
+
+        /* Colores de Acento Específicos (YouTube, Búsqueda) */
+        /* ======================================================= */
+        --rojo-youtube-claro: #e60000;
+        --rojo-youtube-fuerte: #a30000;
+        --timestamp-youtube: #ffcccc;
+        --fondo-resaltado: #00c339; /* Verde para el fondo del texto buscado */
+
+        /* Bases RGB para Transparencias (RGBA) */
+        /* ======================================================= */
+        --sombra-rgb: 0, 0, 0; /* Negro puro: Usado para sombras generales y profundidad */
+        --acento-rgb: 0, 190, 255; /* Cian Brillante: Usado para brillos y sombras de acento */
+        --rojo-rgb: 230, 0, 0; /* Rojo Puro: Usado para sombras de enlaces de YouTube */
+        /* ======================================================= */
+        --gradient-principal: linear-gradient(135deg, var(--color-principal) 0%, var(--color-secundario) 100%);
+      }
+
+      body {
+        background: linear-gradient(135deg, var(--fondo-body-inicio) 0%, var(--fondo-body-fin) 100%);
+        line-height: 1.2;
+        scroll-behavior: smooth;
+      }
+
+      strong#tituloDiplomado {
+        font-weight: 900;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      @keyframes slideDownSutil {
+        0% {
+          opacity: 0;
+          transform: translateY(-10px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .header.animacion-inicial {
+        animation: slideDownSutil 0.4s ease-out 1;
+        animation-fill-mode: forwards;
+        will-change: transform, opacity;
+      }
+
+      .header {
+        position: relative;
+        width: 100%;
+        z-index: 1000;
+        padding: 20px;
+        background: linear-gradient(135deg, var(--fondo-oscuro-fuerte) 0%, var(--fondo-oscuro-claro) 100%);
+        box-shadow: 0 5px 15px rgba(var(--sombra-rgb), 0.5);
+        text-align: center;
+        will-change: transform;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .header-text-box {
+        display: grid;
+        gap: 10px;
+        word-break: break-word;
+        margin: 0 15px;
+      }
+
+      .header.compact {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: fixed;
+      }
+
+      .header-spacer {
+        display: none;
+        transition: height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .header.compact + .header-spacer {
+        display: block;
+      }
+
+      .header-top {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .header.compact .header-top {
+        display: none;
+      }
+
+      .logo {
+        width: 140px;
+        height: auto;
+        margin: 0 15px;
+        transition: all 0.3s ease;
+        vertical-align: middle;
+      }
+
+      .header.compact .logo {
+        width: 90px;
+        margin: 0 10px;
+      }
+
+      .header .logo.compact-logo {
+        display: none;
+      }
+
+      .header.compact .logo.compact-logo {
+        display: block;
+      }
+
+      .header h1 {
+        font-size: 2rem;
+        color: var(--texto-blanco-1);
+        font-weight: 900;
+      }
+
+      .header.compact h1 {
+        font-size: 1rem;
+      }
+
+      .header p {
+        font-size: 1.2rem;
+        color: var(--texto-blanco-1);
+        font-weight: 700;
+      }
+
+      .header-content-box {
+        background: var(--gradient-principal);
+        border-radius: 12px;
+        padding: 20px 20px;
+        box-shadow: 0 8px 20px rgba(var(--acento-rgb), 0.6);
+        overflow: hidden;
+        margin-bottom: 15px;
+
+        opacity: 1;
+        transform: translateY(0);
+        will-change: transform;
+        transition:
+          opacity 0.4s ease,
+          transform 0.4s ease;
+      }
+
+      .header.compact .header-content-box {
+        opacity: 0;
+        max-height: 0;
+        padding-top: 0;
+        padding-bottom: 0;
+        margin-bottom: 0;
+        border: 0;
+        transform: translateY(-10px);
+      }
+
+      .header-content-box:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 30px rgba(var(--acento-rgb), 0.8);
+      }
+
+      .header-bottom-row {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+        flex-wrap: wrap;
+        width: 100%;
+      }
+
+      .header-second-row {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+        flex-wrap: wrap;
+        width: 100%;
+      }
+
+      .header.compact .header-bottom-row {
+        flex-grow: 1;
+      }
+
+      .logo-and-title {
+        opacity: 0;
+        overflow: hidden;
+        transform: translateY(-10px);
+        transition:
+          opacity 0.4s ease,
+          transform 0.4s ease;
+      }
+
+      .header.compact .logo-and-title {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .header.compact .header-bottom-row .logo-and-title {
+        will-change: transform;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-grow: 1;
+        width: 100%;
+        background: var(--gradient-principal);
+        border-radius: 12px;
+        padding: 10px;
+        box-shadow: 0 4px 10px rgba(var(--acento-rgb), 0.4);
+        gap: 10px;
+      }
+
+      .header.compact .header-bottom-row .logo-and-title:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(var(--acento-rgb), 0.5);
+      }
+
+      .header-compact-title {
+        display: none;
+        color: var(--texto-blanco-1);
+        font-size: 1.2rem;
+        font-weight: 700;
+        margin: 10px;
+        white-space: normal;
+      }
+
+      .header.compact .header-compact-title {
+        display: block;
+      }
+
+      .search-bar {
+        position: relative;
+        display: flex;
+        align-items: center;
+        width: 100%;
+        max-width: 450px;
+        background-color: var(--fondo-oscuro-medio);
+        border: 2px solid var(--fondo-borde-claro);
+        border-radius: 30px;
+        box-shadow: 0 4px 10px rgba(var(--sombra-rgb), 0.25);
+        will-change: border-color, background-color;
+        transition:
+          border-color 0.3s ease,
+          box-shadow 0.3s ease,
+          background-color 0.3s ease;
+      }
+
+      .search-bar:focus-within {
+        border-color: var(--fondo-sombra-azul-header);
+        background-color: var(--fondo-borde-claro);
+      }
+
+      .clear-search {
+        cursor: pointer;
+        color: var(--texto-claro-2);
+        padding: 5px;
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1;
+        display: none;
+        transition: color 0.2s ease;
+        transform: scale(1.5);
+      }
+
+      .clear-search:hover {
+        color: var(--texto-blanco-1);
+      }
+
+      .search-bar input {
+        flex-grow: 1;
+        padding: 10px 18px;
+        font-weight: 400;
+        font-size: 1rem;
+        color: var(--texto-claro-2);
+        background-color: transparent;
+        border: none;
+        outline: none;
+        min-width: 0px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .header.compact .search-bar input {
+        padding: 10px 20px;
+      }
+
+      .search-actions {
+        display: flex;
+        align-items: center;
+      }
+
+      .action-button {
+        background: var(--gradient-principal);
+        border: none;
+        color: var(--texto-blanco-1);
+        padding: 8px 18px;
+        border-radius: 30px;
+        cursor: pointer;
+        font-size: 1rem;
+        font-weight: 600;
+        will-change: transform;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 10px rgba(var(--acento-rgb), 0.4);
+        max-width: 150px;
+        white-space: normal;
+      }
+
+      .action-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(var(--acento-rgb), 0.5);
+      }
+
+      .search-bar .action-button {
+        margin: 5px;
+      }
+
+      .controls {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+      }
+
+      @keyframes fadeInUpContent {
+        0% {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .mind-map {
+        transition: margin-top 0.4s ease;
+        margin: 50px 0;
+      }
+
+      .mind-map.animacion-contenido {
+        animation: fadeInUpContent 0.4s ease-out 1 forwards;
+        animation-delay: 0.2s;
+        opacity: 0;
+        will-change: opacity, transform;
+      }
+
+      .section {
+        margin-bottom: 20px;
+        background-color: var(--fondo-oscuro-claro);
+        border-radius: 12px;
+        border: 2px solid var(--fondo-oscuro-medio);
+        overflow: hidden;
+        box-shadow: 0 2px 10px rgba(var(--sombra-rgb), 0.25);
+        transition: border-color 0.3s ease;
+      }
+
+      .section-header {
+        padding: 20px;
+        background-color: var(--fondo-oscuro-medio);
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        will-change: background-color;
+        transition:
+          background-color 0.3s ease,
+          color 0.3s ease;
+      }
+
+      .section-title {
+        font-size: 1.4rem;
+        font-weight: 700;
+        color: var(--texto-claro-2);
+        margin-right: 10px;
+      }
+
+      .section-number {
+        background: var(--gradient-principal);
+        color: var(--texto-blanco-1);
+        padding: 5px 12px;
+        border-radius: 30px;
+        font-size: 15px;
+        font-weight: 700;
+        margin-right: 15px;
+      }
+
+      .toggle-icon {
+        font-size: 1.2rem;
+        color: var(--texto-claro-2);
+        will-change: transform;
+        transition: transform 0.3s ease;
+      }
+
+      .section.active > .section-header .toggle-icon {
+        transform: rotate(180deg);
+      }
+
+      .section-content {
+        max-height: 0;
+        overflow: hidden;
+        opacity: 0;
+        transition:
+          max-height 0.5s ease-out,
+          opacity 0.3s ease-in;
+      }
+
+      .section.active .section-content {
+        max-height: fit-content;
+        padding-bottom: 10px;
+        opacity: 1;
+      }
+
+      .subsection {
+        margin: 15px;
+        background-color: var(--fondo-oscuro-medio);
+        border-radius: 12px;
+        border: 2px solid var(--fondo-borde-claro);
+        overflow: hidden;
+        transition: border-color 0.3s ease;
+      }
+
+      .subsection:hover {
+        border-color: var(--fondo-sombra-azul-header);
+      }
+
+      .subsection:hover .subsection-header {
+        background-color: var(--fondo-sombra-azul-header);
+      }
+
+      .section:hover {
+        border-color: var(--fondo-borde-claro);
+      }
+
+      .section:hover .section-header {
+        background-color: var(--fondo-borde-claro);
+      }
+
+      .subsection-header {
+        padding: 15px;
+        background-color: var(--fondo-borde-claro);
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        will-change: background-color;
+        transition:
+          background-color 0.3s ease,
+          color 0.3s ease;
+      }
+
+      .subsection-title {
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: var(--texto-claro-2);
+        margin-right: 10px;
+      }
+
+      .subsection-number {
+        background: var(--gradient-principal);
+        color: var(--texto-blanco-1);
+        padding: 4px 10px;
+        border-radius: 30px;
+        font-size: 15px;
+        font-weight: 700;
+        margin-right: 12px;
+      }
+
+      .subsection-content {
+        max-height: 0;
+        overflow: hidden;
+        background-color: var(--fondo-oscuro-claro);
+        opacity: 0;
+        transition:
+          max-height 0.5s ease-out,
+          opacity 0.3s ease-in;
+      }
+
+      .subsection.active .subsection-content {
+        max-height: fit-content;
+        padding: 15px;
+        opacity: 1;
+      }
+
+      .subsection.active .toggle-icon {
+        transform: rotate(180deg);
+      }
+
+      .content-item {
+        margin-bottom: 10px;
+        padding: 15px;
+        background-color: var(--fondo-oscuro-medio);
+        border-radius: 12px;
+        border-left: 4px solid var(--color-principal);
+        box-shadow: 0 1px 5px rgba(var(--sombra-rgb), 0.25);
+      }
+
+      .content-text {
+        color: var(--texto-medio-3);
+        margin-bottom: 5px;
+        line-height: 1.4;
+        font-size: 1rem;
+        font-weight: 500;
+        position: relative;
+        padding-left: 15px;
+      }
+
+      .content-text::before {
+        content: "•";
+        color: var(--color-principal);
+        font-weight: 700;
+        display: inline-block;
+        position: absolute;
+        left: 0px;
+      }
+
+      .youtube-link {
+        display: inline-block;
+        padding: 10px 18px;
+        background: linear-gradient(135deg, var(--rojo-youtube-claro) 0%, var(--rojo-youtube-fuerte) 100%);
+        color: var(--texto-blanco-1);
+        cursor: pointer;
+        text-decoration: none;
+        border-radius: 30px;
+        font-size: 0.9rem;
+        font-weight: 500;
+        line-height: 1rem;
+        transition: all 0.3s ease;
+        margin-top: 10px;
+        box-shadow: 0 2px 5px rgba(var(--rojo-rgb), 0.4);
+        will-change: transform;
+      }
+
+      .youtube-link:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 3px 7.5px rgba(var(--rojo-rgb), 0.5);
+        will-change: transform;
+      }
+
+      .timestamp {
+        color: var(--timestamp-youtube);
+        font-size: 0.85rem;
+        margin-left: 10px;
+        font-weight: 400;
+      }
+
+      .highlight {
+        background-color: var(--fondo-resaltado);
+        color: var(--texto-blanco-1);
+        font-weight: 700;
+        padding: 4px;
+        border-radius: 6px;
+      }
+
+      .footer {
+        padding: 30px;
+        background: linear-gradient(135deg, var(--fondo-oscuro-fuerte) 0%, var(--fondo-oscuro-claro) 100%);
+        border-top: 1px solid var(--fondo-oscuro-medio);
+        text-align: center;
+        box-shadow: 0 -2px 10px rgba(var(--sombra-rgb), 0.25);
+      }
+
+      .footer-text {
+        color: var(--texto-claro-2);
+        font-size: 0.9rem;
+        line-height: 1.6;
+      }
+
+      .footer-logo {
+        width: 140px;
+        height: auto;
+        margin-bottom: 20px;
+      }
+
+      @media (max-width: 768px) {
+        .header-top {
+          flex-direction: column;
+        }
+
+        .logo {
+          margin: 0;
+        }
+
+        .header-text-box {
+          margin: 0;
+        }
+
+        .header h1 {
+          font-size: 1.5rem;
+        }
+
+        .header p {
+          font-size: 1rem;
+        }
+
+        .header.compact .header-bottom-row .logo-and-title {
+          gap: 5px;
+        }
+        .logo,
+        .footer-logo {
+          width: 105px;
+        }
+
+        .header.compact .header-bottom-row {
+          flex-direction: column;
+        }
+
+        .header.compact .header-compact-title {
+          margin: 0 5px;
+          font-size: 0.8rem;
+        }
+
+        .header.compact .logo.compact-logo {
+          width: 65px;
+          margin: 5px;
+        }
+
+        .action-button,
+        .search-bar input,
+        .clear-search {
+          font-size: 0.9rem;
+        }
+
+        .section-header {
+          padding: 15px;
+        }
+
+        .header.compact .controls {
+          flex-direction: row;
+        }
+
+        .section-title {
+          font-size: 1.1rem;
+        }
+
+        .subsection-title {
+          font-size: 1rem;
+        }
+        .section-number,
+        .subsection-number {
+          font-size: 13px;
+        }
+
+        .content-text {
+          font-size: 0.9rem;
+        }
+
+        .youtube-link {
+          font-size: 0.8rem;
+        }
+
+        .timestamp {
+          font-size: 0.75rem;
+        }
+
+        .header.compact .action-button {
+          padding: 6px 18px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header animacion-inicial">
+      <div class="header-content-box">
+        <div class="header-top">
+          <a href="https://www.edumin.pe/" target="_blank">
+            <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/LOGO%20BLANCO%20CANVA-mIKMypQ452RzmXVMUadb6mnvPaejXD.png" alt="EDUMIN Logo" class="logo" />
+          </a>
+          <div class="header-text-box">
+  <h1>
+    <div>DIPLOMADO DE ALTA ESPECIALIZACIÓN EN</div>
+    <strong id="tituloDiplomado" style="display: block;"></strong>
+  </h1>
+  <p id="tituloPrincipal"></p>
+</div>
+        </div>
+      </div>
+
+      <div class="header-bottom-row">
+        <div class="logo-and-title">
+          <a href="https://www.edumin.pe/" target="_blank">
+            <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/LOGO%20BLANCO%20CANVA-mIKMypQ452RzmXVMUadb6mnvPaejXD.png" alt="EDUMIN Logo" class="logo compact-logo" />
+          </a>
+          <span class="header-compact-title" id="tituloCompacto"></span>
+        </div>
+        <div class="header-second-row">
+          <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Buscar en el resumen interactivo…" autocomplete="off" />
+            <div class="search-actions">
+              <span class="clear-search" onclick="clearSearch()">&times;</span>
+              <button class="action-button" onclick="searchContent()">Buscar</button>
+            </div>
+          </div>
+
+          <div class="controls">
+            <button class="action-button" onclick="expandAll()">Mostrar todo</button>
+            <button class="action-button" onclick="collapseAll()">Colapsar todo</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="header-spacer"></div>
+
+    <div class="container">
+      <div class="mind-map animacion-contenido" id="mindMap">
+        <div class="section" data-section="1">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">1</span>
+              <span class="section-title">Introducción, presentación del docente, organización del curso y logística de clases</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">1.1</span>
+                  <span class="subsection-title">Perfil académico y experiencia</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Formación académica: MBA Internacional en Centrum Católica de la PUC, énfasis en análisis e interpretación de estados financieros. Ingeniero químico de profesión. Negociador y conciliador extrajudicial por la Pontificia Universidad Católica del Perú. Especialista en administración de empresas y gerencia de proyectos.</div>
+                  <div class="content-text">Experiencia profesional: Más de 16 años en gestión de operaciones, logística y proyectos. Roles: supervisor de proyectos sociales y logísticos en Antapacay y Glencore. Consultor en London Consulting Group; gerente de postventa y logística en Volvo Perú; docente de posgrado.</div>
+                  <div class="content-text">Habilidades y áreas de especialidad: Optimización de procesos, abastecimiento, control de inventarios y relación con proveedores. Sectores: retail, automotriz, minería, agroindustria.</div>
+                  <a href="https://www.youtube.com/watch?v=3fIUcP0miNA&start=263" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:04:23)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">1.2</span>
+                  <span class="subsection-title">Fechas y sesiones</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Calendario de clases: Clase actual: miércoles 13. No habrá clase el viernes 15 por feriado. Curso se completa el miércoles 20; sesiones programadas 13 y 20.</div>
+                  <div class="content-text">Comunicaciones y participación: Asesora académica presentada: Andana Urlich. Se pedirá registro de participación mediante enlace compartido. Grabación de la clase será enviada para repaso. Próxima sesión: 20 de agosto, mismo horario; recomendación conectarse minutos antes.</div>
+                  <a href="https://www.youtube.com/watch?v=3fIUcP0miNA&start=399" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:06:39)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="2">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">2</span>
+              <span class="section-title">Conceptos básicos: logística y cadena de suministro</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">2.1</span>
+                  <span class="subsection-title">Propósito del glosario y metodología</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Objetivo del glosario: Ubicar a estudiantes y preparar para conceptos logísticos. Introducción antes de entrar en contenido matemático.</div>
+                  <div class="content-text">Enfoque pedagógico: Explicaciones conceptuales seguidas de aproximación matemática gradual. Uso de ejemplos prácticos y participativos. Metodología activa: incentivar intervención de los estudiantes, registro de participaciones y diálogo.</div>
+                  <a href="https://www.youtube.com/watch?v=3fIUcP0miNA&start=514" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:08:34)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">2.2</span>
+                  <span class="subsection-title">Definición de logística</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Concepto general: Plan para mover cosas; ejemplo práctico: mudanza doméstica. Implica considerar la naturaleza de los productos (libros vs. vajilla).</div>
+                  <div class="content-text">Objetivo esencial: Asegurar que productos correctos lleguen al lugar correcto, en el momento correcto, en el estado correcto y con costes controlados. Es el "detrás de cámaras" de las entregas, cubriendo desde la compra hasta la recepción del producto.</div>
+                  <a href="https://www.youtube.com/watch?v=3fIUcP0miNA&start=586" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:09:46)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">2.3</span>
+                  <span class="subsection-title">Definición de cadena de suministro (supply chain)</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Alcance más amplio que la logística: Red de eslabones que conecta personas y empresas involucradas en creación del producto. Incluye desde el cultivo de materias primas hasta la tienda que vende el producto.</div>
+                  <div class="content-text">Transformación de logística a cadena de suministro: Surge al reconocer interdependencias: retrasos de proveedores o fallos en transporte afectan la operación completa. Enfoque colaborativo: logística ampliada hacia adelante (cliente) y hacia atrás (proveedor). La empresa dominante (por ejemplo, retail) coordina y exige estándares a proveedores para asegurar calidad, cumplimiento y certificaciones (ISO, seguridad, medio ambiente).</div>
+                  <div class="content-text">Relación con cadena de valor y diseño del producto: Decisiones de diseño afectan suministros y logística. Suministros para prototipos y producto final forman parte de la cadena de suministro.</div>
+                  <a href="https://www.youtube.com/watch?v=3fIUcP0miNA&start=764" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:12:44)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="3">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">3</span>
+              <span class="section-title">Operaciones, procesos, indicadores clave (KPI) y métricas</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">3.1</span>
+                  <span class="subsection-title">Qué son operaciones y procesos</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Definición de operaciones: Conjunto de procesos que hacen que algo se fabrique. Incluye orientación: orden, paralelismo, sincronía entre procesos.</div>
+                  <div class="content-text">Naturaleza de los procesos: Procesos unitarios que pueden ser jerárquicos (A antes de B) o simultáneos. Planificación para secuencia y recursos, formando la "línea de operaciones".</div>
+                  <div class="content-text">Diferencias entre operaciones, logística y cadena de suministro (01:41:31): Operaciones: transformación interna (ej. corte, costura, control de calidad). Logística: movimiento de materiales y productos (transporte hacia/desde fábrica). Cadena de suministro: coordinación estratégica de todos los actores y postventa.</div>
+                  <a href="https://www.youtube.com/watch?v=3fIUcP0miNA&start=861" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:14:21)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">3.2</span>
+                  <span class="subsection-title">Definición de KPI y métricas</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Distinción entre métricas y KPIs: KPI = Key Performance Indicator; indicadores clave de desempeño. Métricas = ratios, divisiones, sumas; no todas las métricas son KPIs.</div>
+                  <div class="content-text">Forma común de cálculo: Muchas métricas son "parte / todo" y pueden expresarse en porcentaje o índices.</div>
+                  <a href="https://www.youtube.com/watch?v=3fIUcP0miNA&start=999" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:16:39)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">3.3</span>
+                  <span class="subsection-title">Ejemplo de uso: índice de avance</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Cálculo del avance: Ejemplo: pared de 30 m con 10 m ejecutados → 33,33% de avance.</div>
+                  <div class="content-text">Interpretación relativa al tiempo y al plan: Comparar avance vs. tiempo vs. coste (triángulo alcance-tiempo-costo). Diferentes combinaciones de avance/costo permiten diagnosticar problemas operativos o de compra.</div>
+                  <a href="https://www.youtube.com/watch?v=3fIUcP0miNA&start=1044" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:17:24)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="4">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">4</span>
+              <span class="section-title">Términos de medición en logística</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">4.1</span>
+                  <span class="subsection-title">Dinámica de interacción</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Incentivo a participación: Pedir encender micrófonos y cámaras para discutir ejemplos (ej. cálculo de avances).</div>
+                  <div class="content-text">Registro y reconocimiento: Profesor anota participaciones para registro académico y discusión en clase.</div>
+                  <div class="content-text">Cierre participativo: Preguntas finales, aclaraciones y ánimo para continuar hacia la parte matemática en próximas sesiones.</div>
+                  <a href="https://www.youtube.com/watch?v=3fIUcP0miNA&start=1075" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:17:55)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">4.2</span>
+                  <span class="subsection-title">Lista de métricas y abreviaturas</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Valor venta (VV o valor venta): Precio total de productos vendidos en periodo.</div>
+                  <div class="content-text">Inventario promedio (IP): Valor promedio de productos en almacén durante periodo.</div>
+                  <div class="content-text">TPL, CTT, KR y otros: TPL: total de pedidos en periodo. CTT: costo total del transporte. KR: kilómetros recorridos por flota en periodo.</div>
+                  <div class="content-text">Números de pedidos y calidad de entrega: NP: número de pedidos procesados. NPP: número de pedidos perfectos (completos, a tiempo, sin daños), considerado KPI natural.</div>
+                  <a href="https://www.youtube.com/watch?v=3fIUcP0miNA&start=1743" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:29:03)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">4.3</span>
+                  <span class="subsection-title">Observaciones sobre métricas vs. KPI</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">No todo ratio es KPI: Un KPI debe tener importancia estratégica y medible.</div>
+                  <div class="content-text">Ejemplos prácticos de uso: Kilómetros recorridos como métrica operacional relevante para geografía y asignación de espacios.</div>
+                  <a href="https://www.youtube.com/watch?v=3fIUcP0miNA&start=2013" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:33:33)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="5">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">5</span>
+              <span class="section-title">Geografía operativa, tecnología aplicada y métricas operativas de pedidos y entregas</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">5.1</span>
+                  <span class="subsection-title">Importancia de la cartografía de procesos</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Relación entre operaciones y geografía: Diseño físico del almacén y su cercanía a zonas de recogida afecta eficiencia. En minería, almacenes de mantenimiento deben ubicarse cerca de zonas operativas y repuestos críticos.</div>
+                  <div class="content-text">Implicaciones para asignación de recursos: Distribución física debe reflejar secuencia y naturaleza de procesos unitarios.</div>
+                  <a href="https://www.youtube.com/watch?v=3fIUcP0miNA&start=2085" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:34:45)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">5.2</span>
+                  <span class="subsection-title">Mantenimiento predictivo y monitoreo</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Evolución del mantenimiento: De preventivo a predictivo con sensores y recolección de datos en tiempo real.</div>
+                  <div class="content-text">Ejemplos prácticos: Sensores que detectan sobrepeso en faja transportadora y alertan antes de fallo. Uso de drones, automatización e IA para levantar datos y evitar fallos.</div>
+                  <a href="https://www.youtube.com/watch?v=3fIUcP0miNA&start=2182" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:36:22)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">5.3</span>
+                  <span class="subsection-title">Tiempo promedio de entrega y calidad de pedidos</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">TPE: tiempo promedio de entrega (horas o días) desde recepción hasta entrega del pedido.</div>
+                  <div class="content-text">NPP: número de pedidos perfectos como KPI.</div>
+                  <div class="content-text">Combina factores: entrega completa, a tiempo y sin daños.</div>
+                  <div class="content-text">NP y NPP para evaluar desempeño de servicio al cliente.</div>
+                  <a href="https://www.youtube.com/watch?v=3fIUcP0miNA&start=2330" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:38:50)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="6">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">6</span>
+              <span class="section-title">Fundamentos, objetivos y evolución de la logística</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">6.1</span>
+                  <span class="subsection-title">Qué es la logística y su objetivo</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Definición resumida: Parte fundamental de negocios que venden productos: planificar cuándo y cuánto comprar, dónde almacenar y cómo entregar.</div>
+                  <div class="content-text">Objetivo principal: Reducir errores y retrasos y evitar costes innecesarios para entregar el producto que el cliente necesita.</div>
+                  <a href="https://www.youtube.com/watch?v=3fIUcP0miNA&start=2508" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:41:48)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">6.2</span>
+                  <span class="subsection-title">Objetivos principales de la logística</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Reducir costos: Optimizar transporte y almacenamiento; ejemplos: llenar camiones para evitar viajes múltiples.</div>
+                  <div class="content-text">Servir mejor al cliente: Entregas a tiempo y en buen estado; evitar faltantes o piezas ausentes en entregas (ej. mesa sin pata).</div>
+                  <div class="content-text">Mantener niveles de inventario adecuados: Ni demasiado inventario ni demasiado poco; gestionar rotaciones y promociones.</div>
+                  <a href="https://www.youtube.com/watch?v=3fIUcP0miNA&start=2568" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:42:48)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="7">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">7</span>
+              <span class="section-title">Ejemplos prácticos: retail y gestión de inventario</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">7.1</span>
+                  <span class="subsection-title">Caso de almacén y reposición</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Cálculo de días de soporte de ventas: Ejemplo: inventario 3 millones y reposición diaria de 500 mil → 6 días de soporte. Implicación operativa: coordinar camiones para reposición o se generarán huecos en estanterías.</div>
+                  <div class="content-text">Impacto de promociones y picos de demanda: Promociones pueden requerir reposición múltiples veces al día; planificación granular por categoría.</div>
+                  <a href="https://www.youtube.com/watch?v=3fIUcP0miNA&start=2614" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:43:34)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">7.2</span>
+                  <span class="subsection-title">Coste de inmovilizar capital en inventario</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Comparación con rendimiento financiero: Inventario inmovilizado equivale a capital no invertido en el banco; coste de oportunidad diario calculable por tasa equivalente.</div>
+                  <div class="content-text">Consecuencia de ventas bajas: Un día sin ventas puede representar pérdida económica en términos de interés o rendimiento esperado.</div>
+                  <a href="https://www.youtube.com/watch?v=3fIUcP0miNA&start=3248" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:54:08)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="8">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">8</span>
+              <span class="section-title">Servicio al cliente y no conformidades</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">8.1</span>
+                  <span class="subsection-title">Casos y consecuencias</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Ejemplo de entrega defectuosa: Mesa entregada sin una pata → cliente firma no conformidad; proceso de devolución o reclamo.</div>
+                  <div class="content-text">Importancia del control de calidad en logística: Verificar contenidos, embalaje y ensamblaje antes de entrega para evitar insatisfacción y retrabajo.</div>
+                  <a href="https://www.youtube.com/watch?v=3fIUcP0miNA&start=3078" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:51:18)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">8.2</span>
+                  <span class="subsection-title">Cierre de la sesión y pausas</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Pausa de cinco minutos programada; regreso a las 08:38-08:39.</div>
+                  <div class="content-text">Entrega de recursos: Envío de enlace para registrar participación y continuar seguimiento académico. Contactos de coordinación académica y correo disponibles en horario laboral (lunes a viernes 8:00–18:30).</div>
+                  <div class="content-text">Despedida y próximos pasos: Agradecimientos, confirmación de próxima clase y énfasis en continuar hacia indicadores de desempeño logístico y su aplicación.</div>
+                  <a href="https://www.youtube.com/watch?v=3fIUcP0miNA&start=3442" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:57:22)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="9">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">9</span>
+              <span class="section-title">Cadenas hacia adelante y hacia atrás: integración con clientes y proveedores</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">9.1</span>
+                  <span class="subsection-title">Integración hacia adelante: cliente y comunicación</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Propósito de integrar al cliente: Generar vínculo entre cliente y empresa, crear valor percibido y fidelidad hacia los productos.</div>
+                  <div class="content-text">Comunicación y sensibilización: Mensaje efectivo combina argumentos lógicos y emocionales; imagen, texto y música deben ser coherentes con el propósito. Ejemplos de mala comunicación: campañas que usan tono inapropiado (reggaetón para sensibilización social) pueden dañar reputación.</div>
+                  <div class="content-text">Marketing como parte de la cadena de suministro hacia adelante: Publicidad bien diseñada puede convertir espectadores en futuros consumidores y reforzar la percepción de la marca.</div>
+                  <a href="https://www.youtube.com/watch?v=3fIUcP0miNA&start=4227" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:10:27)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">9.2</span>
+                  <span class="subsection-title">Integración hacia atrás: proveedores y estandarización</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Lógica de integrar proveedores: Valores y estándares de la empresa principal se vuelven requerimientos para proveedores (calidad, medio ambiente, salud y seguridad).</div>
+                  <div class="content-text">Certificaciones y control de la cadena: Exigir cumplimiento de normas (ISO 9001, 14001, 45001) para reducir riesgos de diseño y compra que generan desperdicio y costos adicionales.</div>
+                  <div class="content-text">Beneficios: Menor variabilidad en materia prima, menos reprocesos, reducción de desperdicios alineado con filosofía Lean.</div>
+                  <a href="https://www.youtube.com/watch?v=3fIUcP0miNA&start=5210" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:26:50)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="10">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">10</span>
+              <span class="section-title">Ejemplos aplicados: arándanos y gestión de riesgos logísticos</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">10.1</span>
+                  <span class="subsection-title">Cadena de suministro del arándano</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Componentes de la cadena: Producción (cosecha), empaque (cajas especiales), transporte refrigerado al aeropuerto, agentes de aduana y aerolíneas, distribuidores en destino.</div>
+                  <div class="content-text">Sensibilidad del producto: Alto contenido de agua → requiere temperaturas bajas y transporte rápido; fallos en cualquier eslabón pueden causar pérdida significativa.</div>
+                  <div class="content-text">Alternativas frente a interrupciones: Opciones: pagar transporte aéreo más caro, usar centros de refrigeración intermedios (por ejemplo en Lima) y reprogramar exportación para minimizar pérdida.</div>
+                  <a href="https://www.youtube.com/watch?v=3fIUcP0miNA&start=5407" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:30:07)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">10.2</span>
+                  <span class="subsection-title">Riesgos externos y contexto local</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Impacto de cierres de carreteras y huelgas: Cortes de vías interprovinciales afectan salida de productos; generan elección entre coste y tiempo (camión vs avión).</div>
+                  <div class="content-text">Consecuencia macroeconómica: Incertidumbre y conflictos incrementan riesgo país y desalientan inversiones; proyectos pueden retrasarse años por mala gestión de comunicación y confianza con comunidades.</div>
+                  <a href="https://www.youtube.com/watch?v=3fIUcP0miNA&start=5551" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:32:31)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="11">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">11</span>
+              <span class="section-title">Flujos en la cadena de suministro: materiales, información y capital</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">11.1</span>
+                  <span class="subsection-title">Flujo de materiales</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Movimiento físico de productos: Flujo hacia adelante: materias primas a producto final hacia cliente. Flujo inverso: logística inversa para devoluciones, reparaciones o reciclaje.</div>
+                  <div class="content-text">Importancia del control de tiempos y condiciones (temperatura, embalaje).</div>
+                  <a href="https://www.youtube.com/watch?v=3fIUcP0miNA&start=6315" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:45:15)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">11.2</span>
+                  <span class="subsection-title">Flujo de información</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Datos críticos: Inventarios, programación de envíos, demanda, incidencias y estado de pedidos.</div>
+                  <div class="content-text">Función en la toma de decisiones: Informa qué pedir, cuándo enviar y detecta incidentes que afectan la operación.</div>
+                  <div class="content-text">Área responsable: Atención al cliente y servicio gestionan gran parte del flujo informativo.</div>
+                  <a href="https://www.youtube.com/watch?v=3fIUcP0miNA&start=6380" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:46:20)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">11.3</span>
+                  <span class="subsection-title">Flujo de capital</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Movimiento financiero: Pagos a proveedores, cobros de clientes, préstamos y apalancamiento.</div>
+                  <div class="content-text">Relevancia del financiamiento: Mantener líneas de crédito y buena relación con el sistema financiero es clave para operar y crecer.</div>
+                  <a href="https://www.youtube.com/watch?v=3fIUcP0miNA&start=6479" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:47:59)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">11.4</span>
+                  <span class="subsection-title">Analogía del pastel y ejemplo de chocolate en Cusco</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Analogía sencilla: Operaciones: mezclar, hornear y decorar el pastel. Logística: comprar ingredientes y entregar el pastel a la fiesta. Cadena de suministro: planear todo, entrega y asegurar satisfacción del cliente.</div>
+                  <div class="content-text">Ejemplo práctico: Producción de chocolate en Cusco como caso para visualizar flujos de materiales, información y capital.</div>
+                  <a href="https://www.youtube.com/watch?v=3fIUcP0miNA&start=6258" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:44:18)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <a href="https://www.edumin.pe/" target="_blank">
+        <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/LOGO%20BLANCO%20CANVA-mIKMypQ452RzmXVMUadb6mnvPaejXD.png" alt="EDUMIN Logo" class="footer-logo" />
+      </a>
+      <p class="footer-text">
+  <span style="display: block; font-weight: bold;">Contenido desarrollado por EDUMIN - Centro de Capacitación Especializado en Minería, Industria y Negocios</span>
+  <span style="display: block; font-style: italic;">Material exclusivo para estudiantes de EDUMIN</span>
+  <a href="https://www.edumin.pe/" target="_blank" style="color: var(--color-principal); text-decoration: none; display: block;">https://www.edumin.pe/</a>
+</p>
+    </div>
+
+    <script>
+      let originalTextMap = {};
+
+      const TITULO_DIPLOMADO = "SUPPLY CHAIN MANAGEMENT EN INDUSTRIA Y MINERÍA".toUpperCase();
+      const TITULO_CLASE = "CLASE 01: FUNDAMENTOS DE LA LOGÍSTICA Y GESTIÓN DE LA CADENA DE SUMINISTROS - 1RA PARTE".toUpperCase();
+
+      const elementoDiplomado = document.getElementById("tituloDiplomado");
+      if (elementoDiplomado) {
+        elementoDiplomado.innerText = TITULO_DIPLOMADO;
+      }
+
+      document.title = TITULO_CLASE;
+      const tituloPrincipal = document.getElementById("tituloPrincipal");
+      if (tituloPrincipal) {
+        tituloPrincipal.innerText = TITULO_CLASE;
+      }
+
+      const tituloCompacto = document.getElementById("tituloCompacto");
+      if (tituloCompacto) {
+        tituloCompacto.innerText = TITULO_CLASE;
+      }
+
+      function cacheOriginalTexts() {
+        const searchableItems = document.querySelectorAll(".section-title, .subsection-title, .content-text");
+
+        let idCounter = 0;
+
+        searchableItems.forEach((item) => {
+          if (!item.id) {
+            item.id = `search-item-${idCounter++}`;
+          }
+
+          originalTextMap[item.id] = item.textContent.trim();
+        });
+      }
+
+      document.addEventListener("DOMContentLoaded", cacheOriginalTexts);
+
+      function toggleSection(element) {
+        const section = element.closest(".section");
+        const wasActive = section.classList.contains("active");
+
+        section.classList.toggle("active");
+
+        if (wasActive) {
+          const subsections = section.querySelectorAll(".subsection");
+          subsections.forEach((subsection) => {
+            subsection.classList.remove("active");
+          });
+        }
+      }
+
+      function toggleSubsection(element) {
+        const subsection = element.closest(".subsection");
+        subsection.classList.toggle("active");
+      }
+
+      function expandAll() {
+        const sections = document.querySelectorAll(".section");
+        sections.forEach((section) => {
+          section.classList.add("active");
+        });
+
+        const subsections = document.querySelectorAll(".subsection");
+        subsections.forEach((subsection) => {
+          subsection.classList.add("active");
+        });
+      }
+
+      function collapseAll() {
+        const sections = document.querySelectorAll(".section");
+        sections.forEach((section) => {
+          section.classList.remove("active");
+        });
+
+        const subsections = document.querySelectorAll(".subsection");
+        subsections.forEach((subsection) => {
+          subsection.classList.remove("active");
+        });
+      }
+
+      function debounce(func, delay) {
+        let timeout;
+        return function (...args) {
+          const later = () => {
+            clearTimeout(timeout);
+            func.apply(this, args);
+          };
+          clearTimeout(timeout);
+          timeout = setTimeout(later, delay);
+        };
+      }
+
+      function clearSearch() {
+        const searchInput = document.getElementById("searchInput");
+        const clearBtn = document.querySelector(".search-actions .clear-search");
+        searchInput.value = "";
+        clearBtn.style.display = "none";
+        searchContent();
+        searchInput.focus();
+      }
+
+      const createDiacriticInsensitiveRegex = (term) => {
+        const charMap = {
+          a: "[aáAÁ]",
+          e: "[eéEÉ]",
+          i: "[iíIÍ]",
+          o: "[oóOÓ]",
+          u: "[uúUÚ]",
+        };
+
+        const regexString = term
+          .split("")
+          .map((char) => {
+            const lowerChar = char.toLowerCase();
+            return charMap[lowerChar] || char;
+          })
+          .join("");
+
+        return new RegExp(`(${regexString})`, "gi");
+      };
+      function searchContent() {
+        const inputElement = document.getElementById("searchInput");
+        const searchTerm = inputElement.value.trim();
+
+        const searchableElements = document.querySelectorAll(".content-text, .section-title, .subsection-title");
+        let found = false;
+        let firstMatchElement = null;
+
+        // 1. Limpia clases 'active'
+        document.querySelectorAll(".section.active").forEach((el) => el.classList.remove("active"));
+        document.querySelectorAll(".subsection.active").forEach((el) => el.classList.remove("active"));
+
+        // 2. RESTAURACIÓN DEL CONTENIDO (CORRECCIÓN CLAVE 1)
+        // Se usa el mapa en memoria para restaurar el HTML de los elementos
+        searchableElements.forEach((element) => {
+          // Usamos el ID del elemento para buscar el texto original en la memoria
+          element.innerHTML = originalTextMap[element.id] || element.textContent;
+        });
+
+        if (searchTerm.length < 3) {
+          // Si el término es muy corto, restauramos y salimos
+          return;
+        }
+
+        const searchRegex = createDiacriticInsensitiveRegex(searchTerm);
+
+        searchableElements.forEach((element) => {
+          // 3. OBTENCIÓN DEL TEXTO PARA BÚSQUEDA (CORRECCIÓN CLAVE 2)
+          // Usamos la variable de bucle 'element' para obtener el ID
+          const originalText = originalTextMap[element.id] || element.textContent; // ¡Corregido de 'item.id' a 'element.id'!
+
+          if (searchRegex.test(originalText)) {
+            found = true;
+
+            // Resaltado
+            element.innerHTML = originalText.replace(searchRegex, `<span class="highlight">$1</span>`);
+
+            // Activación de secciones y subsecciones
+            const subsection = element.closest(".subsection");
+            if (subsection) {
+              subsection.classList.add("active");
+              subsection.closest(".section")?.classList.add("active");
+            } else if (element.classList.contains("section-title")) {
+              element.closest(".section")?.classList.add("active");
+            }
+
+            if (!firstMatchElement) {
+              firstMatchElement = element;
+            }
+          }
+        });
+
+        // Lógica de desplazamiento
+        if (firstMatchElement) {
+          requestAnimationFrame(() => {
+            firstMatchElement.scrollIntoView({
+              behavior: "smooth",
+              block: "center",
+            });
+          });
+        } else if (searchTerm.length >= 3) {
+          alert("No se encontraron resultados para: " + searchTerm);
+        }
+      }
+
+      const debouncedSearch = debounce(searchContent, 300);
+
+      document.getElementById("searchInput").addEventListener("input", function () {
+        const clearBtn = document.querySelector(".search-actions .clear-search");
+        clearBtn.style.display = this.value.length > 0 ? "block" : "none";
+        debouncedSearch();
+      });
+
+      document.getElementById("searchInput").addEventListener("keypress", function (e) {
+        if (e.key === "Enter") {
+          clearTimeout(this._timeoutId);
+          searchContent();
+        }
+      });
+
+      // --- Lógica del Header Compacto ---
+      const header = document.querySelector(".header");
+      const headerSpacer = document.querySelector(".header-spacer");
+      let initialHeaderHeight = 0; // Altura del header original
+      let compactHeaderHeight = 0; // Altura del header en modo compacto
+      let scrollTriggerPoint = 0; // Punto de scroll para activar el cambio
+
+      function handleHeaderState() {
+        const scrollY = window.scrollY || document.documentElement.scrollTop;
+
+        if (scrollY > scrollTriggerPoint) {
+          if (!header.classList.contains("compact")) {
+            header.classList.add("compact");
+            headerSpacer.style.height = `${initialHeaderHeight}px`;
+          }
+        } else {
+          if (header.classList.contains("compact")) {
+            header.classList.remove("compact");
+            headerSpacer.style.height = "0px";
+          }
+        }
+      }
+
+      function initializeHeader() {
+        initialHeaderHeight = header.offsetHeight;
+        const headerClone = header.cloneNode(true);
+        headerClone.classList.add("compact");
+        headerClone.style.visibility = "hidden";
+        headerClone.style.position = "absolute";
+        document.body.appendChild(headerClone);
+        compactHeaderHeight = headerClone.offsetHeight;
+        document.body.removeChild(headerClone);
+
+        scrollTriggerPoint = initialHeaderHeight - compactHeaderHeight;
+      }
+
+      document.addEventListener("DOMContentLoaded", initializeHeader);
+      window.addEventListener("scroll", handleHeaderState);
+      window.addEventListener("resize", debounce(initializeHeader, 200));
+    </script>
+  </body>
+</html>

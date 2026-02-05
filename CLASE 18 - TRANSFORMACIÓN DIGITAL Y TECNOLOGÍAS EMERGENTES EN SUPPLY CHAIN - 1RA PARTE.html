@@ -1,0 +1,2177 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title></title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet" />
+    <style>
+/* Estilos de balanceo de texto */
+.header-content-box,
+.header-compact-title,
+.footer,
+.section-title,
+.subsection-title {
+    text-wrap: balance;
+}
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Inter", sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+
+      :root {
+        /* Colores Principales del Diseño (Acentos y Degradados) */
+        /* ======================================================= */
+        --color-principal: #00beff; /* Cian Brillante para acentos, bordes y el inicio del degradado principal */
+        --color-secundario: #1e50cd; /* Azul Medio, parte final del degradado de acento */
+
+        /* Fondos Oscuros de la Interfaz */
+        /* ======================================================= */
+        --fondo-oscuro-claro: #002a52; /* Fondo de secciones y contenido */
+        --fondo-oscuro-fuerte: #001a33; /* Fondo del encabezado (header) y pie de página (footer) */
+        /* ======================================================= */
+        --fondo-oscuro-medio: #003366; /* Fondo de encabezados y cajas de contenido */
+        --fondo-borde-claro: #004080; /* Bordes ligeros y color de fondo al hacer hover en encabezados */
+        --fondo-sombra-azul-header: #0050a0; /* ¡NUEVO! Sombra en el header */
+
+        /* Colores de Texto y Fondo General del Body */
+        /* ======================================================= */
+        --texto-blanco-1: #ffffff; /* Blanco puro para títulos y texto en fondo muy oscuro */
+        --texto-claro-2: #e6e6e6; /* Texto principal y claro */
+        --texto-medio-3: #cccccc; /* Texto de contenido de item (un poco más tenue) */
+
+        /* ======================================================= */
+        --fondo-body-inicio: #99e5ff; /* Color de inicio del degradado de fondo del body */
+        --fondo-body-fin: #a5b9eb; /* Color de final del degradado de fondo del body */
+
+        /* Colores de Acento Específicos (YouTube, Búsqueda) */
+        /* ======================================================= */
+        --rojo-youtube-claro: #e60000;
+        --rojo-youtube-fuerte: #a30000;
+        --timestamp-youtube: #ffcccc;
+        --fondo-resaltado: #00c339; /* Verde para el fondo del texto buscado */
+
+        /* Bases RGB para Transparencias (RGBA) */
+        /* ======================================================= */
+        --sombra-rgb: 0, 0, 0; /* Negro puro: Usado para sombras generales y profundidad */
+        --acento-rgb: 0, 190, 255; /* Cian Brillante: Usado para brillos y sombras de acento */
+        --rojo-rgb: 230, 0, 0; /* Rojo Puro: Usado para sombras de enlaces de YouTube */
+        /* ======================================================= */
+        --gradient-principal: linear-gradient(135deg, var(--color-principal) 0%, var(--color-secundario) 100%);
+      }
+
+      body {
+        background: linear-gradient(135deg, var(--fondo-body-inicio) 0%, var(--fondo-body-fin) 100%);
+        line-height: 1.2;
+        scroll-behavior: smooth;
+      }
+
+      strong#tituloDiplomado {
+        font-weight: 900;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      @keyframes slideDownSutil {
+        0% {
+          opacity: 0;
+          transform: translateY(-10px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .header.animacion-inicial {
+        animation: slideDownSutil 0.4s ease-out 1;
+        animation-fill-mode: forwards;
+        will-change: transform, opacity;
+      }
+
+      .header {
+        position: relative;
+        width: 100%;
+        z-index: 1000;
+        padding: 20px;
+        background: linear-gradient(135deg, var(--fondo-oscuro-fuerte) 0%, var(--fondo-oscuro-claro) 100%);
+        box-shadow: 0 5px 15px rgba(var(--sombra-rgb), 0.5);
+        text-align: center;
+        will-change: transform;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .header-text-box {
+        display: grid;
+        gap: 10px;
+        word-break: break-word;
+        margin: 0 15px;
+      }
+
+      .header.compact {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: fixed;
+      }
+
+      .header-spacer {
+        display: none;
+        transition: height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .header.compact + .header-spacer {
+        display: block;
+      }
+
+      .header-top {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .header.compact .header-top {
+        display: none;
+      }
+
+      .logo {
+        width: 140px;
+        height: auto;
+        margin: 0 15px;
+        transition: all 0.3s ease;
+        vertical-align: middle;
+      }
+
+      .header.compact .logo {
+        width: 90px;
+        margin: 0 10px;
+      }
+
+      .header .logo.compact-logo {
+        display: none;
+      }
+
+      .header.compact .logo.compact-logo {
+        display: block;
+      }
+
+      .header h1 {
+        font-size: 2rem;
+        color: var(--texto-blanco-1);
+        font-weight: 900;
+      }
+
+      .header.compact h1 {
+        font-size: 1rem;
+      }
+
+      .header p {
+        font-size: 1.2rem;
+        color: var(--texto-blanco-1);
+        font-weight: 700;
+      }
+
+      .header-content-box {
+        background: var(--gradient-principal);
+        border-radius: 12px;
+        padding: 20px 20px;
+        box-shadow: 0 8px 20px rgba(var(--acento-rgb), 0.6);
+        overflow: hidden;
+        margin-bottom: 15px;
+
+        opacity: 1;
+        transform: translateY(0);
+        will-change: transform;
+        transition: opacity 0.4s ease, transform 0.4s ease;
+      }
+
+      .header.compact .header-content-box {
+        opacity: 0;
+        max-height: 0;
+        padding-top: 0;
+        padding-bottom: 0;
+        margin-bottom: 0;
+        border: 0;
+        transform: translateY(-10px);
+      }
+
+      .header-content-box:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 30px rgba(var(--acento-rgb), 0.8);
+      }
+
+      .header-bottom-row {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+        flex-wrap: wrap;
+        width: 100%;
+      }
+
+      .header-second-row {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+        flex-wrap: wrap;
+        width: 100%;
+      }
+
+      .header.compact .header-bottom-row {
+        flex-grow: 1;
+      }
+
+      .logo-and-title {
+        opacity: 0;
+        overflow: hidden;
+        transform: translateY(-10px);
+        transition: opacity 0.4s ease, transform 0.4s ease;
+      }
+
+      .header.compact .logo-and-title {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .header.compact .header-bottom-row .logo-and-title {
+        will-change: transform;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-grow: 1;
+        width: 100%;
+        background: var(--gradient-principal);
+        border-radius: 12px;
+        padding: 10px;
+        box-shadow: 0 4px 10px rgba(var(--acento-rgb), 0.4);
+        gap: 10px;
+      }
+
+      .header.compact .header-bottom-row .logo-and-title:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(var(--acento-rgb), 0.5);
+      }
+
+      .header-compact-title {
+        display: none;
+        color: var(--texto-blanco-1);
+        font-size: 1.2rem;
+        font-weight: 700;
+        margin: 10px;
+        white-space: normal;
+      }
+
+      .header.compact .header-compact-title {
+        display: block;
+      }
+
+      .search-bar {
+        position: relative;
+        display: flex;
+        align-items: center;
+        width: 100%;
+        max-width: 450px;
+        background-color: var(--fondo-oscuro-medio);
+        border: 2px solid var(--fondo-borde-claro);
+        border-radius: 30px;
+        box-shadow: 0 4px 10px rgba(var(--sombra-rgb), 0.25);
+        will-change: border-color, background-color;
+        transition: border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+      }
+
+      .search-bar:focus-within {
+        border-color: var(--fondo-sombra-azul-header);
+        background-color: var(--fondo-borde-claro);
+      }
+
+      .clear-search {
+        cursor: pointer;
+        color: var(--texto-claro-2);
+        padding: 5px;
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1;
+        display: none;
+        transition: color 0.2s ease;
+        transform: scale(1.5);
+      }
+
+      .clear-search:hover {
+        color: var(--texto-blanco-1);
+      }
+
+      .search-bar input {
+        flex-grow: 1;
+        padding: 10px 18px;
+        font-weight: 400;
+        font-size: 1rem;
+        color: var(--texto-claro-2);
+        background-color: transparent;
+        border: none;
+        outline: none;
+        min-width: 0px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .header.compact .search-bar input {
+        padding: 10px 20px;
+      }
+
+      .search-actions {
+        display: flex;
+        align-items: center;
+      }
+
+      .action-button {
+        background: var(--gradient-principal);
+        border: none;
+        color: var(--texto-blanco-1);
+        padding: 8px 18px;
+        border-radius: 30px;
+        cursor: pointer;
+        font-size: 1rem;
+        font-weight: 600;
+        will-change: transform;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 10px rgba(var(--acento-rgb), 0.4);
+        max-width: 150px;
+        white-space: normal;
+      }
+
+      .action-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(var(--acento-rgb), 0.5);
+      }
+
+      .search-bar .action-button {
+        margin: 5px;
+      }
+
+      .controls {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+      }
+
+      @keyframes fadeInUpContent {
+        0% {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .mind-map {
+        transition: margin-top 0.4s ease;
+        margin: 50px 0;
+      }
+
+      .mind-map.animacion-contenido {
+        animation: fadeInUpContent 0.4s ease-out 1 forwards;
+        animation-delay: 0.2s;
+        opacity: 0;
+        will-change: opacity, transform;
+      }
+
+      .section {
+        margin-bottom: 20px;
+        background-color: var(--fondo-oscuro-claro);
+        border-radius: 12px;
+        border: 2px solid var(--fondo-oscuro-medio);
+        overflow: hidden;
+        box-shadow: 0 2px 10px rgba(var(--sombra-rgb), 0.25);
+        transition: border-color 0.3s ease;
+      }
+
+      .section-header {
+        padding: 20px;
+        background-color: var(--fondo-oscuro-medio);
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        will-change: background-color;
+        transition: background-color 0.3s ease, color 0.3s ease;
+      }
+
+      .section-title {
+        font-size: 1.4rem;
+        font-weight: 700;
+        color: var(--texto-claro-2);
+        margin-right: 10px;
+      }
+
+      .section-number {
+        background: var(--gradient-principal);
+        color: var(--texto-blanco-1);
+        padding: 5px 12px;
+        border-radius: 30px;
+        font-size: 15px;
+        font-weight: 700;
+        margin-right: 15px;
+      }
+
+      .toggle-icon {
+        font-size: 1.2rem;
+        color: var(--texto-claro-2);
+        will-change: transform;
+        transition: transform 0.3s ease;
+      }
+
+      .section.active > .section-header .toggle-icon {
+        transform: rotate(180deg);
+      }
+
+      .section-content {
+        max-height: 0;
+        overflow: hidden;
+        opacity: 0;
+        transition: max-height 0.5s ease-out, opacity 0.3s ease-in;
+      }
+
+      .section.active .section-content {
+        max-height: fit-content;
+        padding-bottom: 10px;
+        opacity: 1;
+      }
+
+      .subsection {
+        margin: 15px;
+        background-color: var(--fondo-oscuro-medio);
+        border-radius: 12px;
+        border: 2px solid var(--fondo-borde-claro);
+        overflow: hidden;
+        transition: border-color 0.3s ease;
+      }
+
+      .subsection:hover {
+        border-color: var(--fondo-sombra-azul-header);
+      }
+
+      .subsection:hover .subsection-header {
+        background-color: var(--fondo-sombra-azul-header);
+      }
+
+      .section:hover {
+        border-color: var(--fondo-borde-claro);
+      }
+
+      .section:hover .section-header {
+        background-color: var(--fondo-borde-claro);
+      }
+
+      .subsection-header {
+        padding: 15px;
+        background-color: var(--fondo-borde-claro);
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        will-change: background-color;
+        transition: background-color 0.3s ease, color 0.3s ease;
+      }
+
+      .subsection-title {
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: var(--texto-claro-2);
+        margin-right: 10px;
+      }
+
+      .subsection-number {
+        background: var(--gradient-principal);
+        color: var(--texto-blanco-1);
+        padding: 4px 10px;
+        border-radius: 30px;
+        font-size: 15px;
+        font-weight: 700;
+        margin-right: 12px;
+      }
+
+      .subsection-content {
+        max-height: 0;
+        overflow: hidden;
+        background-color: var(--fondo-oscuro-claro);
+        opacity: 0;
+        transition: max-height 0.5s ease-out, opacity 0.3s ease-in;
+      }
+
+      .subsection.active .subsection-content {
+        max-height: fit-content;
+        padding: 15px;
+        opacity: 1;
+      }
+
+      .subsection.active .toggle-icon {
+        transform: rotate(180deg);
+      }
+
+      .content-item {
+        margin-bottom: 10px;
+        padding: 15px;
+        background-color: var(--fondo-oscuro-medio);
+        border-radius: 12px;
+        border-left: 4px solid var(--color-principal);
+        box-shadow: 0 1px 5px rgba(var(--sombra-rgb), 0.25);
+      }
+
+      .content-text {
+        color: var(--texto-medio-3);
+        margin-bottom: 5px;
+        line-height: 1.4;
+        font-size: 1rem;
+        font-weight: 500;
+        position: relative;
+        padding-left: 15px;
+      }
+
+      .content-text::before {
+        content: "•";
+        color: var(--color-principal);
+        font-weight: 700;
+        display: inline-block;
+        position: absolute;
+        left: 0px;
+      }
+
+      .youtube-link {
+        display: inline-block;
+        padding: 10px 18px;
+        background: linear-gradient(135deg, var(--rojo-youtube-claro) 0%, var(--rojo-youtube-fuerte) 100%);
+        color: var(--texto-blanco-1);
+        cursor: pointer;
+        text-decoration: none;
+        border-radius: 30px;
+        font-size: 0.9rem;
+        font-weight: 500;
+        line-height: 1rem;
+        transition: all 0.3s ease;
+        margin-top: 10px;
+        box-shadow: 0 2px 5px rgba(var(--rojo-rgb), 0.4);
+        will-change: transform;
+      }
+
+      .youtube-link:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 3px 7.5px rgba(var(--rojo-rgb), 0.5);
+        will-change: transform;
+      }
+
+      .timestamp {
+        color: var(--timestamp-youtube);
+        font-size: 0.85rem;
+        margin-left: 10px;
+        font-weight: 400;
+      }
+
+      .highlight {
+        background-color: var(--fondo-resaltado);
+        color: var(--texto-blanco-1);
+        font-weight: 700;
+        padding: 4px;
+        border-radius: 6px;
+      }
+
+      .footer {
+        padding: 30px;
+        background: linear-gradient(135deg, var(--fondo-oscuro-fuerte) 0%, var(--fondo-oscuro-claro) 100%);
+        border-top: 1px solid var(--fondo-oscuro-medio);
+        text-align: center;
+        box-shadow: 0 -2px 10px rgba(var(--sombra-rgb), 0.25);
+      }
+
+      .footer-text {
+        color: var(--texto-claro-2);
+        font-size: 0.9rem;
+        line-height: 1.6;
+      }
+
+      .footer-logo {
+        width: 140px;
+        height: auto;
+        margin-bottom: 20px;
+      }
+
+      @media (max-width: 768px) {
+        .header-top {
+          flex-direction: column;
+        }
+
+        .logo {
+          margin: 0;
+        }
+
+        .header-text-box {
+          margin: 0;
+        }
+
+        .header h1 {
+          font-size: 1.5rem;
+        }
+
+        .header p {
+          font-size: 1rem;
+        }
+
+        .header.compact .header-bottom-row .logo-and-title {
+          gap: 5px;
+        }
+        .logo,
+        .footer-logo {
+          width: 105px;
+        }
+
+        .header.compact .header-bottom-row {
+          flex-direction: column;
+        }
+
+        .header.compact .header-compact-title {
+          margin: 0 5px;
+          font-size: 0.8rem;
+        }
+
+        .header.compact .logo.compact-logo {
+          width: 65px;
+          margin: 5px;
+        }
+
+        .action-button,
+        .search-bar input,
+        .clear-search {
+          font-size: 0.9rem;
+        }
+
+        .section-header {
+          padding: 15px;
+        }
+
+        .header.compact .controls {
+          flex-direction: row;
+        }
+
+        .section-title {
+          font-size: 1.1rem;
+        }
+
+        .subsection-title {
+          font-size: 1rem;
+        }
+        .section-number,
+        .subsection-number {
+          font-size: 13px;
+        }
+
+        .content-text {
+          font-size: 0.9rem;
+        }
+
+        .youtube-link {
+          font-size: 0.8rem;
+        }
+
+        .timestamp {
+          font-size: 0.75rem;
+        }
+
+        .header.compact .action-button {
+          padding: 6px 18px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header animacion-inicial">
+      <div class="header-content-box">
+        <div class="header-top">
+          <a href="https://www.edumin.pe/" target="_blank">
+            <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/LOGO%20BLANCO%20CANVA-mIKMypQ452RzmXVMUadb6mnvPaejXD.png" alt="EDUMIN Logo" class="logo" />
+          </a>
+          <div class="header-text-box">
+  <h1>
+    <div>DIPLOMADO DE ALTA ESPECIALIZACIÓN EN</div>
+    <strong id="tituloDiplomado" style="display: block;"></strong>
+  </h1>
+  <p id="tituloPrincipal"></p>
+</div>
+        </div>
+      </div>
+
+      <div class="header-bottom-row">
+        <div class="logo-and-title">
+          <a href="https://www.edumin.pe/" target="_blank">
+            <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/LOGO%20BLANCO%20CANVA-mIKMypQ452RzmXVMUadb6mnvPaejXD.png" alt="EDUMIN Logo" class="logo compact-logo" />
+          </a>
+          <span class="header-compact-title" id="tituloCompacto"></span>
+        </div>
+        <div class="header-second-row">
+          <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Buscar en el resumen interactivo…" autocomplete="off" />
+            <div class="search-actions">
+              <span class="clear-search" onclick="clearSearch()">&times;</span>
+              <button class="action-button" onclick="searchContent()">Buscar</button>
+            </div>
+          </div>
+
+          <div class="controls">
+            <button class="action-button" onclick="expandAll()">Mostrar todo</button>
+            <button class="action-button" onclick="collapseAll()">Colapsar todo</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="header-spacer"></div>
+
+    <div class="container">
+      <div class="mind-map animacion-contenido" id="mindMap">
+        <div class="section" data-section="1">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">1</span>
+              <span class="section-title">Nuevo paradigma de la cadena de suministro minera</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">1.1</span>
+                  <span class="subsection-title">Descripción del contexto histórico y fuerzas que presionan a la minería</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">La cadena de suministro minera enfrenta una intersección de presiones geopolíticas fragmentadas que complican acuerdos comerciales y disponibilidad de proveedores.</div>
+                  <div class="content-text">La transición energética genera una mayor demanda de minerales críticos como cobre, litio, níquel y cobalto para baterías y energías renovables.</div>
+                  <div class="content-text">El imperativo de sostenibilidad (ESG) obliga a demostrar trazabilidad, reducción de huella de carbono y prácticas responsables para acceder a capital y mercados.</div>
+                  <a href="https://www.youtube.com/watch?v=W-cLZW0kek0&start=493" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:08:13)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">1.2</span>
+                  <span class="subsection-title">Interconexión de presiones y necesidad de transformación tecnológica</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Fragmentación geopolítica, urgencia de sostenibilidad y demanda de minerales críticos están interrelacionadas y amplifican la complejidad operativa.</div>
+                  <div class="content-text">La única vía para abordar simultáneamente estas fuerzas es una transformación tecnológica profunda que digitalice y haga resiliente la cadena de suministro.</div>
+                  <div class="content-text">La tecnología pasa de ser herramienta de optimización a condición para la competitividad y acceso a mercados de alto valor.</div>
+                  <a href="https://www.youtube.com/watch?v=W-cLZW0kek0&start=836" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:13:56)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">1.3</span>
+                  <span class="subsection-title">Retos y requisitos para la implementación tecnológica</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Implementar una cadena digitalizada exige inversiones significativas en tecnologías avanzadas y cambios organizacionales.</div>
+                  <div class="content-text">Requisitos incluyen interoperabilidad entre sistemas, gobernanza de datos, capacitación de talento y alineamiento con normativas ESG.</div>
+                  <div class="content-text">La adopción tecnológica debe enfocarse en eficiencia, trazabilidad granular y visibilidad en tiempo real para mitigar riesgos comerciales y regulatorios.</div>
+                  <a href="https://www.youtube.com/watch?v=W-cLZW0kek0&start=874" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:14:34)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="2">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">2</span>
+              <span class="section-title">Estrategias prácticas para operadores logísticos y proveedores en minería</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">2.1</span>
+                  <span class="subsection-title">Identificación de oportunidades para almacenes y servicios logísticos cercanos a nodos portuarios</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Ubicar almacenes estratégicamente cerca de puertos importantes (Callao, Matarani, Paita) para minimizar tiempos de tránsito y costos de importación.</div>
+                  <div class="content-text">Realizar estudios de mercado que identifiquen importadores principales, operaciones mineras cercanas y flujos de carga para definir ubicación óptima.</div>
+                  <div class="content-text">Ofrecer servicios que complementen la capacidad limitada de almacenes mineros, enfocándose en repuestos de baja rotación o equipos standby.</div>
+                  <a href="https://www.youtube.com/watch?v=W-cLZW0kek0&start=939" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:15:39)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">2.2</span>
+                  <span class="subsection-title">Uso de inteligencia artificial para investigación de mercado y toma de decisiones</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Emplear herramientas de IA para generar estudios de mercado, mapas de flujo de importaciones y priorización de ubicaciones con base en datos.</div>
+                  <div class="content-text">Configurar prompts e instructivos a modelos de IA para obtener reportes detallados que incluyan costos estimados, competidores y clientes potenciales.</div>
+                  <div class="content-text">IA reduce tiempo de investigación, provee insumos para presentaciones gerenciales y permite iterar propuestas antes de invertir en evaluación presencial.</div>
+                  <a href="https://www.youtube.com/watch?v=W-cLZW0kek0&start=1158" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:19:18)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">2.3</span>
+                  <span class="subsection-title">Propuesta de valor para mineras: servicio, costos y diseño operativo</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Proponer almacenamiento intermedio con ventajas competitivas: menor costo por metro cuadrado, mayor cercanía a mina y disponibilidad inmediata ante urgencias.</div>
+                  <div class="content-text">Diseñar ofertas segmentadas por cuadrantes de inventario: críticos, cuello de botella, rutinarios y de baja rotación, ajustando precios y SLA.</div>
+                  <div class="content-text">Incluir servicios adicionales: protección de equipos (cubiertas), mantenimiento básico, gestión documental y despacho rápido hacia la operación.</div>
+                  <a href="https://www.youtube.com/watch?v=W-cLZW0kek0&start=1518" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:25:18)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="3">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">3</span>
+              <span class="section-title">Tecnologías clave, impactos y niveles de madurez en minería</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">3.1</span>
+                  <span class="subsection-title">Inteligencia artificial, analítica predictiva e impacto en la toma de decisiones</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">IA y analítica predictiva permiten previsión de demanda, optimización de planificación minera y mantenimiento predictivo de equipos.</div>
+                  <div class="content-text">Estas tecnologías elevan la calidad de la toma de decisiones basadas en datos, reduciendo costos operativos por fallas y mejorando eficiencia.</div>
+                  <div class="content-text">Retos principales: disponibilidad y calidad de datos, escasez de talento especializado y barreras culturales para la adopción.</div>
+                  <a href="https://www.youtube.com/watch?v=W-cLZW0kek0&start=2530" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:42:10)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">3.2</span>
+                  <span class="subsection-title">Internet de las cosas (IoT), visibilidad y trazabilidad en tiempo real</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">IoT habilita monitoreo en tiempo real de activos, flotas y condiciones ambientales, facilitando trazabilidad granular del mineral.</div>
+                  <div class="content-text">La visibilidad total mejora control operativo, respuesta ante incidentes y cumplimiento de requisitos ESG sobre procedencia ética.</div>
+                  <div class="content-text">Desafíos: operación en entornos remotos/subterráneos, gestión de grandes volúmenes de datos y ciberseguridad.</div>
+                  <a href="https://www.youtube.com/watch?v=W-cLZW0kek0&start=2588" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:43:08)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">3.3</span>
+                  <span class="subsection-title">Plataformas digitales colaborativas y ecosistemas conectados</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Plataformas colaborativas integran actores de la cadena: minas, proveedores, puertos y clientes, permitiendo intercambio seguro de datos.</div>
+                  <div class="content-text">Casos de uso: gemelos digitales, torres de control logístico y sistemas de reporte de sostenibilidad con trazabilidad compartida.</div>
+                  <div class="content-text">Principales retos: interoperabilidad entre proveedores, gobernanza de datos compartidos y establecimiento de confianza entre actores.</div>
+                  <a href="https://www.youtube.com/watch?v=W-cLZW0kek0&start=2613" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:43:33)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="4">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">4</span>
+              <span class="section-title">Automatización, robótica y optimización de la logística física</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">4.1</span>
+                  <span class="subsection-title">Diferencia entre automatización tradicional y robótica autónoma moderna</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Automatización tradicional sigue rutas predefinidas y realiza tareas repetitivas en entornos controlados, con flexibilidad limitada.</div>
+                  <div class="content-text">Robótica autónoma incorpora sensores avanzados, IA y machine learning para percibir entorno, navegar dinámicamente y colaborar entre robots.</div>
+                  <div class="content-text">La autonomía permite operar en entornos no estructurados como faenas mineras, mejorando adaptabilidad y reduciendo dependencia humana.</div>
+                  <a href="https://www.youtube.com/watch?v=W-cLZW0kek0&start=2671" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:44:31)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">4.2</span>
+                  <span class="subsection-title">Aplicaciones en almacenes y logística interna de la minería</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Vehículos guiados automáticos (AGV) y robots móviles autónomos (AMR) optimizan transporte interno de palets y manipulación de repuestos críticos.</div>
+                  <div class="content-text">Sistemas de gestión de almacenes orquestan picking y packing con precisión, permitiendo inventario en tiempo real y evitando paradas por falta de componentes.</div>
+                  <div class="content-text">La automatización interna reduce errores humanos y mejora tiempos de respuesta en suministro a operaciones mineras.</div>
+                  <a href="https://www.youtube.com/watch?v=W-cLZW0kek0&start=2726" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:45:26)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">4.3</span>
+                  <span class="subsection-title">Transporte autónomo de material, drones y reducción de riesgos</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Flotas de camiones autónomos para transporte mina-puerto operan 24/7, optimizando rutas, reduciendo consumo de combustible y aumentando productividad.</div>
+                  <div class="content-text">Drones con LiDAR y sensores realizan mapeos topográficos de alta precisión para planificar perforaciones y gestionar relaves.</div>
+                  <div class="content-text">Robots de inspección remota acceden a zonas de alto riesgo (túneles, piques) para monitoreo ambiental y seguridad sin exponer personal.</div>
+                  <a href="https://www.youtube.com/watch?v=W-cLZW0kek0&start=2773" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:46:13)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="5">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">5</span>
+              <span class="section-title">Casos prácticos, beneficios y desafíos de la implementación</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">5.1</span>
+                  <span class="subsection-title">Caso Greenfield con diseño 100% digital y flota autónoma</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Proyecto de mina Greenfield en Moquegua diseñado digitalmente con más de 20 camiones autónomos desde su concepción.</div>
+                  <div class="content-text">Beneficios: operación ininterrumpida, maximización de ventajas de autonomía y potencial incremento de productividad hasta 30%.</div>
+                  <div class="content-text">Consideraciones: Greenfield implica mayor inversión inicial, riesgos geológicos y tiempos de desarrollo más largos que brownfield.</div>
+                  <a href="https://www.youtube.com/watch?v=W-cLZW0kek0&start=2883" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:48:03)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">5.2</span>
+                  <span class="subsection-title">Experiencias internacionales y locales de adopción tecnológica</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Empresas como Rio Tinto y BHP en Australia lideran despliegues a gran escala de transporte autónomo, demostrando beneficios económicos y de seguridad.</div>
+                  <div class="content-text">Startups y desarrollos locales (por ejemplo, Tumi Robotics) ofrecen soluciones específicas para inspecciones subterráneas y monitoreo ambiental.</div>
+                  <div class="content-text">Proyectos masivos en China con despliegues extensivos muestran viabilidad en condiciones climáticas extremas y respaldos tecnológicos robustos.</div>
+                  <a href="https://www.youtube.com/watch?v=W-cLZW0kek0&start=2991" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:49:51)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">5.3</span>
+                  <span class="subsection-title">Impactos económicos, de seguridad y transformación del valor</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Automatización y robótica generan aumentos significativos en productividad y reducciones de costos operativos por tonelada.</div>
+                  <div class="content-text">Impacto transformador en seguridad: reducción de exposición humana a tareas peligrosas y disminución de accidentes.</div>
+                  <div class="content-text">La tecnología puede volver viables yacimientos marginales, alterando la valoración de activos y estrategias de desarrollo minero.</div>
+                  <a href="https://www.youtube.com/watch?v=W-cLZW0kek0&start=3069" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:51:09)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="6">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">6</span>
+              <span class="section-title">Desafíos organizacionales, regulatorios y de mercado para la adopción tecnológica</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">6.1</span>
+                  <span class="subsection-title">Barreras económicas, de integración y capital inicial</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">El principal obstáculo es la inversión de capital (CapEx) requerida para implementar flotas autónomas, robótica y sistemas de soporte.</div>
+                  <div class="content-text">Integrar tecnologías avanzadas con sistemas heredados en minas existentes presenta complejidad técnica y costos de adaptación.</div>
+                  <div class="content-text">Evaluación de retorno de inversión requiere considerar reducción de costos operativos, riesgos mitigados y acceso a mercados ESG.</div>
+                  <a href="https://www.youtube.com/watch?v=W-cLZW0kek0&start=3112" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:51:52)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">6.2</span>
+                  <span class="subsection-title">Transformación de la fuerza laboral y desafíos sociales</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Automatización demanda nuevas competencias: mecatrónica, análisis de datos, ciberseguridad y supervisión de sistemas autónomos.</div>
+                  <div class="content-text">Existe necesidad de programas de capacitación, reubicación y gestión del cambio para evitar impactos sociales adversos en comunidades laborales.</div>
+                  <div class="content-text">Implicaciones educativas y sociales significativas, con requerimiento de políticas para formación técnica y aceptación social.</div>
+                  <a href="https://www.youtube.com/watch?v=W-cLZW0kek0&start=3132" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:52:12)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">6.3</span>
+                  <span class="subsection-title">Rol de startups, proveedores y procesos de homologación en adquisiciones</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Startups atienden nichos (gestión de residuos, inspecciones, servicios especializados) aprovechando vacíos regulatorios y operativos.</div>
+                  <div class="content-text">Mineras mantienen procesos estrictos de homologación de proveedores y evaluación financiera para mitigar riesgos en contratación.</div>
+                  <div class="content-text">Mercado de proveedores evoluciona con plataformas digitales que integran datos de compras, pronósticos de demanda y evaluación de riesgo, aunque algunas soluciones requieren pago o adaptación local.</div>
+                  <a href="https://www.youtube.com/watch?v=W-cLZW0kek0&start=3213" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:53:33)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="7">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">7</span>
+              <span class="section-title">Homologación de proveedores en minería y procedimiento práctico</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">7.1</span>
+                  <span class="subsection-title">Descripción general del proceso de homologación y su importancia para la selección de proveedores</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">La homologación consiste en evaluar y certificar proveedores mediante requisitos documentales y evaluaciones prácticas realizados por la minera o terceros reconocidos.</div>
+                  <div class="content-text">Empresas auditoras especializadas (SGS, bureaus) realizan evaluaciones completas que las mineras aceptan por su reconocimiento en el mercado.</div>
+                  <div class="content-text">Competir con esas firmas es difícil para entidades nuevas porque las mineras buscan certificaciones con peso y reputación ya establecida.</div>
+                  <a href="https://www.youtube.com/watch?v=W-cLZW0kek0&start=3614" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:00:14)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">7.2</span>
+                  <span class="subsection-title">Etapas y criterios habituales incluidos en un procedimiento de homologación</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Solicitud de documentos y antecedentes de la empresa, incluida experiencia y alcance de servicios ofrecidos para evaluar capacidad técnica.</div>
+                  <div class="content-text">Revisión de estados financieros, gestión de calidad, seguridad y medio ambiente, y cumplimiento de requisitos operativos y comerciales.</div>
+                  <div class="content-text">Uso de cuestionarios predefinidos o personalizados para calificar aspectos específicos; resultado final es un certificado válido por un periodo (por ejemplo, un año).</div>
+                  <a href="https://www.youtube.com/watch?v=W-cLZW0kek0&start=3778" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:02:58)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">7.3</span>
+                  <span class="subsection-title">Ejemplo práctico y materiales entregados en clase</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Se comparte un documento de procedimiento de diez páginas que detalla preguntas, etapas y requisitos financieros y ambientales.</div>
+                  <div class="content-text">En la práctica, un analista puede manejar fases iniciales, pero el jefe o responsable finaliza la documentación y certificación.</div>
+                  <div class="content-text">El certificado de homologación contiene calificaciones por áreas (financiera, operativa, calidad, seguridad ambiental y comercial) y es utilizado en licitaciones.</div>
+                  <a href="https://www.youtube.com/watch?v=W-cLZW0kek0&start=3794" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:03:14)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">7.4</span>
+                  <span class="subsection-title">Interacción entre la minera, el proveedor y la entidad evaluadora durante la homologación</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">La minera comunica a proveedores la obligatoriedad de pasar por el proceso con el tercero homologador y facilita los contactos y requisitos.</div>
+                  <div class="content-text">El tercero cobra tanto a la minera como al proveedor por el servicio de evaluación y entrega informes y calificaciones periódicas.</div>
+                  <div class="content-text">Solo los proveedores con calificación positiva continúan en la lista para contratación; la minera toma la decisión final según la nota obtenida.</div>
+                  <a href="https://www.youtube.com/watch?v=W-cLZW0kek0&start=3856" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:04:16)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="8">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">8</span>
+              <span class="section-title">Videos demostrativos sobre automatización, camiones autónomos y drones en minería</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">8.1</span>
+                  <span class="subsection-title">Presentación y objetivo de los videos educativos para mostrar aplicaciones prácticas</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Se muestran videos cortos que ilustran soluciones de automatización en almacenes, vehículos guiados automáticos y camiones autónomos en minería.</div>
+                  <div class="content-text">El propósito es relacionar la teoría vista en clase con casos reales de implementación tecnológica en minería y logística.</div>
+                  <div class="content-text">Los videos abarcan ejemplos de minas digitales, centros de operaciones integrados y tecnologías complementarias como radares y sensores.</div>
+                  <a href="https://www.youtube.com/watch?v=W-cLZW0kek0&start=4418" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:13:38)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">8.2</span>
+                  <span class="subsection-title">Beneficios operativos y económicos de los camiones mineros autónomos según los videos</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Incremento aproximado del 10% en productividad por mayor disponibilidad, mejor utilización y predictibilidad operacional.</div>
+                  <div class="content-text">Reducción de capex al necesitar menos camiones, y ahorro en llantas (hasta 40% más vida útil) y combustible (aprox. 5%).</div>
+                  <div class="content-text">Mejora en seguridad al retirar personas de zonas de riesgo mediante capas de protección y sensores que detectan obstáculos.</div>
+                  <a href="https://www.youtube.com/watch?v=W-cLZW0kek0&start=4874" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:21:14)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">8.3</span>
+                  <span class="subsection-title">Innovaciones en minería subterránea y aplicaciones semiautónomas mostradas</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Uso de cargadores lhd semiautónomos con trayectos automáticos y teleoperación del carguillo desde centros remotos, mejorando calidad de vida del personal.</div>
+                  <div class="content-text">Equipos cabletec mecanizados para fortificación de túneles, reduciendo exposición al riesgo y aumentando rendimiento.</div>
+                  <div class="content-text">Estas tecnologías implican impacto en productividad y costos, formando parte de la transformación digital de grandes empresas mineras.</div>
+                  <a href="https://www.youtube.com/watch?v=W-cLZW0kek0&start=5587" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:33:07)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">8.4</span>
+                  <span class="subsection-title">Drones y robótica aplicada a exploración, monitoreo y logística</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Drones para exploración de áreas remotas, mapeo, topografía y monitoreo ambiental, recopilando datos para modelos 3D y planificación.</div>
+                  <div class="content-text">Robots aplicados a mantenimiento predictivo en fajas transportadoras y tareas de planta, integrados con sistemas de control distribuido e IA.</div>
+                  <div class="content-text">En logística, drones optimizan inventarios, vigilancia perimetral y entregas, formando parte de la tendencia de Logística 4.0.</div>
+                  <a href="https://www.youtube.com/watch?v=W-cLZW0kek0&start=5812" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:36:52)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="9">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">9</span>
+              <span class="section-title">Impacto en empleo, reconversión profesional y herramientas de IA disponibles</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">9.1</span>
+                  <span class="subsection-title">Seguridad y reducción de riesgo humano versus dudas sobre pérdida de empleos</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">La principal ventaja de sistemas autónomos es retirar a las personas de zonas de riesgo, mejorando la seguridad y reduciendo accidentes laborales.</div>
+                  <div class="content-text">Debate sobre pérdida de puestos laborales se resuelve en gran medida por reconversión profesional hacia roles de control, mantenimiento y gestión de sistemas.</div>
+                  <div class="content-text">Ejemplos históricos de reconversión muestran que surgen nuevas profesiones demandadas por la tecnología y la digitalización.</div>
+                  <a href="https://www.youtube.com/watch?v=W-cLZW0kek0&start=5229" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:27:09)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">9.2</span>
+                  <span class="subsection-title">Necesidad de educación, formación y responsabilidad del Estado y empresas mineras</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Gran desafío para el Estado, instituciones educativas y empresas mineras brindar educación básica y formación técnica a las comunidades en zonas de influencia.</div>
+                  <div class="content-text">Capacitación en nuevas tecnologías permitirá que la fuerza laboral local acceda a los puestos emergentes en la era digital minera.</div>
+                  <div class="content-text">Programas de reconversión y oportunidades deben diseñarse para facilitar la transición laboral y el desarrollo profesional.</div>
+                  <a href="https://www.youtube.com/watch?v=W-cLZW0kek0&start=5337" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:28:57)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">9.3</span>
+                  <span class="subsection-title">Recomendaciones operativas sobre uso de IA en procesos diarios y competitividad profesional</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">La IA no reemplaza a profesionales, sino a quienes no saben usarla; la ventaja competitiva la obtienen quienes dominan herramientas de IA para ser más productivos.</div>
+                  <div class="content-text">Profesionales logísticos pueden empezar con datos en Excel y herramientas accesibles (copilots, Google Sheets) para incorporar IA en su flujo de trabajo.</div>
+                  <div class="content-text">Inversión en versiones pagas puede ser útil, pero la efectividad depende de la calidad de datos introducidos y de cómo se formule la consulta (prompt).</div>
+                  <a href="https://www.youtube.com/watch?v=W-cLZW0kek0&start=6864" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:54:24)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">9.4</span>
+                  <span class="subsection-title">Herramientas comerciales de IA y ventajas de versiones Pro para análisis logístico</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Versiones Pro de plataformas de IA ofrecen mayor capacidad de procesamiento, modelos avanzados, integración con herramientas ofimáticas y análisis profundo de documentos.</div>
+                  <div class="content-text">Integración con ERPs como SAP HANA y copilots en suites de Microsoft o Google permite consultas en lenguaje natural para planificación y demanda.</div>
+                  <div class="content-text">Acceso a funcionalidades avanzadas (mayor número de tokens, análisis de múltiples documentos) mejora la productividad en tareas de compras y planificación logística.</div>
+                  <a href="https://www.youtube.com/watch?v=W-cLZW0kek0&start=7060" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:57:40)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="10">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">10</span>
+              <span class="section-title">Automatización de almacenes y robótica logística aplicada al sector minero</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">10.1</span>
+                  <span class="subsection-title">Transformación del proceso de preparación de pedidos mediante robots y sistemas automáticos</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">El proceso manual de descarga, manipulación de palés y picking se sustituye por robots que cogen pedidos y optimizan posicionamiento dentro del almacén.</div>
+                  <div class="content-text">Carretillas autoguiadas, bandejas y cintas integradas permiten el flujo automatizado sin intervención humana en tareas repetitivas.</div>
+                  <div class="content-text">Es necesaria una solución de hardware y lógica que analice líneas, movimientos, referencias y estacionalidades para entregar pedidos en orden y cantidad requerida.</div>
+                  <a href="https://www.youtube.com/watch?v=W-cLZW0kek0&start=5978" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:39:38)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">10.2</span>
+                  <span class="subsection-title">Ventajas económicas y de gestión de almacenes inteligentes</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Ahorros en costes de almacenaje, gestión de pedidos y reducción de intervención humana operativa mediante sistemas inteligentes.</div>
+                  <div class="content-text">Jerarquización y posicionamiento aleatorio de productos controlado por software (WMS), de modo que solo el sistema sabe la ubicación exacta.</div>
+                  <div class="content-text">Casos de referencia como Amazon muestran identificación unitaria de productos para picking eficiente y control preciso del inventario.</div>
+                  <a href="https://www.youtube.com/watch?v=W-cLZW0kek0&start=6072" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:41:12)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">10.3</span>
+                  <span class="subsection-title">Integración de visión artificial, RFID y sensores en almacenes automáticos</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Uso de visión artificial, códigos de barras y RFID para identificación y control de inventarios por robots y drones en altura.</div>
+                  <div class="content-text">Los sistemas vuelcan la información recolectada al software de gestión de almacenes para verificar cantidades y ubicaciones en tiempo real.</div>
+                  <div class="content-text">Posible evolución a almacenes totalmente automáticos y robótica colaborativa que cambie la forma de atención al cliente y trabajo en tienda.</div>
+                  <a href="https://www.youtube.com/watch?v=W-cLZW0kek0&start=6132" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:42:12)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">10.4</span>
+                  <span class="subsection-title">Retos sociales y adaptación de la sociedad ante la automatización en logística</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Aunque la tecnología permite automatizar entregas y preparación de pedidos, la aceptación social y evolución de la sociedad hacia estos cambios es un factor clave.</div>
+                  <div class="content-text">La implementación masiva plantea preguntas sobre empleo, roles y modalidades de trabajo remoto o teleoperado.</div>
+                  <div class="content-text">La tecnología existe hoy; la decisión de adopción depende de factores regulatorios, culturales y económicos.</div>
+                  <a href="https://www.youtube.com/watch?v=W-cLZW0kek0&start=6195" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:43:15)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="11">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">11</span>
+              <span class="section-title">Inteligencia artificial, analítica predictiva y su aplicación en planificación y mantenimiento</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">11.1</span>
+                  <span class="subsection-title">Definición de IA y capacidades para aprender de datos y mejorar rendimiento</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">IA y analítica predictiva son subconjuntos que usan algoritmos para analizar grandes volúmenes de datos, identificar patrones y generar predicciones sin programación específica para cada tarea.</div>
+                  <div class="content-text">Modelos dinámicos se adaptan continuamente a nuevas condiciones del mercado y operación, ofreciendo visión holística y preventiva de la gestión.</div>
+                  <div class="content-text">Integran datos internos (rendimiento, inventarios) y externos (precios, clima, geopolítica) para anticipar riesgos y oportunidades.</div>
+                  <a href="https://www.youtube.com/watch?v=W-cLZW0kek0&start=6410" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:46:50)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">11.2</span>
+                  <span class="subsection-title">Aplicaciones prácticas en previsión de demanda, planificación y optimización minera</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Modelos que usan históricos de ventas, patrones de mercado y variables macroeconómicas para generar pronósticos de demanda más precisos que métodos tradicionales.</div>
+                  <div class="content-text">IA optimiza diseño de pâlminas, ubicación de perforaciones, mezcla de minerales y ajusta planes de producción en tiempo real según disponibilidad de equipos y mercado.</div>
+                  <div class="content-text">Puede montar indicadores de riesgo en tiempo real para anticipar interrupciones en la cadena y permitir medidas proactivas.</div>
+                  <a href="https://www.youtube.com/watch?v=W-cLZW0kek0&start=6452" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:47:32)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">11.3</span>
+                  <span class="subsection-title">Mantenimiento predictivo y monitoreo de activos mediante sensores e IA</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Sensores en equipos críticos (vibración, temperatura, presión) alimentan modelos que detectan patrones precursores de fallas y permiten programar mantenimiento proactivo.</div>
+                  <div class="content-text">Reducción de paradas no planificadas, menor coste de reparaciones y extensión de vida útil de activos gracias a programación precisa del mantenimiento.</div>
+                  <div class="content-text">La planificación del mantenimiento puede ser automatizada por IA que reemplace o asista funciones tradicionales del planner.</div>
+                  <a href="https://www.youtube.com/watch?v=W-cLZW0kek0&start=6537" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:48:57)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">11.4</span>
+                  <span class="subsection-title">Clasificación de minerales y control de calidad automatizado con IA</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Sistemas de visión y clasificación por computador identifican mineral valioso vs roca estéril en cintas transportadoras en tiempo real.</div>
+                  <div class="content-text">Mejora en tasas de recuperación, calidad del producto final y reducción de procesamiento innecesario, con ahorro de energía y agua.</div>
+                  <div class="content-text">Aplicaciones de IA para inspección continua y control de calidad optimizan procesos de planta y aumentan eficiencia operativa.</div>
+                  <a href="https://www.youtube.com/watch?v=W-cLZW0kek0&start=6561" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:49:21)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="12">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">12</span>
+              <span class="section-title">Capacidades y límites de modelos de lenguaje y multimodales</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">12.1</span>
+                  <span class="subsection-title">Comparación de capacidades de contexto entre modelos y su impacto en el análisis</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Modelos con mayor capacidad de contexto permiten analizar libros completos o documentos extensos sin perder la coherencia del hilo en múltiples preguntas posteriores.</div>
+                  <div class="content-text">Modelos con menor capacidad de contexto (p. ej. ~128.000 tokens en algunas herramientas) pueden perder continuidad en análisis largos y en hilos de preguntas extensas.</div>
+                  <div class="content-text">Importancia de la capacidad de contexto para trabajos de análisis documental y respuestas encadenadas en tareas académicas o profesionales.</div>
+                  <a href="https://www.youtube.com/watch?v=W-cLZW0kek0&start=7203" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(02:00:03)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">12.2</span>
+                  <span class="subsection-title">Herramientas especializadas para generación de video e imagen animada y su utilidad</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Plataformas como Meta (herramientas de video) y otros modelos (p. ej. "Veo 3" o herramientas de video de Jimi/Jimmy) generan videos a partir de imágenes animadas.</div>
+                  <div class="content-text">Estas herramientas son útiles para creadores de contenido audiovisual, pero menos útiles para analistas de datos o ingenieros que trabajan con documentos.</div>
+                  <div class="content-text">Cada herramienta tiene su nicho: elegir la adecuada depende del objetivo (video, análisis de datos, documentos, etc.).</div>
+                  <a href="https://www.youtube.com/watch?v=W-cLZW0kek0&start=7262" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(02:01:02)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">12.3</span>
+                  <span class="subsection-title">Estrategias para uso eficiente de IA en tareas profesionales y educativas</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Diferenciar instrucciones vagas de "resúmelo" frente a instrucciones estructuradas con formato deseado, lo que mejora la precisión del output.</div>
+                  <div class="content-text">Uso de prompts (instrucciones) precisos y plantillas (hojas de instrucciones) para obtener documentos, análisis o formatos requeridos por el usuario.</div>
+                  <div class="content-text">Integración de fuentes: la IA se apoya en internet o en documentos que el usuario cargue; información no disponible en esas fuentes no podrá ser proporcionada por la IA.</div>
+                  <a href="https://www.youtube.com/watch?v=W-cLZW0kek0&start=7304" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(02:01:44)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="13">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">13</span>
+              <span class="section-title">Aplicaciones prácticas de IA en pymes y procesos logísticos</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">13.1</span>
+                  <span class="subsection-title">Casos de uso en pymes: presencia online, menús y Google Maps</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Integración de herramientas para actualizar imágenes y menús en Google Drive y Google My Business para mejorar la presencia en línea de pymes.</div>
+                  <div class="content-text">Uso de modificaciones en Google Maps y estrategias de marketing digital para aumentar la visibilidad local de negocios pequeños y medianos.</div>
+                  <div class="content-text">Automatización simple para cambios frecuentes, p. ej. menú del día, que se actualiza desde una interfaz con soporte de IA.</div>
+                  <a href="https://www.youtube.com/watch?v=W-cLZW0kek0&start=7413" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(02:03:33)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">13.2</span>
+                  <span class="subsection-title">Recomendaciones para formación y uso docente de IA en clases particulares</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Formato de clases particulares: six sesiones con temarios que cubren desde conocer herramientas hasta creación de agentes personalizados.</div>
+                  <div class="content-text">Desarrollo progresivo: introducción a herramientas, elaboración de prompts efectivos, análisis de datos con múltiples herramientas y resolución de casos prácticos del alumno.</div>
+                  <div class="content-text">Beneficio formativo: adaptar la enseñanza a la casuística del alumno y aplicar herramientas a casos reales para facilitar la transferencia al entorno laboral.</div>
+                  <a href="https://www.youtube.com/watch?v=W-cLZW0kek0&start=7520" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(02:05:20)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">13.3</span>
+                  <span class="subsection-title">Uso de agentes personalizados y automatización para tareas específicas</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Creación de agentes personalizados (chatbots o flujos automatizados) para tareas repetitivas mediante herramientas gratuitas como James o Emira.</div>
+                  <div class="content-text">Ejemplos de tareas: gestión de búsquedas, pre-evaluaciones, respuestas a requerimientos frecuentes o generación de documentos base.</div>
+                  <div class="content-text">Ventaja de agentes: ejecución automática de tareas definidas y liberación de tiempo operativo para el profesional.</div>
+                  <a href="https://www.youtube.com/watch?v=W-cLZW0kek0&start=7558" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(02:05:58)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="14">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">14</span>
+              <span class="section-title">Prácticas de identificación de ahorros y consolidación en compras y logística minera</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">14.1</span>
+                  <span class="subsection-title">Análisis inicial de datos históricos de compras y tipificación de proveedores</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Recolectar la data histórica de compras, contratos vigentes y base de proveedores para identificar consumos y patrones.</div>
+                  <div class="content-text">Clasificar por familias de producto, frecuencia de consumo y rotación para priorizar items con mayor impacto en costos.</div>
+                  <div class="content-text">Uso de pareto y análisis de consumo para identificar los productos que justifican licitaciones o contratos anuales.</div>
+                  <a href="https://www.youtube.com/watch?v=W-cLZW0kek0&start=8002" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(02:13:22)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">14.2</span>
+                  <span class="subsection-title">Cálculo de ahorros potenciales mediante consolidación de órdenes y contratos anuales</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Primer ahorro: reducir el costo por emisión de orden de compra consolidando pedidos semanales en contratos anuales para disminuir el número de órdenes.</div>
+                  <div class="content-text">Segundo ahorro: negociar mejores precios por volumen al comprometer compras anuales, obteniendo descuentos unitarios aplicables a la demanda total.</div>
+                  <div class="content-text">Tercer ahorro: reducción del costo de almacenamiento mediante contratos de consignación donde el proveedor asume la gestión y almacenamiento del stock.</div>
+                  <a href="https://www.youtube.com/watch?v=W-cLZW0kek0&start=8076" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(02:14:36)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">14.3</span>
+                  <span class="subsection-title">Métricas y KPIs clave para la toma de decisiones en compras y logística</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Costo por emisión de orden: cuantificar el costo operativo por cada orden emitida y usarlo para justificar consolidaciones.</div>
+                  <div class="content-text">Rotación y frecuencia de consumo: medir con histórico mensual para determinar qué productos requieren contratos o licitaciones.</div>
+                  <div class="content-text">Ahorro anual proyectado: multiplicar ahorro unitario por consumo anual para estimar impacto financiero y justificar cambios en estrategia.</div>
+                  <a href="https://www.youtube.com/watch?v=W-cLZW0kek0&start=8211" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(02:16:51)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="15">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">15</span>
+              <span class="section-title">Diseño, ejecución y documentación de procesos de licitación en minería</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">15.1</span>
+                  <span class="subsection-title">Estructura y componentes de bases para licitaciones rápidas y estandarizadas</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Documentos esenciales: bases técnicas, bases comerciales y cronograma de licitación; seleccionar formato según urgencia y homologación previa.</div>
+                  <div class="content-text">Para procesos exprés (productos homologados) elaborar un documento simple que justifique la consolidación y los ahorros proyectados.</div>
+                  <div class="content-text">En productos no homologados o críticos, incorporar pruebas técnicas y etapas de evaluación que pueden extender el plazo a varios meses.</div>
+                  <a href="https://www.youtube.com/watch?v=W-cLZW0kek0&start=8311" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(02:18:31)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">15.2</span>
+                  <span class="subsection-title">Proceso de evaluación técnica y económica con sobres cerrados y criterios de puntaje</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Recepción de propuestas: preferencia por envío electrónico con archivos cifrados y apertura controlada por auditor o responsable autorizado.</div>
+                  <div class="content-text">Evaluación por comités: separación entre evaluación técnica (usuario o experto) y evaluación económica (área de compras), usando matrices de comparación.</div>
+                  <div class="content-text">Criterios de puntaje: incluir precio, forma de pago, certificaciones, experiencia del proveedor y condiciones comerciales relevantes.</div>
+                  <a href="https://www.youtube.com/watch?v=W-cLZW0kek0&start=8544" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(02:22:24)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">15.3</span>
+                  <span class="subsection-title">Organización de comités y actores involucrados en licitaciones de pólizas o grandes compras</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Participantes habituales: gerente de logística, gerente general, representante legal y, en algunos casos, auditor o usuario solicitante.</div>
+                  <div class="content-text">Proceso de aprobación: presentación de resultados al nivel gerencial o vicepresidente para la aprobación final y firma del contrato.</div>
+                  <div class="content-text">Coordinación interdepartamental: involucrar finanzas y recursos humanos para revisión de condiciones y clausulado contractual antes de convocatoria.</div>
+                  <a href="https://www.youtube.com/watch?v=W-cLZW0kek0&start=8853" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(02:27:33)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="16">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">16</span>
+              <span class="section-title">Ejemplos prácticos y demostraciones reales del uso de IA en generación de documentación</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">16.1</span>
+                  <span class="subsection-title">Integración de casos reales en la formación para facilitar aplicación práctica</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Metodología docente: el profesor demuestra con sus propios casos reales y luego aplica la metodología a los ejemplos de los alumnos.</div>
+                  <div class="content-text">Resultado esperado: los participantes salen con templates y prácticas que pueden aplicar inmediatamente en sus empresas o procesos.</div>
+                  <div class="content-text">Enfoque personalizado: adaptar los contenidos a la realidad del alumno y construir soluciones a medida para sus necesidades operativas.</div>
+                  <a href="https://www.youtube.com/watch?v=W-cLZW0kek0&start=7759" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(02:09:19)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">16.2</span>
+                  <span class="subsection-title">Generación automática de bases y documentos técnicos para licitaciones complejas</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Ejemplo real: generación de 45 páginas con alcance, requisitos de pólizas, cobertura y condiciones que normalmente tomaría una semana elaborar manualmente.</div>
+                  <div class="content-text">Contenido generado: evaluaciones de experiencia, capacidad financiera, cobertura, plan de servicio, documentación complementaria y penalidades.</div>
+                  <div class="content-text">Edición final: se sugiere exportar a Word para formateo y ajustes manuales, aunque la mayor parte del contenido ya está estructurado y listo para revisión.</div>
+                  <a href="https://www.youtube.com/watch?v=W-cLZW0kek0&start=8666" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(02:24:26)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">16.3</span>
+                  <span class="subsection-title">Ventajas de la IA en reducción del tiempo de preparación documental y formatos base</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Ahorro de tiempo significativo: generación de borradores completos que cubren gran parte del trabajo técnico y administrativo requerido.</div>
+                  <div class="content-text">Utilidad práctica: permite avanzar en procesos internos y enviar bases a áreas de finanzas y recursos humanos para revisión en menor tiempo.</div>
+                  <div class="content-text">Limitaciones: ajustes de formato y verificación legal siguen siendo necesarios; la IA facilita el 95% del trabajo pero requiere edición final.</div>
+                  <a href="https://www.youtube.com/watch?v=W-cLZW0kek0&start=8729" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(02:25:29)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="17">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">17</span>
+              <span class="section-title">Cierre de la sesión, logística académica y seguimiento</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">17.1</span>
+                  <span class="subsection-title">Resumen final de la clase, agradecimientos y convocatorias futuras</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Conclusión de la sesión y agradecimientos por la participación activa de los asistentes.</div>
+                  <div class="content-text">Invitación a preparar preguntas para las próximas siete clases y a aplicar lo aprendido en sus casos particulares.</div>
+                  <div class="content-text">Recordatorio de la siguiente sesión programada y canales de atención académica para consultas y envío de grabaciones.</div>
+                  <a href="https://www.youtube.com/watch?v=W-cLZW0kek0&start=8959" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(02:29:19)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">17.2</span>
+                  <span class="subsection-title">Disponibilidad de grabación y canales de soporte académico</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Comunicación de que en breve se enviará la grabación de la sesión a los participantes inscritos.</div>
+                  <div class="content-text">Información de canales de atención: coordinación académica, atención a diplomados y correo electrónico para consultas administrativas o académicas.</div>
+                  <div class="content-text">Recomendación práctica: conectarse minutos antes de las sesiones para no perder detalles importantes al inicio.</div>
+                  <a href="https://www.youtube.com/watch?v=W-cLZW0kek0&start=9008" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(02:30:08)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer">
+      <a href="https://www.edumin.pe/" target="_blank">
+        <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/LOGO%20BLANCO%20CANVA-mIKMypQ452RzmXVMUadb6mnvPaejXD.png" alt="EDUMIN Logo" class="footer-logo" />
+      </a>
+      <p class="footer-text">
+  <span style="display: block; font-weight: bold;">Contenido desarrollado por EDUMIN - Centro de Capacitación Especializado en Minería, Industria y Negocios</span>
+  <span style="display: block; font-style: italic;">Material exclusivo para estudiantes de EDUMIN</span>
+  <a href="https://www.edumin.pe/" target="_blank" style="color: var(--color-principal); text-decoration: none; display: block;">https://www.edumin.pe/</a>
+</p>
+    </div>
+
+    <script>
+      let originalTextMap = {};
+
+      const TITULO_DIPLOMADO = "SUPPLY CHAIN MANAGEMENT EN INDUSTRIA Y MINERÍA".toUpperCase();
+      const TITULO_CLASE = "CLASE 18: TRANSFORMACIÓN DIGITAL Y TECNOLOGÍAS EMERGENTES EN SUPPLY CHAIN - 1RA PARTE".toUpperCase();
+
+      const elementoDiplomado = document.getElementById("tituloDiplomado");
+      if (elementoDiplomado) {
+        elementoDiplomado.innerText = TITULO_DIPLOMADO;
+      }
+
+      document.title = TITULO_CLASE;
+      const tituloPrincipal = document.getElementById("tituloPrincipal");
+      if (tituloPrincipal) {
+        tituloPrincipal.innerText = TITULO_CLASE;
+      }
+
+      const tituloCompacto = document.getElementById("tituloCompacto");
+      if (tituloCompacto) {
+        tituloCompacto.innerText = TITULO_CLASE;
+      }
+
+      function cacheOriginalTexts() {
+        const searchableItems = document.querySelectorAll(".section-title, .subsection-title, .content-text");
+
+        let idCounter = 0;
+
+        searchableItems.forEach((item) => {
+          if (!item.id) {
+            item.id = `search-item-${idCounter++}`;
+          }
+
+          originalTextMap[item.id] = item.textContent.trim();
+        });
+      }
+
+      document.addEventListener("DOMContentLoaded", cacheOriginalTexts);
+
+      function toggleSection(element) {
+        const section = element.closest(".section");
+        const wasActive = section.classList.contains("active");
+
+        section.classList.toggle("active");
+
+        if (wasActive) {
+          const subsections = section.querySelectorAll(".subsection");
+          subsections.forEach((subsection) => {
+            subsection.classList.remove("active");
+          });
+        }
+      }
+
+      function toggleSubsection(element) {
+        const subsection = element.closest(".subsection");
+        subsection.classList.toggle("active");
+      }
+
+      function expandAll() {
+        const sections = document.querySelectorAll(".section");
+        sections.forEach((section) => {
+          section.classList.add("active");
+        });
+
+        const subsections = document.querySelectorAll(".subsection");
+        subsections.forEach((subsection) => {
+          subsection.classList.add("active");
+        });
+      }
+
+      function collapseAll() {
+        const sections = document.querySelectorAll(".section");
+        sections.forEach((section) => {
+          section.classList.remove("active");
+        });
+
+        const subsections = document.querySelectorAll(".subsection");
+        subsections.forEach((subsection) => {
+          subsection.classList.remove("active");
+        });
+      }
+
+      function debounce(func, delay) {
+        let timeout;
+        return function (...args) {
+          const later = () => {
+            clearTimeout(timeout);
+            func.apply(this, args);
+          };
+          clearTimeout(timeout);
+          timeout = setTimeout(later, delay);
+        };
+      }
+
+      function clearSearch() {
+        const searchInput = document.getElementById("searchInput");
+        const clearBtn = document.querySelector(".search-actions .clear-search");
+        searchInput.value = "";
+        clearBtn.style.display = "none";
+        searchContent();
+        searchInput.focus();
+      }
+
+      const createDiacriticInsensitiveRegex = (term) => {
+        const charMap = {
+          a: "[aáAÁ]",
+          e: "[eéEÉ]",
+          i: "[iíIÍ]",
+          o: "[oóOÓ]",
+          u: "[uúUÚ]",
+        };
+
+        const regexString = term
+          .split("")
+          .map((char) => {
+            const lowerChar = char.toLowerCase();
+            return charMap[lowerChar] || char;
+          })
+          .join("");
+
+        return new RegExp(`(${regexString})`, "gi");
+      };
+      function searchContent() {
+        const inputElement = document.getElementById("searchInput");
+        const searchTerm = inputElement.value.trim();
+
+        const searchableElements = document.querySelectorAll(".content-text, .section-title, .subsection-title");
+        let found = false;
+        let firstMatchElement = null;
+
+        // 1. Limpia clases 'active'
+        document.querySelectorAll(".section.active").forEach((el) => el.classList.remove("active"));
+        document.querySelectorAll(".subsection.active").forEach((el) => el.classList.remove("active"));
+
+        // 2. RESTAURACIÓN DEL CONTENIDO (CORRECCIÓN CLAVE 1)
+        // Se usa el mapa en memoria para restaurar el HTML de los elementos
+        searchableElements.forEach((element) => {
+          // Usamos el ID del elemento para buscar el texto original en la memoria
+          element.innerHTML = originalTextMap[element.id] || element.textContent;
+        });
+
+        if (searchTerm.length < 3) {
+          // Si el término es muy corto, restauramos y salimos
+          return;
+        }
+
+        const searchRegex = createDiacriticInsensitiveRegex(searchTerm);
+
+        searchableElements.forEach((element) => {
+          // 3. OBTENCIÓN DEL TEXTO PARA BÚSQUEDA (CORRECCIÓN CLAVE 2)
+          // Usamos la variable de bucle 'element' para obtener el ID
+          const originalText = originalTextMap[element.id] || element.textContent; // ¡Corregido de 'item.id' a 'element.id'!
+
+          if (searchRegex.test(originalText)) {
+            found = true;
+
+            // Resaltado
+            element.innerHTML = originalText.replace(searchRegex, `<span class="highlight">$1</span>`);
+
+            // Activación de secciones y subsecciones
+            const subsection = element.closest(".subsection");
+            if (subsection) {
+              subsection.classList.add("active");
+              subsection.closest(".section")?.classList.add("active");
+            } else if (element.classList.contains("section-title")) {
+              element.closest(".section")?.classList.add("active");
+            }
+
+            if (!firstMatchElement) {
+              firstMatchElement = element;
+            }
+          }
+        });
+
+        // Lógica de desplazamiento
+        if (firstMatchElement) {
+          requestAnimationFrame(() => {
+            firstMatchElement.scrollIntoView({
+              behavior: "smooth",
+              block: "center",
+            });
+          });
+        } else if (searchTerm.length >= 3) {
+          alert("No se encontraron resultados para: " + searchTerm);
+        }
+      }
+
+      const debouncedSearch = debounce(searchContent, 300);
+
+      document.getElementById("searchInput").addEventListener("input", function () {
+        const clearBtn = document.querySelector(".search-actions .clear-search");
+        clearBtn.style.display = this.value.length > 0 ? "block" : "none";
+        debouncedSearch();
+      });
+
+      document.getElementById("searchInput").addEventListener("keypress", function (e) {
+        if (e.key === "Enter") {
+          clearTimeout(this._timeoutId);
+          searchContent();
+        }
+      });
+
+      // --- Lógica del Header Compacto ---
+      const header = document.querySelector(".header");
+      const headerSpacer = document.querySelector(".header-spacer");
+      let initialHeaderHeight = 0; // Altura del header original
+      let compactHeaderHeight = 0; // Altura del header en modo compacto
+      let scrollTriggerPoint = 0; // Punto de scroll para activar el cambio
+
+      function handleHeaderState() {
+        const scrollY = window.scrollY || document.documentElement.scrollTop;
+
+        if (scrollY > scrollTriggerPoint) {
+          if (!header.classList.contains("compact")) {
+            header.classList.add("compact");
+            headerSpacer.style.height = `${initialHeaderHeight}px`;
+          }
+        } else {
+          if (header.classList.contains("compact")) {
+            header.classList.remove("compact");
+            headerSpacer.style.height = "0px";
+          }
+        }
+      }
+
+      function initializeHeader() {
+        initialHeaderHeight = header.offsetHeight;
+        const headerClone = header.cloneNode(true);
+        headerClone.classList.add("compact");
+        headerClone.style.visibility = "hidden";
+        headerClone.style.position = "absolute";
+        document.body.appendChild(headerClone);
+        compactHeaderHeight = headerClone.offsetHeight;
+        document.body.removeChild(headerClone);
+
+        scrollTriggerPoint = initialHeaderHeight - compactHeaderHeight;
+      }
+
+      document.addEventListener("DOMContentLoaded", initializeHeader);
+      window.addEventListener("scroll", handleHeaderState);
+      window.addEventListener("resize", debounce(initializeHeader, 200));
+    </script>
+  </body>
+</html>

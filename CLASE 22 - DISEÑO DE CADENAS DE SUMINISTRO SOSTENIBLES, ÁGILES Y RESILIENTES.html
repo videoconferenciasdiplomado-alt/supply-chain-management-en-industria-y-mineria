@@ -1,0 +1,2428 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title></title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet" />
+    <style>
+/* Estilos de balanceo de texto */
+.header-content-box,
+.header-compact-title,
+.footer,
+.section-title,
+.subsection-title {
+    text-wrap: balance;
+}
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Inter", sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+
+      :root {
+        /* Colores Principales del Diseño (Acentos y Degradados) */
+        /* ======================================================= */
+        --color-principal: #00beff; /* Cian Brillante para acentos, bordes y el inicio del degradado principal */
+        --color-secundario: #1e50cd; /* Azul Medio, parte final del degradado de acento */
+
+        /* Fondos Oscuros de la Interfaz */
+        /* ======================================================= */
+        --fondo-oscuro-claro: #002a52; /* Fondo de secciones y contenido */
+        --fondo-oscuro-fuerte: #001a33; /* Fondo del encabezado (header) y pie de página (footer) */
+        /* ======================================================= */
+        --fondo-oscuro-medio: #003366; /* Fondo de encabezados y cajas de contenido */
+        --fondo-borde-claro: #004080; /* Bordes ligeros y color de fondo al hacer hover en encabezados */
+        --fondo-sombra-azul-header: #0050a0; /* ¡NUEVO! Sombra en el header */
+
+        /* Colores de Texto y Fondo General del Body */
+        /* ======================================================= */
+        --texto-blanco-1: #ffffff; /* Blanco puro para títulos y texto en fondo muy oscuro */
+        --texto-claro-2: #e6e6e6; /* Texto principal y claro */
+        --texto-medio-3: #cccccc; /* Texto de contenido de item (un poco más tenue) */
+
+        /* ======================================================= */
+        --fondo-body-inicio: #99e5ff; /* Color de inicio del degradado de fondo del body */
+        --fondo-body-fin: #a5b9eb; /* Color de final del degradado de fondo del body */
+
+        /* Colores de Acento Específicos (YouTube, Búsqueda) */
+        /* ======================================================= */
+        --rojo-youtube-claro: #e60000;
+        --rojo-youtube-fuerte: #a30000;
+        --timestamp-youtube: #ffcccc;
+        --fondo-resaltado: #00c339; /* Verde para el fondo del texto buscado */
+
+        /* Bases RGB para Transparencias (RGBA) */
+        /* ======================================================= */
+        --sombra-rgb: 0, 0, 0; /* Negro puro: Usado para sombras generales y profundidad */
+        --acento-rgb: 0, 190, 255; /* Cian Brillante: Usado para brillos y sombras de acento */
+        --rojo-rgb: 230, 0, 0; /* Rojo Puro: Usado para sombras de enlaces de YouTube */
+        /* ======================================================= */
+        --gradient-principal: linear-gradient(135deg, var(--color-principal) 0%, var(--color-secundario) 100%);
+      }
+
+      body {
+        background: linear-gradient(135deg, var(--fondo-body-inicio) 0%, var(--fondo-body-fin) 100%);
+        line-height: 1.2;
+        scroll-behavior: smooth;
+      }
+
+      strong#tituloDiplomado {
+        font-weight: 900;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      @keyframes slideDownSutil {
+        0% {
+          opacity: 0;
+          transform: translateY(-10px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .header.animacion-inicial {
+        animation: slideDownSutil 0.4s ease-out 1;
+        animation-fill-mode: forwards;
+        will-change: transform, opacity;
+      }
+
+      .header {
+        position: relative;
+        width: 100%;
+        z-index: 1000;
+        padding: 20px;
+        background: linear-gradient(135deg, var(--fondo-oscuro-fuerte) 0%, var(--fondo-oscuro-claro) 100%);
+        box-shadow: 0 5px 15px rgba(var(--sombra-rgb), 0.5);
+        text-align: center;
+        will-change: transform;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .header-text-box {
+        display: grid;
+        gap: 10px;
+        word-break: break-word;
+        margin: 0 15px;
+      }
+
+      .header.compact {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: fixed;
+      }
+
+      .header-spacer {
+        display: none;
+        transition: height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .header.compact + .header-spacer {
+        display: block;
+      }
+
+      .header-top {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .header.compact .header-top {
+        display: none;
+      }
+
+      .logo {
+        width: 140px;
+        height: auto;
+        margin: 0 15px;
+        transition: all 0.3s ease;
+        vertical-align: middle;
+      }
+
+      .header.compact .logo {
+        width: 90px;
+        margin: 0 10px;
+      }
+
+      .header .logo.compact-logo {
+        display: none;
+      }
+
+      .header.compact .logo.compact-logo {
+        display: block;
+      }
+
+      .header h1 {
+        font-size: 2rem;
+        color: var(--texto-blanco-1);
+        font-weight: 900;
+      }
+
+      .header.compact h1 {
+        font-size: 1rem;
+      }
+
+      .header p {
+        font-size: 1.2rem;
+        color: var(--texto-blanco-1);
+        font-weight: 700;
+      }
+
+      .header-content-box {
+        background: var(--gradient-principal);
+        border-radius: 12px;
+        padding: 20px 20px;
+        box-shadow: 0 8px 20px rgba(var(--acento-rgb), 0.6);
+        overflow: hidden;
+        margin-bottom: 15px;
+
+        opacity: 1;
+        transform: translateY(0);
+        will-change: transform;
+        transition: opacity 0.4s ease, transform 0.4s ease;
+      }
+
+      .header.compact .header-content-box {
+        opacity: 0;
+        max-height: 0;
+        padding-top: 0;
+        padding-bottom: 0;
+        margin-bottom: 0;
+        border: 0;
+        transform: translateY(-10px);
+      }
+
+      .header-content-box:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 30px rgba(var(--acento-rgb), 0.8);
+      }
+
+      .header-bottom-row {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+        flex-wrap: wrap;
+        width: 100%;
+      }
+
+      .header-second-row {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+        flex-wrap: wrap;
+        width: 100%;
+      }
+
+      .header.compact .header-bottom-row {
+        flex-grow: 1;
+      }
+
+      .logo-and-title {
+        opacity: 0;
+        overflow: hidden;
+        transform: translateY(-10px);
+        transition: opacity 0.4s ease, transform 0.4s ease;
+      }
+
+      .header.compact .logo-and-title {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .header.compact .header-bottom-row .logo-and-title {
+        will-change: transform;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-grow: 1;
+        width: 100%;
+        background: var(--gradient-principal);
+        border-radius: 12px;
+        padding: 10px;
+        box-shadow: 0 4px 10px rgba(var(--acento-rgb), 0.4);
+        gap: 10px;
+      }
+
+      .header.compact .header-bottom-row .logo-and-title:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(var(--acento-rgb), 0.5);
+      }
+
+      .header-compact-title {
+        display: none;
+        color: var(--texto-blanco-1);
+        font-size: 1.2rem;
+        font-weight: 700;
+        margin: 10px;
+        white-space: normal;
+      }
+
+      .header.compact .header-compact-title {
+        display: block;
+      }
+
+      .search-bar {
+        position: relative;
+        display: flex;
+        align-items: center;
+        width: 100%;
+        max-width: 450px;
+        background-color: var(--fondo-oscuro-medio);
+        border: 2px solid var(--fondo-borde-claro);
+        border-radius: 30px;
+        box-shadow: 0 4px 10px rgba(var(--sombra-rgb), 0.25);
+        will-change: border-color, background-color;
+        transition: border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+      }
+
+      .search-bar:focus-within {
+        border-color: var(--fondo-sombra-azul-header);
+        background-color: var(--fondo-borde-claro);
+      }
+
+      .clear-search {
+        cursor: pointer;
+        color: var(--texto-claro-2);
+        padding: 5px;
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1;
+        display: none;
+        transition: color 0.2s ease;
+        transform: scale(1.5);
+      }
+
+      .clear-search:hover {
+        color: var(--texto-blanco-1);
+      }
+
+      .search-bar input {
+        flex-grow: 1;
+        padding: 10px 18px;
+        font-weight: 400;
+        font-size: 1rem;
+        color: var(--texto-claro-2);
+        background-color: transparent;
+        border: none;
+        outline: none;
+        min-width: 0px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .header.compact .search-bar input {
+        padding: 10px 20px;
+      }
+
+      .search-actions {
+        display: flex;
+        align-items: center;
+      }
+
+      .action-button {
+        background: var(--gradient-principal);
+        border: none;
+        color: var(--texto-blanco-1);
+        padding: 8px 18px;
+        border-radius: 30px;
+        cursor: pointer;
+        font-size: 1rem;
+        font-weight: 600;
+        will-change: transform;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 10px rgba(var(--acento-rgb), 0.4);
+        max-width: 150px;
+        white-space: normal;
+      }
+
+      .action-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(var(--acento-rgb), 0.5);
+      }
+
+      .search-bar .action-button {
+        margin: 5px;
+      }
+
+      .controls {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+      }
+
+      @keyframes fadeInUpContent {
+        0% {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .mind-map {
+        transition: margin-top 0.4s ease;
+        margin: 50px 0;
+      }
+
+      .mind-map.animacion-contenido {
+        animation: fadeInUpContent 0.4s ease-out 1 forwards;
+        animation-delay: 0.2s;
+        opacity: 0;
+        will-change: opacity, transform;
+      }
+
+      .section {
+        margin-bottom: 20px;
+        background-color: var(--fondo-oscuro-claro);
+        border-radius: 12px;
+        border: 2px solid var(--fondo-oscuro-medio);
+        overflow: hidden;
+        box-shadow: 0 2px 10px rgba(var(--sombra-rgb), 0.25);
+        transition: border-color 0.3s ease;
+      }
+
+      .section-header {
+        padding: 20px;
+        background-color: var(--fondo-oscuro-medio);
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        will-change: background-color;
+        transition: background-color 0.3s ease, color 0.3s ease;
+      }
+
+      .section-title {
+        font-size: 1.4rem;
+        font-weight: 700;
+        color: var(--texto-claro-2);
+        margin-right: 10px;
+      }
+
+      .section-number {
+        background: var(--gradient-principal);
+        color: var(--texto-blanco-1);
+        padding: 5px 12px;
+        border-radius: 30px;
+        font-size: 15px;
+        font-weight: 700;
+        margin-right: 15px;
+      }
+
+      .toggle-icon {
+        font-size: 1.2rem;
+        color: var(--texto-claro-2);
+        will-change: transform;
+        transition: transform 0.3s ease;
+      }
+
+      .section.active > .section-header .toggle-icon {
+        transform: rotate(180deg);
+      }
+
+      .section-content {
+        max-height: 0;
+        overflow: hidden;
+        opacity: 0;
+        transition: max-height 0.5s ease-out, opacity 0.3s ease-in;
+      }
+
+      .section.active .section-content {
+        max-height: fit-content;
+        padding-bottom: 10px;
+        opacity: 1;
+      }
+
+      .subsection {
+        margin: 15px;
+        background-color: var(--fondo-oscuro-medio);
+        border-radius: 12px;
+        border: 2px solid var(--fondo-borde-claro);
+        overflow: hidden;
+        transition: border-color 0.3s ease;
+      }
+
+      .subsection:hover {
+        border-color: var(--fondo-sombra-azul-header);
+      }
+
+      .subsection:hover .subsection-header {
+        background-color: var(--fondo-sombra-azul-header);
+      }
+
+      .section:hover {
+        border-color: var(--fondo-borde-claro);
+      }
+
+      .section:hover .section-header {
+        background-color: var(--fondo-borde-claro);
+      }
+
+      .subsection-header {
+        padding: 15px;
+        background-color: var(--fondo-borde-claro);
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        will-change: background-color;
+        transition: background-color 0.3s ease, color 0.3s ease;
+      }
+
+      .subsection-title {
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: var(--texto-claro-2);
+        margin-right: 10px;
+      }
+
+      .subsection-number {
+        background: var(--gradient-principal);
+        color: var(--texto-blanco-1);
+        padding: 4px 10px;
+        border-radius: 30px;
+        font-size: 15px;
+        font-weight: 700;
+        margin-right: 12px;
+      }
+
+      .subsection-content {
+        max-height: 0;
+        overflow: hidden;
+        background-color: var(--fondo-oscuro-claro);
+        opacity: 0;
+        transition: max-height 0.5s ease-out, opacity 0.3s ease-in;
+      }
+
+      .subsection.active .subsection-content {
+        max-height: fit-content;
+        padding: 15px;
+        opacity: 1;
+      }
+
+      .subsection.active .toggle-icon {
+        transform: rotate(180deg);
+      }
+
+      .content-item {
+        margin-bottom: 10px;
+        padding: 15px;
+        background-color: var(--fondo-oscuro-medio);
+        border-radius: 12px;
+        border-left: 4px solid var(--color-principal);
+        box-shadow: 0 1px 5px rgba(var(--sombra-rgb), 0.25);
+      }
+
+      .content-text {
+        color: var(--texto-medio-3);
+        margin-bottom: 5px;
+        line-height: 1.4;
+        font-size: 1rem;
+        font-weight: 500;
+        position: relative;
+        padding-left: 15px;
+      }
+
+      .content-text::before {
+        content: "•";
+        color: var(--color-principal);
+        font-weight: 700;
+        display: inline-block;
+        position: absolute;
+        left: 0px;
+      }
+
+      .youtube-link {
+        display: inline-block;
+        padding: 10px 18px;
+        background: linear-gradient(135deg, var(--rojo-youtube-claro) 0%, var(--rojo-youtube-fuerte) 100%);
+        color: var(--texto-blanco-1);
+        cursor: pointer;
+        text-decoration: none;
+        border-radius: 30px;
+        font-size: 0.9rem;
+        font-weight: 500;
+        line-height: 1rem;
+        transition: all 0.3s ease;
+        margin-top: 10px;
+        box-shadow: 0 2px 5px rgba(var(--rojo-rgb), 0.4);
+        will-change: transform;
+      }
+
+      .youtube-link:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 3px 7.5px rgba(var(--rojo-rgb), 0.5);
+        will-change: transform;
+      }
+
+      .timestamp {
+        color: var(--timestamp-youtube);
+        font-size: 0.85rem;
+        margin-left: 10px;
+        font-weight: 400;
+      }
+
+      .highlight {
+        background-color: var(--fondo-resaltado);
+        color: var(--texto-blanco-1);
+        font-weight: 700;
+        padding: 4px;
+        border-radius: 6px;
+      }
+
+      .footer {
+        padding: 30px;
+        background: linear-gradient(135deg, var(--fondo-oscuro-fuerte) 0%, var(--fondo-oscuro-claro) 100%);
+        border-top: 1px solid var(--fondo-oscuro-medio);
+        text-align: center;
+        box-shadow: 0 -2px 10px rgba(var(--sombra-rgb), 0.25);
+      }
+
+      .footer-text {
+        color: var(--texto-claro-2);
+        font-size: 0.9rem;
+        line-height: 1.6;
+      }
+
+      .footer-logo {
+        width: 140px;
+        height: auto;
+        margin-bottom: 20px;
+      }
+
+      @media (max-width: 768px) {
+        .header-top {
+          flex-direction: column;
+        }
+
+        .logo {
+          margin: 0;
+        }
+
+        .header-text-box {
+          margin: 0;
+        }
+
+        .header h1 {
+          font-size: 1.5rem;
+        }
+
+        .header p {
+          font-size: 1rem;
+        }
+
+        .header.compact .header-bottom-row .logo-and-title {
+          gap: 5px;
+        }
+        .logo,
+        .footer-logo {
+          width: 105px;
+        }
+
+        .header.compact .header-bottom-row {
+          flex-direction: column;
+        }
+
+        .header.compact .header-compact-title {
+          margin: 0 5px;
+          font-size: 0.8rem;
+        }
+
+        .header.compact .logo.compact-logo {
+          width: 65px;
+          margin: 5px;
+        }
+
+        .action-button,
+        .search-bar input,
+        .clear-search {
+          font-size: 0.9rem;
+        }
+
+        .section-header {
+          padding: 15px;
+        }
+
+        .header.compact .controls {
+          flex-direction: row;
+        }
+
+        .section-title {
+          font-size: 1.1rem;
+        }
+
+        .subsection-title {
+          font-size: 1rem;
+        }
+        .section-number,
+        .subsection-number {
+          font-size: 13px;
+        }
+
+        .content-text {
+          font-size: 0.9rem;
+        }
+
+        .youtube-link {
+          font-size: 0.8rem;
+        }
+
+        .timestamp {
+          font-size: 0.75rem;
+        }
+
+        .header.compact .action-button {
+          padding: 6px 18px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header animacion-inicial">
+      <div class="header-content-box">
+        <div class="header-top">
+          <a href="https://www.edumin.pe/" target="_blank">
+            <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/LOGO%20BLANCO%20CANVA-mIKMypQ452RzmXVMUadb6mnvPaejXD.png" alt="EDUMIN Logo" class="logo" />
+          </a>
+          <div class="header-text-box">
+  <h1>
+    <div>DIPLOMADO DE ALTA ESPECIALIZACIÓN EN</div>
+    <strong id="tituloDiplomado" style="display: block;"></strong>
+  </h1>
+  <p id="tituloPrincipal"></p>
+</div>
+        </div>
+      </div>
+
+      <div class="header-bottom-row">
+        <div class="logo-and-title">
+          <a href="https://www.edumin.pe/" target="_blank">
+            <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/LOGO%20BLANCO%20CANVA-mIKMypQ452RzmXVMUadb6mnvPaejXD.png" alt="EDUMIN Logo" class="logo compact-logo" />
+          </a>
+          <span class="header-compact-title" id="tituloCompacto"></span>
+        </div>
+        <div class="header-second-row">
+          <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Buscar en el resumen interactivo…" autocomplete="off" />
+            <div class="search-actions">
+              <span class="clear-search" onclick="clearSearch()">&times;</span>
+              <button class="action-button" onclick="searchContent()">Buscar</button>
+            </div>
+          </div>
+
+          <div class="controls">
+            <button class="action-button" onclick="expandAll()">Mostrar todo</button>
+            <button class="action-button" onclick="collapseAll()">Colapsar todo</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="header-spacer"></div>
+
+    <div class="container">
+      <div class="mind-map animacion-contenido" id="mindMap">
+        <div class="section" data-section="1">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">1</span>
+              <span class="section-title">Apertura de la sesión y dinámica de la última clase</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">1.1</span>
+                  <span class="subsection-title">Bienvenida, presentación de monitores y anuncio de inicio de la sesión</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Monitor y profesor saludan a los alumnos y anuncian que en breve iniciará la sesión, marcando formalidad y control de la reunión.</div>
+                  <div class="content-text">Se indica que la clase será la última del curso y que el docente tiene un temario pero ofrece flexibilizar según preguntas de los alumnos.</div>
+                  <div class="content-text">Se ofrece canal de comunicación para consultas por chat o micrófono, animando la participación activa de los asistentes.</div>
+                  <a href="https://www.youtube.com/watch?v=V0IYDwKgyiY&start=183" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:03:03)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">1.2</span>
+                  <span class="subsection-title">Propuesta de formato participativo y libre para la última clase</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">El profesor propone atender dudas puntuales de logística planteadas por los alumnos antes de usar su presentación preparada.</div>
+                  <div class="content-text">Se solicita a los estudiantes indicar temas o preguntas específicas para aprovechar la oportunidad de consulta directa con el docente.</div>
+                  <div class="content-text">Se crea un ambiente abierto para preguntas sobre experiencias prácticas, procedimientos logísticos y salidas profesionales.</div>
+                  <a href="https://www.youtube.com/watch?v=V0IYDwKgyiY&start=546" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:09:06)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">1.3</span>
+                  <span class="subsection-title">Introducción de alumnos participantes y planteamiento de preguntas iniciales</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Se mencionan alumnos presentes (Henry, Miguel, Freddy, Adrián, David, César) y se invita a cada uno a plantear sus dudas.</div>
+                  <div class="content-text">El profesor reitera que la clase puede convertirse en una sesión consultiva basada en las inquietudes de los estudiantes.</div>
+                  <div class="content-text">Se fomenta el aprovechamiento del tiempo final del curso para resolver temas que no están en el sílabo.</div>
+                  <a href="https://www.youtube.com/watch?v=V0IYDwKgyiY&start=1338" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:22:18)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="2">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">2</span>
+              <span class="section-title">Procedimiento práctico para la toma de inventarios generales en una mina o almacén</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">2.1</span>
+                  <span class="subsection-title">Tipos de inventario, planificación previa y selección de fecha adecuada</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Se diferencian inventario general 100% (todos los activos, repuestos y consumibles) e inventarios cíclicos periódicos por clasificación ABC y pareto.</div>
+                  <div class="content-text">Es imprescindible elegir una fecha de bajo movimiento operativo para evitar salidas o ingresos que compliquen el conteo físico del almacén.</div>
+                  <div class="content-text">Debe comunicarse con anticipación a las áreas usuarias para que pidan lo necesario antes del corte de inventario y minimizar emergencias el día seleccionado.</div>
+                  <a href="https://www.youtube.com/watch?v=V0IYDwKgyiY&start=624" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:10:24)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">2.2</span>
+                  <span class="subsection-title">Organización de personal, permisos mineros y logística de ejecución</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Coordinar con el almacenero y determinar cuántas personas harán conteo físico, considerando unidades o bodegas separadas (superficie, socavón).</div>
+                  <div class="content-text">Gestionar permisos médicos, autorizaciones y logística de traslado y alojamiento para el personal que ingresará a la mina el día del inventario.</div>
+                  <div class="content-text">Llevar soporte tecnológico: listados impresos desde el sistema, laptops con conexión móvil o celulares para registrar conteos y minimizar uso de papel.</div>
+                  <a href="https://www.youtube.com/watch?v=V0IYDwKgyiY&start=721" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:12:01)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">2.3</span>
+                  <span class="subsection-title">Metodología de conteo, conciliación con sistema y manejo de diferencias</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Extraer listado del sistema con todas las referencias y cantidades antes de iniciar, distribuir impresiones por grupos y comenzar conteo físico por equipos.</div>
+                  <div class="content-text">Al finalizar hacer cruce entre cantidades físicas y cantidades del sistema para identificar faltantes y sobrantes, generando actas y reportes para contabilidad.</div>
+                  <div class="content-text">En caso de faltantes o sobrantes, recolectar evidencia documental (vales de salida, guías, correos) y realizar ajustes contables conforme a la justificación disponible.</div>
+                  <a href="https://www.youtube.com/watch?v=V0IYDwKgyiY&start=823" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:13:43)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="3">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">3</span>
+              <span class="section-title">Causas y manejo de diferencias de inventario: faltantes, sobrantes y malas prácticas</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">3.1</span>
+                  <span class="subsection-title">Motivos comunes de faltantes y su clasificación</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Faltantes sustentados por salidas físicas con documento (vale o guía) que no fueron registrados oportunamente en el sistema.</div>
+                  <div class="content-text">Faltantes por robo: caso grave que requiere investigación y acciones disciplinarias y/o legales por parte de la empresa.</div>
+                  <div class="content-text">Faltantes por bajas no registradas: artículos dados de baja por obsolescencia sin el debido trámite administrativo y contable.</div>
+                  <a href="https://www.youtube.com/watch?v=V0IYDwKgyiY&start=998" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:16:38)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">3.2</span>
+                  <span class="subsection-title">Origen de sobrantes y ejemplos prácticos de errores administrativos</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Sobrantes causados por errores en la emisión de guías físicas distintas a la registrada en sistema (envío a otra unidad operativa equivocada).</div>
+                  <div class="content-text">Recepciones incorrectas o muestras no registradas que generan discrepancias en el sistema frente al inventario físico.</div>
+                  <div class="content-text">Necesidad de rastrear documentación como órdenes de compra, guías de remisión y correos para explicar sobrantes y generar ajustes formales.</div>
+                  <a href="https://www.youtube.com/watch?v=V0IYDwKgyiY&start=1067" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:17:47)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">3.3</span>
+                  <span class="subsection-title">Malas prácticas operativas que generan diferencias y control interno</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Separación de material por áreas usuarias antes del cierre de mes sin registro formal, causando olvidos y diferencias posteriores.</div>
+                  <div class="content-text">Falta de control de acceso al almacén: personal no autorizado accede, esconde o sustrae material, evidenciado en conteos posteriores.</div>
+                  <div class="content-text">Recomendación de sancionar administrativas y reforzar controles, además de implementar procedimientos claros para la entrega y recepción de material.</div>
+                  <a href="https://www.youtube.com/watch?v=V0IYDwKgyiY&start=1164" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:19:24)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="4">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">4</span>
+              <span class="section-title">Gestión de bajas, destrucción de materiales y opciones de disposición final</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">4.1</span>
+                  <span class="subsection-title">Identificación y validación técnica de bienes para dar de baja</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Elaborar listado claro de herramientas y materiales a dar de baja, con identificación y cantidad precisa para sustento documental.</div>
+                  <div class="content-text">Solicitar informes técnicos del área responsable (seguridad, mantenimiento, mantenimiento mecánico o eléctrico) que certifiquen estado inservible de los bienes.</div>
+                  <div class="content-text">Integrar esos informes al expediente que será remitido a contabilidad y auditoría para proceder con la baja formal.</div>
+                  <a href="https://www.youtube.com/watch?v=V0IYDwKgyiY&start=1463" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:24:23)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">4.2</span>
+                  <span class="subsection-title">Opciones de disposición: venta, reciclaje o destrucción autorizada por SUNAT</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Si los bienes pueden venderse (ejemplo cauchos vencidos o metales recuperables), gestionar venta formal como bienes dados de baja con respaldo contable.</div>
+                  <div class="content-text">Si no son vendibles o son peligrosos, contratar empresas autorizadas y especializadas para destrucción y tratamiento, obteniendo certificado para SUNAT.</div>
+                  <div class="content-text">Mantener un representante de la empresa presente durante el proceso de destrucción para evitar sobrecargos o fraudes por parte del proveedor de servicios.</div>
+                  <a href="https://www.youtube.com/watch?v=V0IYDwKgyiY&start=1587" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:26:27)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">4.3</span>
+                  <span class="subsection-title">Procedimiento y documentación requerida para la disposición segura</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Preparar el acta de baja con los informes técnicos, documentación de contabilidad y autorización interna antes de la entrega al operador de destrucción.</div>
+                  <div class="content-text">Coordinar con proveedores especializados que soliciten datos: peso, volumen, medidas y características del material para cotizar y planificar la recolección.</div>
+                  <div class="content-text">Obtener certificado de destrucción y, si aplica, notarización o acta firmada para respaldo legal y fiscal ante SUNAT y auditorías internas.</div>
+                  <a href="https://www.youtube.com/watch?v=V0IYDwKgyiY&start=1500" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:25:00)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="5">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">5</span>
+              <span class="section-title">Funciones del área logística y trazabilidad profesional en aprovisionamiento y compras</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">5.1</span>
+                  <span class="subsection-title">Organigrama funcional de logística y principales responsabilidades</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Funciones clásicas: gestión de la demanda, gestión de inventarios, aprovisionamiento (compras), gestión de producción, gestión de almacenes, y transporte/distribución.</div>
+                  <div class="content-text">Gestión de demanda implica previsiones, puntos de pedido, seguimiento de consumo histórico y coordinación con operaciones o planners.</div>
+                  <div class="content-text">Gestión de inventarios y almacenes incluye ubicación, recepción, almacenamiento y envíos; transporte abarca diseño de distribución y gestión de flota o transportistas.</div>
+                  <a href="https://www.youtube.com/watch?v=V0IYDwKgyiY&start=1898" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:31:38)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">5.2</span>
+                  <span class="subsection-title">Trazabilidad de la carrera profesional desde comprador junior hasta cargos gerenciales</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Perfil junior usual: egresado en administración o ingeniería, manejo de Office y Excel, conocimientos básicos de logística y cursos complementarios.</div>
+                  <div class="content-text">Progresión profesional: analista, encargado de importaciones, jefe de compras estratégicas, jefe de logística, y eventualmente gerente de logística con especializaciones y maestrías.</div>
+                  <div class="content-text">Relevancia de certificaciones, cursos y logros cuantificables en CV que demuestren ahorro, contratos gestionados y mejoras implementadas.</div>
+                  <a href="https://www.youtube.com/watch?v=V0IYDwKgyiY&start=2187" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:36:27)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">5.3</span>
+                  <span class="subsection-title">Funciones concretas del comprador y su valor agregado en la empresa minera</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">El comprador debe revisar stock existente, pedidos en tránsito, históricos de consumo y coordinar con gestión de demanda para evitar compras innecesarias.</div>
+                  <div class="content-text">Debe buscar ahorros en costos y tiempos mediante contratos anuales, consolidación de líneas y negociaciones con proveedores.</div>
+                  <div class="content-text">El comprador puede asumir tareas complementarias como planificación de demanda y creación de procesos cuando la empresa carece de esa función.</div>
+                  <a href="https://www.youtube.com/watch?v=V0IYDwKgyiY&start=2619" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:43:39)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="6">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">6</span>
+              <span class="section-title">Desarrollo de carrera, armado de CV y preparación para entrevistas en logística y compras</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">6.1</span>
+                  <span class="subsection-title">Estructura recomendada del CV para candidatos en logística y compras</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Datos de contacto, título profesional o máximo grado, resumen ejecutivo con habilidades clave y objetivo profesional alineado al puesto.</div>
+                  <div class="content-text">Experiencia laboral por empresa o por función, con descripción breve de responsabilidades y logros medibles en ahorro, mejoras o proyectos concretos.</div>
+                  <div class="content-text">Formación académica y cursos complementarios relevantes (logística, compras, importaciones), además de habilidades técnicas y de idioma.</div>
+                  <a href="https://www.youtube.com/watch?v=V0IYDwKgyiY&start=2459" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:40:59)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">6.2</span>
+                  <span class="subsection-title">Cómo plasmar logros cuantificables y casos de éxito en el CV</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Incluir ejemplos de contratos negociados, ahorros alcanzados en costos, implementación de procesos o sistemas, y resultados medibles por periodo.</div>
+                  <div class="content-text">Evitar descripciones vagas; priorizar métricas, porcentajes y montos cuando sea posible para demostrar impacto real en la empresa.</div>
+                  <div class="content-text">Presentar iniciativas de mejora, liderazgo de proyectos o creación de áreas (p. ej. planificación de demanda) como aportes diferenciadores.</div>
+                  <a href="https://www.youtube.com/watch?v=V0IYDwKgyiY&start=2561" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:42:41)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">6.3</span>
+                  <span class="subsection-title">Preparación para entrevistas y criterios de evaluación en empresas mineras o contratistas</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Conocer el sector de la empresa a la que se postula, sus requerimientos específicos y las familias de productos que maneja la operación.</div>
+                  <div class="content-text">Estar listo para explicar cómo la experiencia previa aplica al puesto minero, mostrar conocimiento normativo si aplica y demostrar medidas de control implementadas.</div>
+                  <div class="content-text">Evaluar la cultura laboral y las condiciones reales del puesto, evitando aceptar posiciones con sobrecarga de funciones o falta de recursos humanos, según experiencias compartidas.</div>
+                  <a href="https://www.youtube.com/watch?v=V0IYDwKgyiY&start=2809" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:46:49)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="7">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">7</span>
+              <span class="section-title">Integración entre planificación, compras y almacén: casos prácticos y recomendaciones laborales</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">7.1</span>
+                  <span class="subsection-title">Ventajas de tener experiencia en planificación para roles en compras en minería</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Experiencia en planificación aporta conocimientos de costeo, previsión de demanda y análisis histórico que facilitan decisiones de aprovisionamiento.</div>
+                  <div class="content-text">Permite proponer contratos y estrategias de abastecimiento basadas en consumo real y proyecciones, mejorando niveles de servicio y reduciendo costos.</div>
+                  <div class="content-text">En entrevistas, presentar la combinación de habilidades (planificación más compras) como ventaja competitiva para roles en minería.</div>
+                  <a href="https://www.youtube.com/watch?v=V0IYDwKgyiY&start=2698" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:44:58)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">7.2</span>
+                  <span class="subsection-title">Requisitos y preparación para postular a posiciones en minería con productos fiscalizados</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Investigar normativa aplicable (ejemplo para explosivos, combustibles o químicos fiscalizados) y demostrar conocimiento de permisos, registros y entidades reguladoras.</div>
+                  <div class="content-text">Preparar CV con logros cuantificables, cursos relevantes y familiaridad con procedimientos regulatorios para no presentarse sin preparación.</div>
+                  <div class="content-text">Coordinar con responsables internos de la mina sobre requisitos de compra y control de productos fiscalizados antes de la postulación o entrevista.</div>
+                  <a href="https://www.youtube.com/watch?v=V0IYDwKgyiY&start=2871" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:47:51)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">7.3</span>
+                  <span class="subsection-title">Estrategias para reorientar experiencia desde sectores agrícolas o retail hacia minería</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Enfatizar competencias transferibles: gestión de almacén, transporte, control de perecibles y manejo de códigos y repuestos.</div>
+                  <div class="content-text">Presentar logros y responsabilidades que demuestren adaptabilidad y capacidad para gestionar familias de productos, inventarios y coordinación con usuarios.</div>
+                  <div class="content-text">Proponer iniciativas internas como crear o liderar un área de planificación de demanda para cubrir vacíos organizacionales y generar valor agregado.</div>
+                  <a href="https://www.youtube.com/watch?v=V0IYDwKgyiY&start=3242" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:54:02)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="8">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">8</span>
+              <span class="section-title">Herramientas, automatización y propuesta de creación de áreas de planificación en empresas pequeñas</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">8.1</span>
+                  <span class="subsection-title">Uso de históricos de consumo, pareto y modelos simples para planificación de demanda</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Utilizar datos históricos de consumo para calcular proyecciones y puntos de pedido; aplicar clasificaciones ABC y análisis pareto para priorizar ítems críticos.</div>
+                  <div class="content-text">Contactar a usuarios para validar consumos y ajustar previsiones cuando el histórico sea incompleto o atípico.</div>
+                  <div class="content-text">Implementar fórmulas simples y reportes periódicos que permitan comenzar con un control básico de demanda y justificar la creación de un área dedicada.</div>
+                  <a href="https://www.youtube.com/watch?v=V0IYDwKgyiY&start=3406" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:56:46)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">8.2</span>
+                  <span class="subsection-title">Propuesta de creación de un área de gestión de demanda en empresas sin estructura</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Identificar vacíos organizacionales en la gestión de demanda y proponer pilotajes para asumir la función desde compras o almacén.</div>
+                  <div class="content-text">Iniciar con control de los ítems críticos, establecer indicadores básicos y presentar resultados a gerencia para escalar la iniciativa.</div>
+                  <div class="content-text">Convertirse en el referente interno para planificación y control de inventarios, lo que puede consolidar la posición y generar reconocimiento profesional.</div>
+                  <a href="https://www.youtube.com/watch?v=V0IYDwKgyiY&start=3414" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:56:54)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">8.3</span>
+                  <span class="subsection-title">Herramientas y recursos recomendados para licitaciones y evaluación de proveedores</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Emplear plataformas y herramientas online para identificar empresas proveedoras y oportunidades de licitación específicas del sector minero.</div>
+                  <div class="content-text">Preparar la familia de productos, especificaciones técnicas y volúmenes para realizar procesos de licitación competitivos y adecuados a la operación.</div>
+                  <div class="content-text">Usar datos de historial y desempeño de proveedores para seleccionar opciones que ofrezcan mejores condiciones en precio, tiempo y servicio.</div>
+                  <a href="https://www.youtube.com/watch?v=V0IYDwKgyiY&start=3559" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:59:19)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="9">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">9</span>
+              <span class="section-title">Demostración de herramientas de IA para análisis de empresas mineras</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">9.1</span>
+                  <span class="subsection-title">Presentación y uso de una IA gratuita china para análisis empresarial</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Se muestra una herramienta gratuita de origen chino que ofrece análisis y pensamiento profundo sobre empresas, útil para preparar postulaciones o estudios preliminares.</div>
+                  <div class="content-text">El ponente ejemplifica cómo pedir un informe: identificarse como profesional de logística y solicitar un informe completo con tablas y estadísticas.</div>
+                  <div class="content-text">La IA puede traducir y generar resúmenes en español, facilitando la comparación de fuentes encontradas en la web.</div>
+                  <a href="https://www.youtube.com/watch?v=V0IYDwKgyiY&start=3608" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:00:08)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">9.2</span>
+                  <span class="subsection-title">Ejemplo práctico: informe sobre la compañía Buenaventura y Brocal</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">La IA entrega un pantallazo logístico con consumo de planta, operativos, combustibles, aceros, perforación y seguridad, útil como punto de partida para análisis de proveedores y compras.</div>
+                  <div class="content-text">Se menciona la limitación de detalle por falta de acceso a ERP interno, pero la IA compila información pública verificable y fuentes citadas.</div>
+                  <div class="content-text">Ofrece secciones típicas: equipos directivos, materiales operativos, contactos principales y políticas de proveedor, lo cual permite iniciar una investigación previa a la presentación.</div>
+                  <a href="https://www.youtube.com/watch?v=V0IYDwKgyiY&start=3820" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:03:40)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">9.3</span>
+                  <span class="subsection-title">Recomendaciones para usar IA en preparación de licitaciones y postulaciones</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Usar la opción de investigación profunda de la herramienta para obtener más fuentes y detalles; la versión gratuita tiene límites mensuales, la paga ofrece más búsquedas.</div>
+                  <div class="content-text">Sugerencia de adjuntar currículum (archivo) y pedir que el informe se adapte a la experiencia profesional del postulante para mejorar la presentación.</div>
+                  <div class="content-text">Validar y complementar la información con normativa local (por ejemplo, legislación peruana) y datos internos antes de una presentación formal.</div>
+                  <a href="https://www.youtube.com/watch?v=V0IYDwKgyiY&start=4132" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:08:52)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="10">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">10</span>
+              <span class="section-title">Estrategias de licitación y análisis de consumos críticos en minería</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">10.1</span>
+                  <span class="subsection-title">Identificación de repuestos críticos y análisis de rotación para licitaciones</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Para elaborar una licitación, primero analizar consumos: identificar piezas que más rotan y las más críticas mediante un pareto entre rotación y criticidad.</div>
+                  <div class="content-text">Priorizar los repuestos que generan mayor impacto operativo y planificar contratos o pedidos anuales para optimizar costos y disponibilidad.</div>
+                  <div class="content-text">Combinar historial de consumos con consultas a operaciones para validar picos y cambios en demanda por condiciones del yacimiento.</div>
+                  <a href="https://www.youtube.com/watch?v=V0IYDwKgyiY&start=3913" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:05:13)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">10.2</span>
+                  <span class="subsection-title">Uso de informes y datos históricos para definir contratos y órdenes de compra</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Analizar tendencias financieras, inversiones recientes y proveedores registrados para diseñar estrategias de compra y negociación.</div>
+                  <div class="content-text">Agrupar artículos por categorías o contratos marco para facilitar licitaciones y reducir costos unitarios mediante volúmenes proyectados.</div>
+                  <div class="content-text">Considerar registrar y gestionar proveedores en un sistema para mejorar trazabilidad y facilitar procesos de evaluación periódica.</div>
+                  <a href="https://www.youtube.com/watch?v=V0IYDwKgyiY&start=4044" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:07:24)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">10.3</span>
+                  <span class="subsection-title">Validación operativa y coordinación con usuarios antes de comprar</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Antes de emitir compras, contrastar pedidos puntuales con históricos de consumo para evitar compras innecesarias o errores de usuario en solicitudes.</div>
+                  <div class="content-text">Mantener comunicación directa con el usuario operativo cuando se detecten discrepancias en pedidos versus consumo real.</div>
+                  <div class="content-text">Definir niveles de stock de seguridad para ítems críticos, consensuados con operaciones y almacén para equilibrar servicio y costos financieros.</div>
+                  <a href="https://www.youtube.com/watch?v=V0IYDwKgyiY&start=6963" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:56:03)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="11">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">11</span>
+              <span class="section-title">Sistemas de gestión de almacenes (WMS) y su funcionamiento básico</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">11.1</span>
+                  <span class="subsection-title">Definición, beneficios y funciones principales de un WMS</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Un sistema de gestión de almacenes controla movimientos y almacenaje de materiales en tiempo real, aumentando la velocidad de transacciones y visibilidad de inventarios.</div>
+                  <div class="content-text">Beneficios: mejoras en niveles de servicio, exactitud del inventario, optimización del espacio y reducción de pérdidas por obsolescencia.</div>
+                  <div class="content-text">Funciones: sincronización con base de datos, generación de reportes sobre estado del almacén y soportes para procesos de recepción, almacenamiento, picking y envío.</div>
+                  <a href="https://www.youtube.com/watch?v=V0IYDwKgyiY&start=4923" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:22:03)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">11.2</span>
+                  <span class="subsection-title">Módulos y tecnologías asociadas: códigos de barras, RFID y radiofrecuencia</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">El WMS identifica y controla mercancía mediante código de barras o identificación por radiofrecuencia (RFID), y gestiona lotes, series y caducidades.</div>
+                  <div class="content-text">Tecnologías avanzadas incluyen pick-to-light, voice picking y pick-to-light que agilizan la preparación de pedidos y reducen errores.</div>
+                  <div class="content-text">La motorización del inventario y el uso de sensores permiten una toma de decisiones ágil y seguimiento estricto del inventario.</div>
+                  <a href="https://www.youtube.com/watch?v=V0IYDwKgyiY&start=5165" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:26:05)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">11.3</span>
+                  <span class="subsection-title">Funciones operativas: picking, envíos y gestión de muelles</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Procesos clave: picking por zona, lote, pedido único o por oleada; generación de facturas, listas de embalaje y notificaciones anticipadas para envíos.</div>
+                  <div class="content-text">Administración de muelles y andenes optimiza la rapidez y eficacia de la operación logística y el flujo de camiones.</div>
+                  <div class="content-text">Gestión laboral mediante KPIs para monitorear desempeño de operarios y aplicar incentivos justos basados en productividad.</div>
+                  <a href="https://www.youtube.com/watch?v=V0IYDwKgyiY&start=4945" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:22:25)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="12">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">12</span>
+              <span class="section-title">Herramientas prácticas, videos demostrativos y aplicación en empresas pequeñas</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">12.1</span>
+                  <span class="subsection-title">Recursos audiovisuales y demostraciones de uso de WMS y tecnologías</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">El ponente comparte videos cortos y prácticos que ilustran el funcionamiento de un WMS, manejo con código de barras y operaciones básicas de almacén.</div>
+                  <div class="content-text">Videos muestran conceptos: planificación de almacén, optimización de espacio, inventario motorizado y procesos de picking guiados por tecnologías.</div>
+                  <div class="content-text">Se recomienda visualizar estos recursos para comprender conceptos antes de invertir en soluciones más complejas.</div>
+                  <a href="https://www.youtube.com/watch?v=V0IYDwKgyiY&start=4846" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:20:46)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">12.2</span>
+                  <span class="subsection-title">Aplicación práctica para empresas de servicios y pymes de logística</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Para empresas que ofrecen gestión de inventarios a múltiples clientes, es imprescindible contar con un sistema WMS que soporte múltiples ubicaciones y posiciones para cada SKU.</div>
+                  <div class="content-text">Tecnologías mínimas recomendadas: uso de código de barras y pistolas de lectura como primer nivel de informatización para evitar pérdida de control.</div>
+                  <div class="content-text">Startups pueden sincronizar stocks entre plataformas ecommerce mediante integraciones específicas, facilitando gestión multicanal.</div>
+                  <a href="https://www.youtube.com/watch?v=V0IYDwKgyiY&start=5628" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:33:48)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">12.3</span>
+                  <span class="subsection-title">Consideraciones de costo, niveles de inversión y escalabilidad tecnológica</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">La decisión de implementar soluciones avanzadas depende principalmente del costo y del capital disponible para inversión tecnológica.</div>
+                  <div class="content-text">Estrategia: comenzar con soluciones básicas (código de barras, WMS simple) y escalar hacia RFID, voice picking o automatización según crecimiento y presupuesto.</div>
+                  <div class="content-text">Se aconseja evaluar retorno de inversión y priorizar tecnologías que aporten mayor impacto operativo para cada tipo de cliente o almacén.</div>
+                  <a href="https://www.youtube.com/watch?v=V0IYDwKgyiY&start=6748" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:52:28)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="13">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">13</span>
+              <span class="section-title">Automatización, robótica y tecnologías emergentes en almacenes</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">13.1</span>
+                  <span class="subsection-title">Ventajas de la automatización y ejemplos de implementación</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">La automatización reduce errores de envío, aumenta productividad, disminuye la necesidad de espacio físico y reduce personal en tareas repetitivas.</div>
+                  <div class="content-text">Sectores punteros: farmacéutico, alimentación y automoción, con centros automatizados que preparan pedidos masivos de forma casi totalmente automática.</div>
+                  <div class="content-text">Ejemplos prácticos en Perú: empresas que implementan almacenes automáticos para palets y preparación eficiente de entradas y salidas.</div>
+                  <a href="https://www.youtube.com/watch?v=V0IYDwKgyiY&start=5721" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:35:21)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">13.2</span>
+                  <span class="subsection-title">Robótica, drones, visión artificial y robótica colaborativa</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Robots móviles y colaborativos pueden desplazar palets, optimizar el posicionamiento y asistir al personal en preparación de pedidos.</div>
+                  <div class="content-text">Drones y sistemas de visión artificial, junto a antenas y tecnologías RFID, permiten inventarios y lecturas en altura con alta precisión.</div>
+                  <div class="content-text">La robótica colaborativa posibilita nuevos modelos de atención al cliente, preparación de pedidos y reducción de intervención humana directa.</div>
+                  <a href="https://www.youtube.com/watch?v=V0IYDwKgyiY&start=5909" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:38:29)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">13.3</span>
+                  <span class="subsection-title">Sistemas de voz, voice picking y soluciones avanzadas de interacción</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">El voice picking dirige operarios por comandos de voz, mejorando la velocidad y exactitud en actividades de picking, reposición y carga.</div>
+                  <div class="content-text">Más de 140 empresas en España usan voice picking; herramientas permiten cientos de transacciones por hora y mejoran la precisión en preparación por oleadas.</div>
+                  <div class="content-text">Implementación rápida y cálculo del retorno de la inversión (ROI) en función de transacciones y reducción de tiempos por turno.</div>
+                  <a href="https://www.youtube.com/watch?v=V0IYDwKgyiY&start=6114" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:41:54)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="14">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">14</span>
+              <span class="section-title">Planificación de la demanda y coordinación entre compras, operaciones y comercial</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">14.1</span>
+                  <span class="subsection-title">Métodos básicos de planificación de demanda con sistemas limitados</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">En empresas con ERP básico o procesos manuales, la planificación se apoya en históricos de consumo y comunicación directa con operaciones para validar necesidades.</div>
+                  <div class="content-text">El comprador debe revisar consumos mensuales o semanales, contrastar solicitudes puntuales y evitar compras innecesarias por errores de pedido.</div>
+                  <div class="content-text">Uso de Excel y reportes simples para calcular promedios y proyectar demanda cuando no hay sistemas sofisticados.</div>
+                  <a href="https://www.youtube.com/watch?v=V0IYDwKgyiY&start=6843" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:54:03)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">14.2</span>
+                  <span class="subsection-title">Validación de proyecciones con usuarios y ajustes por variabilidad operativa</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Validar proyecciones con usuarios operativos, especialmente cuando consumos varían por condiciones del yacimiento o cambios en material (ejemplos de roca distinta que altera consumo).</div>
+                  <div class="content-text">Detectar picos atípicos y ajustar compras evitando sobrestock o roturas por falta de coordinación entre áreas.</div>
+                  <div class="content-text">Establecer diálogo permanente con usuarios para confirmar pedidos y definir niveles de stock de seguridad acordados.</div>
+                  <a href="https://www.youtube.com/watch?v=V0IYDwKgyiY&start=6905" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:55:05)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">14.3</span>
+                  <span class="subsection-title">Estrategias de agrupamiento, contratos y stock de seguridad según criticidad</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Agrupar artículos para contratos marco o licitaciones anuales, basándose en consumos históricos proyectados para negociar mejores condiciones.</div>
+                  <div class="content-text">Definir niveles mínimos de stock o stock de seguridad para los ítems más críticos, en consenso con almacén y operaciones.</div>
+                  <div class="content-text">Mantener seguimiento continuo semanal y ajustar compras según variaciones de demanda y políticas de la empresa hacia inventarios mínimos o just-in-time.</div>
+                  <a href="https://www.youtube.com/watch?v=V0IYDwKgyiY&start=7001" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:56:41)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="15">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">15</span>
+              <span class="section-title">Proyección de consumo y gestión de stock</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">15.1</span>
+                  <span class="subsection-title">Importancia de proyectar consumo y coordinar con usuarios</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Proyectar el consumo con antelación permite planificar compras de productos de importación que demoran y evita faltantes inesperados en la operación.</div>
+                  <div class="content-text">Involucrar a los usuarios en la proyección ayuda a validar las cifras y detectar picos de consumo que las estadísticas por sí solas pueden ocultar.</div>
+                  <div class="content-text">La comunicación temprana con usuarios posibilita que los pedidos se realicen con tiempo suficiente para que la mercancía llegue cuando se requiere.</div>
+                  <a href="https://www.youtube.com/watch?v=V0IYDwKgyiY&start=7201" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(02:00:01)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">15.2</span>
+                  <span class="subsection-title">Riesgos de confiar solo en fórmulas o estadísticas para proyecciones</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Las estadísticas históricas pueden no reflejar eventos puntuales que disparen el consumo, por ejemplo una actividad que consuma cincuenta unidades en un solo día.</div>
+                  <div class="content-text">Si la proyección se basa únicamente en una fórmula sin información operativa, pueden producirse sobrepedidos o faltantes que afectan la continuidad operativa.</div>
+                  <div class="content-text">Es necesario combinar fórmulas con validación de usuarios y revisión periódica para ajustar proyecciones ante cambios en la demanda.</div>
+                  <a href="https://www.youtube.com/watch?v=V0IYDwKgyiY&start=7215" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(02:00:15)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">15.3</span>
+                  <span class="subsection-title">Metodología práctica para proyectar consumo y mantener seguridad de stock</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Extraer histórico de consumo en Excel con códigos, consumo mensual y cálculos de promedio o fórmula elegida para obtener la proyección inicial.</div>
+                  <div class="content-text">Validar la proyección con usuarios críticos semanalmente y ajustar la planificación en función de la evolución del consumo.</div>
+                  <div class="content-text">Definir un nivel de stock de seguridad (stock de reserva) para productos críticos y monitorear ajustes frecuentes para evitar rupturas de stock.</div>
+                  <a href="https://www.youtube.com/watch?v=V0IYDwKgyiY&start=7237" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(02:00:37)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="16">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">16</span>
+              <span class="section-title">Filtrado de pedidos, control de inventarios y uso de sistemas</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">16.1</span>
+                  <span class="subsection-title">Estrategias para mitigar sobreabastecimiento y coordinar pedidos</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Implementar como mínimo una revisión manual de pedidos por parte del área de compras o almacén cuando no exista integración tecnológica.</div>
+                  <div class="content-text">Establecer comunicación entre almacén, usuarios y compras para verificar stock disponible y tránsito de pedidos antes de autorizar nuevas compras.</div>
+                  <div class="content-text">En entornos sin sistemas integrados, el proceso recae frecuentemente en el comprador que actúa como filtro final para evitar compras redundantes.</div>
+                  <a href="https://www.youtube.com/watch?v=V0IYDwKgyiY&start=7274" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(02:01:14)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">16.2</span>
+                  <span class="subsection-title">Beneficios de sistemas ERP y módulos de logística con visibilidad de stock</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Módulos que permitan a usuarios ver stock en tiempo real reducen pedidos duplicados y facilitan la toma de decisiones sobre requisiciones.</div>
+                  <div class="content-text">Integración del ERP con reportes y acceso por usuarios disminuye la dependencia de solicitudes por correo o WhatsApp que generan sobrecarga y errores.</div>
+                  <div class="content-text">Un control de inventario que indique stock en almacén, stock en tránsito y ubicación facilita que el pedido pase solo lo estrictamente necesario a compras.</div>
+                  <a href="https://www.youtube.com/watch?v=V0IYDwKgyiY&start=7308" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(02:01:48)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">16.3</span>
+                  <span class="subsection-title">Soluciones básicas cuando no hay integración tecnológica</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Mantener un proceso manual de verificación donde alguien revise los pedidos y confirme existencia en otros almacenes o en tránsito.</div>
+                  <div class="content-text">Comunicar al usuario el stock disponible en otros centros y coordinar transferencias internas en lugar de generar nuevas compras.</div>
+                  <div class="content-text">En ausencia de sistema, el comprador debe verificar con los actores involucrados y actuar como filtro para evitar compras innecesarias.</div>
+                  <a href="https://www.youtube.com/watch?v=V0IYDwKgyiY&start=7346" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(02:02:26)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="17">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">17</span>
+              <span class="section-title">Análisis de costo total de propiedad (TCO) y evaluación de compras de activos</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">17.1</span>
+                  <span class="subsection-title">Concepto y propósito del análisis de costo total de propiedad</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">El TCO se utiliza en la etapa de cotización para incorporar todos los costos asociados a la adquisición de un equipo a lo largo de su vida útil.</div>
+                  <div class="content-text">Incluye costos iniciales, mantenimiento, repuestos, transporte, puesta en sitio y otros costos ocultos que afectan la comparación entre proveedores.</div>
+                  <div class="content-text">El análisis permite comparar alternativas (marcas o modelos) en un mismo punto de entrega y periodo temporal homogéneo para una decisión informada.</div>
+                  <a href="https://www.youtube.com/watch?v=V0IYDwKgyiY&start=7462" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(02:04:22)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">17.2</span>
+                  <span class="subsection-title">Componentes y metodología para elaborar la corrida del TCO</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Definir el horizonte temporal acorde a la vida útil del equipo (por ejemplo 5-10 años) y determinar flujo de caja en periodo cero con el costo inicial.</div>
+                  <div class="content-text">Incluir costos periódicos: mantenimiento programado, repuestos, neumáticos u otros consumibles, transporte y costos de puesta en mina o almacén.</div>
+                  <div class="content-text">Establecer estimaciones mensuales o anuales para cada rubro y consolidarlos en una tabla comparativa para evaluar marcas y ofrecer un punto de comparación uniforme.</div>
+                  <a href="https://www.youtube.com/watch?v=V0IYDwKgyiY&start=7532" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(02:05:32)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">17.3</span>
+                  <span class="subsection-title">Uso del TCO para comparar alternativas y justificar decisiones de compra</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Con el TCO se puede evidenciar que una alternativa de menor precio inicial puede resultar más cara en el largo plazo por mayores costos de mantenimiento o menor vida útil.</div>
+                  <div class="content-text">Preparar cuadros de comparación que muestren periodo, desembolsos por mes/año y suma total para facilitar la evaluación entre equipamientos equivalentes.</div>
+                  <div class="content-text">Considerar criterios técnicos y condiciones de entrega homogéneas para que la comparación entre proveedores sea válida y no se comparen "papas con camotes".</div>
+                  <a href="https://www.youtube.com/watch?v=V0IYDwKgyiY&start=7610" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(02:06:50)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="18">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">18</span>
+              <span class="section-title">Implementación y gestión de indicadores KPI en compras y almacén</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">18.1</span>
+                  <span class="subsection-title">Fuentes de datos y herramientas para construir indicadores</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Extraer data desde el ERP (por ejemplo SAP) y trabajar en Excel cuando no se dispone de herramientas de BI (Power BI) o conexión directa.</div>
+                  <div class="content-text">Configurar reportes en el ERP o establecer conexión por parte del área de sistemas para que la información fluya automáticamente hacia tableros (dashboards).</div>
+                  <div class="content-text">Uso de tablas dinámicas en Excel y fórmulas para automatizar la actualización de KPI cuando se pegan datos nuevos desde el ERP.</div>
+                  <a href="https://www.youtube.com/watch?v=V0IYDwKgyiY&start=7689" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(02:08:09)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">18.2</span>
+                  <span class="subsection-title">Lista de indicadores implementados y su finalidad</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Volumen de compras: indicador que mide el monto o volumen de adquisiciones en un periodo determinado para control financiero.</div>
+                  <div class="content-text">Entregas perfectas recibidas: indicador de recepción que evalúa la conformidad de despachos con lo solicitado y su calidad.</div>
+                  <div class="content-text">Inventario medio de almacén en días: mide el tiempo promedio que los productos permanecen en almacén, útil para gestionar rotación y obsolescencia.</div>
+                  <a href="https://www.youtube.com/watch?v=V0IYDwKgyiY&start=7780" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(02:09:40)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">18.3</span>
+                  <span class="subsection-title">Indicadores adicionales y criterios de aceptación</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Rotación de inventario y número de salidas por familias de producto para enfocarse en la gestión por familias y evitar analizar cada artículo individualmente.</div>
+                  <div class="content-text">Registros de inventario y ciclos de conteo (inventarios cíclicos) para mantener la integridad del stock y detectar desviaciones.</div>
+                  <div class="content-text">Definir criterios de aceptación alto/medio/bajo para cada KPI según estándares y los requisitos de la norma aplicada, para interpretar si un valor es positivo o negativo.</div>
+                  <a href="https://www.youtube.com/watch?v=V0IYDwKgyiY&start=7802" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(02:10:02)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="19">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">19</span>
+              <span class="section-title">Evaluación de proveedores y métricas de desempeño</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">19.1</span>
+                  <span class="subsection-title">Proceso y alcance de la evaluación de proveedores</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">La evaluación se focaliza en proveedores críticos; no todos los proveedores se evalúan con la misma intensidad, privilegiando aquellos que impactan operaciones.</div>
+                  <div class="content-text">Incluir métricas cuantitativas (número de proveedores evaluados, condiciones de crédito) y cualitativas (calidad, cumplimiento de entrega).</div>
+                  <div class="content-text">Mantener un registro y una pestaña de evaluación en la herramienta de indicadores con fórmulas que determinen puntajes y nivel de criticidad.</div>
+                  <a href="https://www.youtube.com/watch?v=V0IYDwKgyiY&start=7957" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(02:12:37)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">19.2</span>
+                  <span class="subsection-title">Fórmulas y criterios aplicados en la evaluación</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Fórmulas para identificar proveedores críticos según compra total, frecuencia y valor económico, junto con criterios de aceptación por rangos.</div>
+                  <div class="content-text">Evaluación de proveedores por créditos solicitados o condiciones de pago, por ejemplo igual o mayor a 30 días, como criterio financiero relevante.</div>
+                  <div class="content-text">Generar reportes que muestren número total de proveedores evaluados y segmentación por criticidad para priorizar acciones de gestión.</div>
+                  <a href="https://www.youtube.com/watch?v=V0IYDwKgyiY&start=7965" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(02:12:45)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">19.3</span>
+                  <span class="subsection-title">Uso de resultados de evaluación para acciones de mejora y seguimiento</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Aplicar acciones correctivas con proveedores que no cumplan criterios, y fomentar relaciones estratégicas con proveedores que demuestran buen desempeño.</div>
+                  <div class="content-text">Integrar la evaluación en procesos de licitación y selección, priorizando proveedores con mejores indicadores dentro del periodo considerado.</div>
+                  <div class="content-text">Utilizar la información para planificar capacitaciones, renegociaciones contractuales y planes de continuidad de suministro.</div>
+                  <a href="https://www.youtube.com/watch?v=V0IYDwKgyiY&start=7976" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(02:12:56)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="20">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">20</span>
+              <span class="section-title">Actualización de datos y automatización de reportes en ausencia de integraciones</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">20.1</span>
+                  <span class="subsection-title">Procedimiento para actualizar indicadores con Excel y datos del ERP</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Mantener una hoja base con la data descargada del ERP y otra hoja con las fórmulas de indicadores, copiando y pegando los nuevos datos periódicamente.</div>
+                  <div class="content-text">Formatear la hoja de datos y limpiar registros antes de pegarlos en la base para asegurar la correcta lectura por las fórmulas y tablas dinámicas.</div>
+                  <div class="content-text">Utilizar tablas dinámicas y referencias estructuradas para que, al actualizar la base de datos, los KPI se recalculen automáticamente sin rehacer fórmulas manuales.</div>
+                  <a href="https://www.youtube.com/watch?v=V0IYDwKgyiY&start=8024" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(02:13:44)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">20.2</span>
+                  <span class="subsection-title">Ventajas y limitaciones del enfoque manual con Excel</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Excel permite construir indicadores básicos y automatizarlos hasta cierto punto, siendo una solución práctica cuando no hay Power BI o conexión al ERP.</div>
+                  <div class="content-text">La limitación radica en la dependencia de descargas manuales, limpieza de datos y riesgo de errores humanos si no existen procesos estandarizados.</div>
+                  <div class="content-text">Aun con Excel, es posible lograr actualizaciones periódicas y consistencia mediante plantillas, tablas dinámicas y procesos de pegado estructurado.</div>
+                  <a href="https://www.youtube.com/watch?v=V0IYDwKgyiY&start=8058" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(02:14:18)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">20.3</span>
+                  <span class="subsection-title">Recomendación operativa para gestionar la información en organizaciones pequeñas</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Implementar procesos mínimos de control y estandarización de archivos Excel para que cualquier persona pueda actualizar indicadores sin romper la estructura.</div>
+                  <div class="content-text">Priorizar la automatización progresiva: empezar con Excel bien estructurado y luego avanzar a integraciones con BI cuando sistemas y área de TI lo permitan.</div>
+                  <div class="content-text">Mantener disciplina en la generación de reportes, definir responsables y frecuencias de actualización para asegurar la calidad de los KPI.</div>
+                  <a href="https://www.youtube.com/watch?v=V0IYDwKgyiY&start=8082" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(02:14:42)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="21">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">21</span>
+              <span class="section-title">Carrera profesional y formación necesaria para compradores y analistas en minería</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">21.1</span>
+                  <span class="subsection-title">Trayectoria típica y tiempos de progresión profesional relatados por el ponente</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">La progresión varía por empresa, pero el ponente describe su experiencia: comprador (2006-2009), encargado de importaciones (2009-2013), jefe de importaciones (2013-2016), jefe de proyectos y luego jefe de compras estratégicas, culminando en gerente de logística.</div>
+                  <div class="content-text">En su caso, la evolución en cargos tomó entre tres y cuatro años en cada etapa, dependiente de responsabilidades y oportunidades del proyecto.</div>
+                  <div class="content-text">No existe un estándar fijo; en algunas empresas asistentes realizan tareas de analista sin ostentar el título formal, lo que varía la percepción de experiencia necesaria.</div>
+                  <a href="https://www.youtube.com/watch?v=V0IYDwKgyiY&start=8140" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(02:15:40)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">21.2</span>
+                  <span class="subsection-title">Capacitación recomendada y cursos que aportaron al desarrollo profesional</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Cursos y diplomados relevantes mencionados: diplomado en operaciones y logística, cursos de comercio internacional, programas específicos de logística en empresas automotrices y maestría con doble titulación.</div>
+                  <div class="content-text">Formación en temas prácticos: planificación de operaciones, consumo y stocks en Excel, cartas de crédito y comercio internacional para manejo de importaciones.</div>
+                  <div class="content-text">Cursos complementarios de ofimática (Office completo) y actualizaciones periódicas son importantes para aplicar herramientas en el trabajo diario.</div>
+                  <a href="https://www.youtube.com/watch?v=V0IYDwKgyiY&start=8285" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(02:18:05)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">21.3</span>
+                  <span class="subsection-title">Aplicación práctica de la formación en el entorno laboral y recomendaciones</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">La formación de posgrado y diplomados aporta herramientas para planificar operaciones, elaborar cuadros de consumo y gestionar compras e importaciones en minería.</div>
+                  <div class="content-text">Aprendizaje práctico en Excel y en el uso de herramientas de planificación es esencial porque muchas tareas operativas se ejecutan en hojas de cálculo.</div>
+                  <div class="content-text">Recomendar formación continua y la especialización en logística aplicada a minería, ya que no existe una carrera universitaria única en logística, por lo que la capacitación por cursos y maestrías es clave.</div>
+                  <a href="https://www.youtube.com/watch?v=V0IYDwKgyiY&start=8371" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(02:19:31)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="22">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">22</span>
+              <span class="section-title">Cierre de la sesión, recursos y comunicación académica final</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">22.1</span>
+                  <span class="subsection-title">Agradecimientos, accesibilidad del docente y seguimiento post-clase</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">El ponente agradece la participación y preguntas, ofrece su correo particular para consultas y expresa su disposición a mantener contacto con los alumnos.</div>
+                  <div class="content-text">Se enfatiza el valor de las preguntas para hacer la clase más dinámica y útil para la audiencia.</div>
+                  <a href="https://www.youtube.com/watch?v=V0IYDwKgyiY&start=8425" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(02:20:25)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">22.2</span>
+                  <span class="subsection-title">Mensajes administrativos y entrega de grabación</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Recordatorio de que se enviará la grabación de la clase para que los alumnos repasen puntos que no hayan quedado claros.</div>
+                  <div class="content-text">Se informará a los alumnos sobre consultas relacionadas con el examen o la nota final y se proyectaron en pantalla los números de coordinación académica y el correo electrónico de contacto.</div>
+                  <a href="https://www.youtube.com/watch?v=V0IYDwKgyiY&start=8460" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(02:21:00)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">22.3</span>
+                  <span class="subsection-title">Despedida y cierre formal de la sesión académica</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Finalización de la sesión con deseos de buena noche para los participantes y cierre por parte del monitor académico.</div>
+                  <div class="content-text">Confirmación de la finalización de la clase y agradecimientos finales a los asistentes.</div>
+                  <a href="https://www.youtube.com/watch?v=V0IYDwKgyiY&start=8478" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(02:21:18)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <a href="https://www.edumin.pe/" target="_blank">
+        <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/LOGO%20BLANCO%20CANVA-mIKMypQ452RzmXVMUadb6mnvPaejXD.png" alt="EDUMIN Logo" class="footer-logo" />
+      </a>
+      <p class="footer-text">
+  <span style="display: block; font-weight: bold;">Contenido desarrollado por EDUMIN - Centro de Capacitación Especializado en Minería, Industria y Negocios</span>
+  <span style="display: block; font-style: italic;">Material exclusivo para estudiantes de EDUMIN</span>
+  <a href="https://www.edumin.pe/" target="_blank" style="color: var(--color-principal); text-decoration: none; display: block;">https://www.edumin.pe/</a>
+</p>
+    </div>
+
+    <script>
+      let originalTextMap = {};
+
+      const TITULO_DIPLOMADO = "SUPPLY CHAIN MANAGEMENT EN INDUSTRIA Y MINERÍA".toUpperCase();
+      const TITULO_CLASE = "CLASE 22: DISEÑO DE CADENAS DE SUMINISTRO SOSTENIBLES, ÁGILES Y RESILIENTES".toUpperCase();
+
+      const elementoDiplomado = document.getElementById("tituloDiplomado");
+      if (elementoDiplomado) {
+        elementoDiplomado.innerText = TITULO_DIPLOMADO;
+      }
+
+      document.title = TITULO_CLASE;
+      const tituloPrincipal = document.getElementById("tituloPrincipal");
+      if (tituloPrincipal) {
+        tituloPrincipal.innerText = TITULO_CLASE;
+      }
+
+      const tituloCompacto = document.getElementById("tituloCompacto");
+      if (tituloCompacto) {
+        tituloCompacto.innerText = TITULO_CLASE;
+      }
+
+      function cacheOriginalTexts() {
+        const searchableItems = document.querySelectorAll(".section-title, .subsection-title, .content-text");
+
+        let idCounter = 0;
+
+        searchableItems.forEach((item) => {
+          if (!item.id) {
+            item.id = `search-item-${idCounter++}`;
+          }
+
+          originalTextMap[item.id] = item.textContent.trim();
+        });
+      }
+
+      document.addEventListener("DOMContentLoaded", cacheOriginalTexts);
+
+      function toggleSection(element) {
+        const section = element.closest(".section");
+        const wasActive = section.classList.contains("active");
+
+        section.classList.toggle("active");
+
+        if (wasActive) {
+          const subsections = section.querySelectorAll(".subsection");
+          subsections.forEach((subsection) => {
+            subsection.classList.remove("active");
+          });
+        }
+      }
+
+      function toggleSubsection(element) {
+        const subsection = element.closest(".subsection");
+        subsection.classList.toggle("active");
+      }
+
+      function expandAll() {
+        const sections = document.querySelectorAll(".section");
+        sections.forEach((section) => {
+          section.classList.add("active");
+        });
+
+        const subsections = document.querySelectorAll(".subsection");
+        subsections.forEach((subsection) => {
+          subsection.classList.add("active");
+        });
+      }
+
+      function collapseAll() {
+        const sections = document.querySelectorAll(".section");
+        sections.forEach((section) => {
+          section.classList.remove("active");
+        });
+
+        const subsections = document.querySelectorAll(".subsection");
+        subsections.forEach((subsection) => {
+          subsection.classList.remove("active");
+        });
+      }
+
+      function debounce(func, delay) {
+        let timeout;
+        return function (...args) {
+          const later = () => {
+            clearTimeout(timeout);
+            func.apply(this, args);
+          };
+          clearTimeout(timeout);
+          timeout = setTimeout(later, delay);
+        };
+      }
+
+      function clearSearch() {
+        const searchInput = document.getElementById("searchInput");
+        const clearBtn = document.querySelector(".search-actions .clear-search");
+        searchInput.value = "";
+        clearBtn.style.display = "none";
+        searchContent();
+        searchInput.focus();
+      }
+
+      const createDiacriticInsensitiveRegex = (term) => {
+        const charMap = {
+          a: "[aáAÁ]",
+          e: "[eéEÉ]",
+          i: "[iíIÍ]",
+          o: "[oóOÓ]",
+          u: "[uúUÚ]",
+        };
+
+        const regexString = term
+          .split("")
+          .map((char) => {
+            const lowerChar = char.toLowerCase();
+            return charMap[lowerChar] || char;
+          })
+          .join("");
+
+        return new RegExp(`(${regexString})`, "gi");
+      };
+      function searchContent() {
+        const inputElement = document.getElementById("searchInput");
+        const searchTerm = inputElement.value.trim();
+
+        const searchableElements = document.querySelectorAll(".content-text, .section-title, .subsection-title");
+        let found = false;
+        let firstMatchElement = null;
+
+        // 1. Limpia clases 'active'
+        document.querySelectorAll(".section.active").forEach((el) => el.classList.remove("active"));
+        document.querySelectorAll(".subsection.active").forEach((el) => el.classList.remove("active"));
+
+        // 2. RESTAURACIÓN DEL CONTENIDO (CORRECCIÓN CLAVE 1)
+        // Se usa el mapa en memoria para restaurar el HTML de los elementos
+        searchableElements.forEach((element) => {
+          // Usamos el ID del elemento para buscar el texto original en la memoria
+          element.innerHTML = originalTextMap[element.id] || element.textContent;
+        });
+
+        if (searchTerm.length < 3) {
+          // Si el término es muy corto, restauramos y salimos
+          return;
+        }
+
+        const searchRegex = createDiacriticInsensitiveRegex(searchTerm);
+
+        searchableElements.forEach((element) => {
+          // 3. OBTENCIÓN DEL TEXTO PARA BÚSQUEDA (CORRECCIÓN CLAVE 2)
+          // Usamos la variable de bucle 'element' para obtener el ID
+          const originalText = originalTextMap[element.id] || element.textContent; // ¡Corregido de 'item.id' a 'element.id'!
+
+          if (searchRegex.test(originalText)) {
+            found = true;
+
+            // Resaltado
+            element.innerHTML = originalText.replace(searchRegex, `<span class="highlight">$1</span>`);
+
+            // Activación de secciones y subsecciones
+            const subsection = element.closest(".subsection");
+            if (subsection) {
+              subsection.classList.add("active");
+              subsection.closest(".section")?.classList.add("active");
+            } else if (element.classList.contains("section-title")) {
+              element.closest(".section")?.classList.add("active");
+            }
+
+            if (!firstMatchElement) {
+              firstMatchElement = element;
+            }
+          }
+        });
+
+        // Lógica de desplazamiento
+        if (firstMatchElement) {
+          requestAnimationFrame(() => {
+            firstMatchElement.scrollIntoView({
+              behavior: "smooth",
+              block: "center",
+            });
+          });
+        } else if (searchTerm.length >= 3) {
+          alert("No se encontraron resultados para: " + searchTerm);
+        }
+      }
+
+      const debouncedSearch = debounce(searchContent, 300);
+
+      document.getElementById("searchInput").addEventListener("input", function () {
+        const clearBtn = document.querySelector(".search-actions .clear-search");
+        clearBtn.style.display = this.value.length > 0 ? "block" : "none";
+        debouncedSearch();
+      });
+
+      document.getElementById("searchInput").addEventListener("keypress", function (e) {
+        if (e.key === "Enter") {
+          clearTimeout(this._timeoutId);
+          searchContent();
+        }
+      });
+
+      // --- Lógica del Header Compacto ---
+      const header = document.querySelector(".header");
+      const headerSpacer = document.querySelector(".header-spacer");
+      let initialHeaderHeight = 0; // Altura del header original
+      let compactHeaderHeight = 0; // Altura del header en modo compacto
+      let scrollTriggerPoint = 0; // Punto de scroll para activar el cambio
+
+      function handleHeaderState() {
+        const scrollY = window.scrollY || document.documentElement.scrollTop;
+
+        if (scrollY > scrollTriggerPoint) {
+          if (!header.classList.contains("compact")) {
+            header.classList.add("compact");
+            headerSpacer.style.height = `${initialHeaderHeight}px`;
+          }
+        } else {
+          if (header.classList.contains("compact")) {
+            header.classList.remove("compact");
+            headerSpacer.style.height = "0px";
+          }
+        }
+      }
+
+      function initializeHeader() {
+        initialHeaderHeight = header.offsetHeight;
+        const headerClone = header.cloneNode(true);
+        headerClone.classList.add("compact");
+        headerClone.style.visibility = "hidden";
+        headerClone.style.position = "absolute";
+        document.body.appendChild(headerClone);
+        compactHeaderHeight = headerClone.offsetHeight;
+        document.body.removeChild(headerClone);
+
+        scrollTriggerPoint = initialHeaderHeight - compactHeaderHeight;
+      }
+
+      document.addEventListener("DOMContentLoaded", initializeHeader);
+      window.addEventListener("scroll", handleHeaderState);
+      window.addEventListener("resize", debounce(initializeHeader, 200));
+    </script>
+  </body>
+</html>

@@ -1,0 +1,1770 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title></title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet" />
+    <style>
+      /* Estilos de balanceo de texto */
+      .header-content-box,
+      .header-compact-title,
+      .footer,
+      .section-title,
+      .subsection-title {
+        text-wrap: balance;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Inter", sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+
+      :root {
+        /* Colores Principales del Diseño (Acentos y Degradados) */
+        /* ======================================================= */
+        --color-principal: #00beff; /* Cian Brillante para acentos, bordes y el inicio del degradado principal */
+        --color-secundario: #1e50cd; /* Azul Medio, parte final del degradado de acento */
+
+        /* Fondos Oscuros de la Interfaz */
+        /* ======================================================= */
+        --fondo-oscuro-claro: #002a52; /* Fondo de secciones y contenido */
+        --fondo-oscuro-fuerte: #001a33; /* Fondo del encabezado (header) y pie de página (footer) */
+        /* ======================================================= */
+        --fondo-oscuro-medio: #003366; /* Fondo de encabezados y cajas de contenido */
+        --fondo-borde-claro: #004080; /* Bordes ligeros y color de fondo al hacer hover en encabezados */
+        --fondo-sombra-azul-header: #0050a0; /* ¡NUEVO! Sombra en el header */
+
+        /* Colores de Texto y Fondo General del Body */
+        /* ======================================================= */
+        --texto-blanco-1: #ffffff; /* Blanco puro para títulos y texto en fondo muy oscuro */
+        --texto-claro-2: #e6e6e6; /* Texto principal y claro */
+        --texto-medio-3: #cccccc; /* Texto de contenido de item (un poco más tenue) */
+
+        /* ======================================================= */
+        --fondo-body-inicio: #99e5ff; /* Color de inicio del degradado de fondo del body */
+        --fondo-body-fin: #a5b9eb; /* Color de final del degradado de fondo del body */
+
+        /* Colores de Acento Específicos (YouTube, Búsqueda) */
+        /* ======================================================= */
+        --rojo-youtube-claro: #e60000;
+        --rojo-youtube-fuerte: #a30000;
+        --timestamp-youtube: #ffcccc;
+        --fondo-resaltado: #00c339; /* Verde para el fondo del texto buscado */
+
+        /* Bases RGB para Transparencias (RGBA) */
+        /* ======================================================= */
+        --sombra-rgb: 0, 0, 0; /* Negro puro: Usado para sombras generales y profundidad */
+        --acento-rgb: 0, 190, 255; /* Cian Brillante: Usado para brillos y sombras de acento */
+        --rojo-rgb: 230, 0, 0; /* Rojo Puro: Usado para sombras de enlaces de YouTube */
+        /* ======================================================= */
+        --gradient-principal: linear-gradient(135deg, var(--color-principal) 0%, var(--color-secundario) 100%);
+      }
+
+      body {
+        background: linear-gradient(135deg, var(--fondo-body-inicio) 0%, var(--fondo-body-fin) 100%);
+        line-height: 1.2;
+        scroll-behavior: smooth;
+      }
+
+      strong#tituloDiplomado {
+        font-weight: 900;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      @keyframes slideDownSutil {
+        0% {
+          opacity: 0;
+          transform: translateY(-10px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .header.animacion-inicial {
+        animation: slideDownSutil 0.4s ease-out 1;
+        animation-fill-mode: forwards;
+        will-change: transform, opacity;
+      }
+
+      .header {
+        position: relative;
+        width: 100%;
+        z-index: 1000;
+        padding: 20px;
+        background: linear-gradient(135deg, var(--fondo-oscuro-fuerte) 0%, var(--fondo-oscuro-claro) 100%);
+        box-shadow: 0 5px 15px rgba(var(--sombra-rgb), 0.5);
+        text-align: center;
+        will-change: transform;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .header-text-box {
+        display: grid;
+        gap: 10px;
+        word-break: break-word;
+        margin: 0 15px;
+      }
+
+      .header.compact {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: fixed;
+      }
+
+      .header-spacer {
+        display: none;
+        transition: height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .header.compact + .header-spacer {
+        display: block;
+      }
+
+      .header-top {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .header.compact .header-top {
+        display: none;
+      }
+
+      .logo {
+        width: 140px;
+        height: auto;
+        margin: 0 15px;
+        transition: all 0.3s ease;
+        vertical-align: middle;
+      }
+
+      .header.compact .logo {
+        width: 90px;
+        margin: 0 10px;
+      }
+
+      .header .logo.compact-logo {
+        display: none;
+      }
+
+      .header.compact .logo.compact-logo {
+        display: block;
+      }
+
+      .header h1 {
+        font-size: 2rem;
+        color: var(--texto-blanco-1);
+        font-weight: 900;
+      }
+
+      .header.compact h1 {
+        font-size: 1rem;
+      }
+
+      .header p {
+        font-size: 1.2rem;
+        color: var(--texto-blanco-1);
+        font-weight: 700;
+      }
+
+      .header-content-box {
+        background: var(--gradient-principal);
+        border-radius: 12px;
+        padding: 20px 20px;
+        box-shadow: 0 8px 20px rgba(var(--acento-rgb), 0.6);
+        overflow: hidden;
+        margin-bottom: 15px;
+
+        opacity: 1;
+        transform: translateY(0);
+        will-change: transform;
+        transition:
+          opacity 0.4s ease,
+          transform 0.4s ease;
+      }
+
+      .header.compact .header-content-box {
+        opacity: 0;
+        max-height: 0;
+        padding-top: 0;
+        padding-bottom: 0;
+        margin-bottom: 0;
+        border: 0;
+        transform: translateY(-10px);
+      }
+
+      .header-content-box:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 30px rgba(var(--acento-rgb), 0.8);
+      }
+
+      .header-bottom-row {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+        flex-wrap: wrap;
+        width: 100%;
+      }
+
+      .header-second-row {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+        flex-wrap: wrap;
+        width: 100%;
+      }
+
+      .header.compact .header-bottom-row {
+        flex-grow: 1;
+      }
+
+      .logo-and-title {
+        opacity: 0;
+        overflow: hidden;
+        transform: translateY(-10px);
+        transition:
+          opacity 0.4s ease,
+          transform 0.4s ease;
+      }
+
+      .header.compact .logo-and-title {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .header.compact .header-bottom-row .logo-and-title {
+        will-change: transform;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-grow: 1;
+        width: 100%;
+        background: var(--gradient-principal);
+        border-radius: 12px;
+        padding: 10px;
+        box-shadow: 0 4px 10px rgba(var(--acento-rgb), 0.4);
+        gap: 10px;
+      }
+
+      .header.compact .header-bottom-row .logo-and-title:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(var(--acento-rgb), 0.5);
+      }
+
+      .header-compact-title {
+        display: none;
+        color: var(--texto-blanco-1);
+        font-size: 1.2rem;
+        font-weight: 700;
+        margin: 10px;
+        white-space: normal;
+      }
+
+      .header.compact .header-compact-title {
+        display: block;
+      }
+
+      .search-bar {
+        position: relative;
+        display: flex;
+        align-items: center;
+        width: 100%;
+        max-width: 450px;
+        background-color: var(--fondo-oscuro-medio);
+        border: 2px solid var(--fondo-borde-claro);
+        border-radius: 30px;
+        box-shadow: 0 4px 10px rgba(var(--sombra-rgb), 0.25);
+        will-change: border-color, background-color;
+        transition:
+          border-color 0.3s ease,
+          box-shadow 0.3s ease,
+          background-color 0.3s ease;
+      }
+
+      .search-bar:focus-within {
+        border-color: var(--fondo-sombra-azul-header);
+        background-color: var(--fondo-borde-claro);
+      }
+
+      .clear-search {
+        cursor: pointer;
+        color: var(--texto-claro-2);
+        padding: 5px;
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1;
+        display: none;
+        transition: color 0.2s ease;
+        transform: scale(1.5);
+      }
+
+      .clear-search:hover {
+        color: var(--texto-blanco-1);
+      }
+
+      .search-bar input {
+        flex-grow: 1;
+        padding: 10px 18px;
+        font-weight: 400;
+        font-size: 1rem;
+        color: var(--texto-claro-2);
+        background-color: transparent;
+        border: none;
+        outline: none;
+        min-width: 0px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .header.compact .search-bar input {
+        padding: 10px 20px;
+      }
+
+      .search-actions {
+        display: flex;
+        align-items: center;
+      }
+
+      .action-button {
+        background: var(--gradient-principal);
+        border: none;
+        color: var(--texto-blanco-1);
+        padding: 8px 18px;
+        border-radius: 30px;
+        cursor: pointer;
+        font-size: 1rem;
+        font-weight: 600;
+        will-change: transform;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 10px rgba(var(--acento-rgb), 0.4);
+        max-width: 150px;
+        white-space: normal;
+      }
+
+      .action-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(var(--acento-rgb), 0.5);
+      }
+
+      .search-bar .action-button {
+        margin: 5px;
+      }
+
+      .controls {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+      }
+
+      @keyframes fadeInUpContent {
+        0% {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .mind-map {
+        transition: margin-top 0.4s ease;
+        margin: 50px 0;
+      }
+
+      .mind-map.animacion-contenido {
+        animation: fadeInUpContent 0.4s ease-out 1 forwards;
+        animation-delay: 0.2s;
+        opacity: 0;
+        will-change: opacity, transform;
+      }
+
+      .section {
+        margin-bottom: 20px;
+        background-color: var(--fondo-oscuro-claro);
+        border-radius: 12px;
+        border: 2px solid var(--fondo-oscuro-medio);
+        overflow: hidden;
+        box-shadow: 0 2px 10px rgba(var(--sombra-rgb), 0.25);
+        transition: border-color 0.3s ease;
+      }
+
+      .section-header {
+        padding: 20px;
+        background-color: var(--fondo-oscuro-medio);
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        will-change: background-color;
+        transition:
+          background-color 0.3s ease,
+          color 0.3s ease;
+      }
+
+      .section-title {
+        font-size: 1.4rem;
+        font-weight: 700;
+        color: var(--texto-claro-2);
+        margin-right: 10px;
+      }
+
+      .section-number {
+        background: var(--gradient-principal);
+        color: var(--texto-blanco-1);
+        padding: 5px 12px;
+        border-radius: 30px;
+        font-size: 15px;
+        font-weight: 700;
+        margin-right: 15px;
+      }
+
+      .toggle-icon {
+        font-size: 1.2rem;
+        color: var(--texto-claro-2);
+        will-change: transform;
+        transition: transform 0.3s ease;
+      }
+
+      .section.active > .section-header .toggle-icon {
+        transform: rotate(180deg);
+      }
+
+      .section-content {
+        max-height: 0;
+        overflow: hidden;
+        opacity: 0;
+        transition:
+          max-height 0.5s ease-out,
+          opacity 0.3s ease-in;
+      }
+
+      .section.active .section-content {
+        max-height: fit-content;
+        padding-bottom: 10px;
+        opacity: 1;
+      }
+
+      .subsection {
+        margin: 15px;
+        background-color: var(--fondo-oscuro-medio);
+        border-radius: 12px;
+        border: 2px solid var(--fondo-borde-claro);
+        overflow: hidden;
+        transition: border-color 0.3s ease;
+      }
+
+      .subsection:hover {
+        border-color: var(--fondo-sombra-azul-header);
+      }
+
+      .subsection:hover .subsection-header {
+        background-color: var(--fondo-sombra-azul-header);
+      }
+
+      .section:hover {
+        border-color: var(--fondo-borde-claro);
+      }
+
+      .section:hover .section-header {
+        background-color: var(--fondo-borde-claro);
+      }
+
+      .subsection-header {
+        padding: 15px;
+        background-color: var(--fondo-borde-claro);
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        will-change: background-color;
+        transition:
+          background-color 0.3s ease,
+          color 0.3s ease;
+      }
+
+      .subsection-title {
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: var(--texto-claro-2);
+        margin-right: 10px;
+      }
+
+      .subsection-number {
+        background: var(--gradient-principal);
+        color: var(--texto-blanco-1);
+        padding: 4px 10px;
+        border-radius: 30px;
+        font-size: 15px;
+        font-weight: 700;
+        margin-right: 12px;
+      }
+
+      .subsection-content {
+        max-height: 0;
+        overflow: hidden;
+        background-color: var(--fondo-oscuro-claro);
+        opacity: 0;
+        transition:
+          max-height 0.5s ease-out,
+          opacity 0.3s ease-in;
+      }
+
+      .subsection.active .subsection-content {
+        max-height: fit-content;
+        padding: 15px;
+        opacity: 1;
+      }
+
+      .subsection.active .toggle-icon {
+        transform: rotate(180deg);
+      }
+
+      .content-item {
+        margin-bottom: 10px;
+        padding: 15px;
+        background-color: var(--fondo-oscuro-medio);
+        border-radius: 12px;
+        border-left: 4px solid var(--color-principal);
+        box-shadow: 0 1px 5px rgba(var(--sombra-rgb), 0.25);
+      }
+
+      .content-text {
+        color: var(--texto-medio-3);
+        margin-bottom: 5px;
+        line-height: 1.4;
+        font-size: 1rem;
+        font-weight: 500;
+        position: relative;
+        padding-left: 15px;
+      }
+
+      .content-text::before {
+        content: "•";
+        color: var(--color-principal);
+        font-weight: 700;
+        display: inline-block;
+        position: absolute;
+        left: 0px;
+      }
+
+      .youtube-link {
+        display: inline-block;
+        padding: 10px 18px;
+        background: linear-gradient(135deg, var(--rojo-youtube-claro) 0%, var(--rojo-youtube-fuerte) 100%);
+        color: var(--texto-blanco-1);
+        cursor: pointer;
+        text-decoration: none;
+        border-radius: 30px;
+        font-size: 0.9rem;
+        font-weight: 500;
+        line-height: 1rem;
+        transition: all 0.3s ease;
+        margin-top: 10px;
+        box-shadow: 0 2px 5px rgba(var(--rojo-rgb), 0.4);
+        will-change: transform;
+      }
+
+      .youtube-link:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 3px 7.5px rgba(var(--rojo-rgb), 0.5);
+        will-change: transform;
+      }
+
+      .timestamp {
+        color: var(--timestamp-youtube);
+        font-size: 0.85rem;
+        margin-left: 10px;
+        font-weight: 400;
+      }
+
+      .highlight {
+        background-color: var(--fondo-resaltado);
+        color: var(--texto-blanco-1);
+        font-weight: 700;
+        padding: 4px;
+        border-radius: 6px;
+      }
+
+      .footer {
+        padding: 30px;
+        background: linear-gradient(135deg, var(--fondo-oscuro-fuerte) 0%, var(--fondo-oscuro-claro) 100%);
+        border-top: 1px solid var(--fondo-oscuro-medio);
+        text-align: center;
+        box-shadow: 0 -2px 10px rgba(var(--sombra-rgb), 0.25);
+      }
+
+      .footer-text {
+        color: var(--texto-claro-2);
+        font-size: 0.9rem;
+        line-height: 1.6;
+      }
+
+      .footer-logo {
+        width: 140px;
+        height: auto;
+        margin-bottom: 20px;
+      }
+
+      @media (max-width: 768px) {
+        .header-top {
+          flex-direction: column;
+        }
+
+        .logo {
+          margin: 0;
+        }
+
+        .header-text-box {
+          margin: 0;
+        }
+
+        .header h1 {
+          font-size: 1.5rem;
+        }
+
+        .header p {
+          font-size: 1rem;
+        }
+
+        .header.compact .header-bottom-row .logo-and-title {
+          gap: 5px;
+        }
+        .logo,
+        .footer-logo {
+          width: 105px;
+        }
+
+        .header.compact .header-bottom-row {
+          flex-direction: column;
+        }
+
+        .header.compact .header-compact-title {
+          margin: 0 5px;
+          font-size: 0.8rem;
+        }
+
+        .header.compact .logo.compact-logo {
+          width: 65px;
+          margin: 5px;
+        }
+
+        .action-button,
+        .search-bar input,
+        .clear-search {
+          font-size: 0.9rem;
+        }
+
+        .section-header {
+          padding: 15px;
+        }
+
+        .header.compact .controls {
+          flex-direction: row;
+        }
+
+        .section-title {
+          font-size: 1.1rem;
+        }
+
+        .subsection-title {
+          font-size: 1rem;
+        }
+        .section-number,
+        .subsection-number {
+          font-size: 13px;
+        }
+
+        .content-text {
+          font-size: 0.9rem;
+        }
+
+        .youtube-link {
+          font-size: 0.8rem;
+        }
+
+        .timestamp {
+          font-size: 0.75rem;
+        }
+
+        .header.compact .action-button {
+          padding: 6px 18px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header animacion-inicial">
+      <div class="header-content-box">
+        <div class="header-top">
+          <a href="https://www.edumin.pe/" target="_blank">
+            <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/LOGO%20BLANCO%20CANVA-mIKMypQ452RzmXVMUadb6mnvPaejXD.png" alt="EDUMIN Logo" class="logo" />
+          </a>
+          <div class="header-text-box">
+            <h1>
+              <div>DIPLOMADO DE ALTA ESPECIALIZACIÓN</div>
+              <strong id="tituloDiplomado" style="display: block"></strong>
+            </h1>
+            <p id="tituloPrincipal"></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="header-bottom-row">
+        <div class="logo-and-title">
+          <a href="https://www.edumin.pe/" target="_blank">
+            <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/LOGO%20BLANCO%20CANVA-mIKMypQ452RzmXVMUadb6mnvPaejXD.png" alt="EDUMIN Logo" class="logo compact-logo" />
+          </a>
+          <span class="header-compact-title" id="tituloCompacto"></span>
+        </div>
+        <div class="header-second-row">
+          <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Buscar en el resumen interactivo…" autocomplete="off" />
+            <div class="search-actions">
+              <span class="clear-search" onclick="clearSearch()">&times;</span>
+              <button class="action-button" onclick="searchContent()">Buscar</button>
+            </div>
+          </div>
+
+          <div class="controls">
+            <button class="action-button" onclick="expandAll()">Mostrar todo</button>
+            <button class="action-button" onclick="collapseAll()">Colapsar todo</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="header-spacer"></div>
+
+    <div class="container">
+      <div class="mind-map animacion-contenido" id="mindMap">
+        <div class="section" data-section="1">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">1</span>
+              <span class="section-title">Bienvenida e introducción al diplomado</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">1.1</span>
+                  <span class="subsection-title">Propósito y enfoque del diplomado</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Se presenta el programa como una experiencia académica y formativa con impacto profesional y personal. Invita a aprovechar clases, lecturas e intercambios para crear y transformar conocimiento. Enfatiza diálogo, colaboración y red de contactos profesionales.</div>
+                  <div class="content-text">Diseño y respaldo académico. Diplomados diseñados con rigor y expertos para herramientas prácticas aplicables al entorno profesional. Objetivo de generar espacios de aprendizaje dinámico y participativo.</div>
+                  <a href="https://www.youtube.com/watch?v=WPgcz4OmjyE&start=0" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:00:00)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">1.2</span>
+                  <span class="subsection-title">Invitación a la participación y expectativas</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Recomendaciones para estudiantes. Preguntar, proponer, participar activamente y no limitarse a escuchar. Construir colectivamente el espacio de aprendizaje.</div>
+                  <div class="content-text">Mensaje de bienvenida y inicio del taller. Éxitos en la etapa que comienza y agradecimiento por la participación.</div>
+                  <a href="https://www.youtube.com/watch?v=WPgcz4OmjyE&start=78" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:01:18)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="2">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">2</span>
+              <span class="section-title">Presentación institucional y equipo</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">2.1</span>
+                  <span class="subsection-title">Historia y evolución de la institución</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Origen y misión. Instituto Técnico Empresarial Avanza con más de 11 años. Misión de educación técnica alineada al mercado laboral regional.</div>
+                  <div class="content-text">Creación de Edumín y expansión. 2023: creación de Edumín especializado en sector minero y formación continua. 2025: diversificación hacia industria y negocios, ampliación de la red educativa.</div>
+                  <a href="https://www.youtube.com/watch?v=WPgcz4OmjyE&start=196" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:03:16)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">2.2</span>
+                  <span class="subsection-title">Equipo académico y roles</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Presentación del equipo. Alejandra Alba: jefa académica. Roger Sanalea: asistente de coordinación y TI. Lucero Castillo: asesora académica. Diego Huamani: bienestar académico. Dember Añamuro: asesor académico y asistente de TI.</div>
+                  <div class="content-text">Funciones y canales de contacto. Equipo responsable de las sesiones y atención a dudas académicas.</div>
+                  <a href="https://www.youtube.com/watch?v=WPgcz4OmjyE&start=316" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:05:16)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="3">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">3</span>
+              <span class="section-title">Onboarding e indicaciones de integración</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">3.1</span>
+                  <span class="subsection-title">Objetivo del onboarding</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Integración y adaptación al entorno académico. Romper el hielo y aportar calidez antes del inicio formal de clases. Facilitar adaptación a la cultura institucional y comunidad educativa.</div>
+                  <div class="content-text">Analogía con recursos humanos. Onboarding trasladado al plano educativo para mejorar la experiencia inicial.</div>
+                  <a href="https://www.youtube.com/watch?v=WPgcz4OmjyE&start=355" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:05:55)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">3.2</span>
+                  <span class="subsection-title">Recomendaciones operativas</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Revisiones obligatorias y canales. Verificar correo electrónico, cronograma de clases, reglamento de estudiantes y cronograma de pagos. Mantenerse en el grupo de WhatsApp del diplomado. Cada diplomado tiene un monitor que comunica por ese grupo. Consultas canalizadas al área académica cuando sea necesario.</div>
+                  <a href="https://www.youtube.com/watch?v=WPgcz4OmjyE&start=474" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:07:54)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="4">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">4</span>
+              <span class="section-title">Plataforma Q10: acceso y uso</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">4.1</span>
+                  <span class="subsection-title">Características generales y beneficios</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Funciones de Q10. Desarrollo de clases, repositorio de material y grabaciones, certificaciones y diplomas.</div>
+                  <div class="content-text">Ventajas técnicas. Aplicación móvil disponible en Play Store. Uso de salones MIT para ingreso directo. Certificados con código QR y código único; certificación inmediata.</div>
+                  <a href="https://www.youtube.com/watch?v=WPgcz4OmjyE&start=424" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:07:04)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">4.2</span>
+                  <span class="subsection-title">Acceso inicial y configuración</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Usuario y contraseña. Usuario por defecto: número de DNI; se solicita cambio de contraseña en primer ingreso. Cambio de contraseña se mantiene hasta el final del programa.</div>
+                  <div class="content-text">Interfaz y navegación básica. Menú principal: institucional, académico, resultados, evaluación y estado de cuenta. Módulo principal de uso: académico → educación virtual → cursos virtuales.</div>
+                  <a href="https://www.youtube.com/watch?v=WPgcz4OmjyE&start=1030" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:17:10)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">4.3</span>
+                  <span class="subsection-title">Contenidos disponibles y gestión de materiales</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Materiales y grabaciones. Grabaciones de clases, archivos complementarios y lecturas en PDF. Opciones para descargar, imprimir o ver en línea. Materiales pesados se comprimen para accesibilidad.</div>
+                  <div class="content-text">Visualización y filtros de certificaciones. Cambiar filtro de estado a "todos" para ver certificados ya emitidos. Certificados modulares y diploma general disponibles para descarga. Certificados incluyen código único y código QR para validación.</div>
+                  <a href="https://www.youtube.com/watch?v=WPgcz4OmjyE&start=1226" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:20:26)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="5">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">5</span>
+              <span class="section-title">Evaluaciones, encuestas y certificación</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">5.1</span>
+                  <span class="subsection-title">Proceso de evaluación modular</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Evaluaciones al final de cada módulo. Examen modular compuesto por 10 preguntas de opción múltiple. Tiempo límite: 30 minutos desde el inicio del cuestionario. Nota aprobatoria: 12 para obtener habilitación de certificación.</div>
+                  <a href="https://www.youtube.com/watch?v=WPgcz4OmjyE&start=528" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:08:48)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">5.2</span>
+                  <span class="subsection-title">Requisitos previos y resultados</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Encuesta obligatoria. Antes de rendir cada evaluación es obligatorio completar la encuesta de satisfacción en la plataforma. Encuesta habilita el examen modular.</div>
+                  <div class="content-text">Retroalimentación inmediata y emisión de nota. Al finalizar el examen la plataforma muestra la calificación de forma inmediata. Certificación habilitada un día después de aprobar la evaluación, si corresponde.</div>
+                  <a href="https://www.youtube.com/watch?v=WPgcz4OmjyE&start=1261" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:21:01)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">5.3</span>
+                  <span class="subsection-title">Subsanatorias y extensiones</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Ampliaciones y evaluaciones fuera de tiempo. Se puede pedir una ampliación de tiempo una vez sin costo. Evaluaciones subsanatorias al finalizar el diploma con costo de 25 soles por evaluación fuera de fecha. Posibilidad de facilidades justificadas según caso.</div>
+                  <a href="https://www.youtube.com/watch?v=WPgcz4OmjyE&start=570" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:09:30)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="6">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">6</span>
+              <span class="section-title">Medios de atención y administración</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">6.1</span>
+                  <span class="subsection-title">Canales de comunicación</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Central telefónica y números. Número fijo: 054-64-3005 (se recomienda registrar en el teléfono). Horario de atención: lunes a viernes 08:30–18:30.</div>
+                  <div class="content-text">Otros canales. Números celulares y grupos de WhatsApp por diplomado. Recomendación de usar WhatsApp si líneas telefónicas están saturadas.</div>
+                  <a href="https://www.youtube.com/watch?v=WPgcz4OmjyE&start=590" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:09:50)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">6.2</span>
+                  <span class="subsection-title">Áreas y contactos específicos</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Coordinación académica, atención a diplomados y área administrativa. Área administrativa gestiona pagos y medios de pago; sugieren contacto por WhatsApp si no hay respuesta telefónica. Área comercial para referidos y nuevos inscritos.</div>
+                  <div class="content-text">Estado de cuenta en la plataforma. Se activará a partir de la segunda clase y mostrará pagos pendientes o saldos.</div>
+                  <a href="https://www.youtube.com/watch?v=WPgcz4OmjyE&start=665" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:11:05)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">6.3</span>
+                  <span class="subsection-title">Preguntas frecuentes en la sesión</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Duración y formato del examen. Exámenes: 30 minutos, 10 preguntas de múltiple opción; nota visible al terminar.</div>
+                  <div class="content-text">Costos del paquete. Paquetes: ejemplo de 360 soles incluye 3 módulos y diploma general sin pagos adicionales.</div>
+                  <div class="content-text">Materiales entregados. Se suben tanto presentaciones (diapositivas/PDF) como grabaciones. Materiales también compartidos por el grupo de WhatsApp inmediatamente después de clase.</div>
+                  <a href="https://www.youtube.com/watch?v=WPgcz4OmjyE&start=761" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:12:41)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="7">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">7</span>
+              <span class="section-title">Introducción al taller: seguridad basada en el comportamiento</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">7.1</span>
+                  <span class="subsection-title">Presentación del docente y su perfil</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Perfil de Javier Rivera. Ingeniero químico con MBA internacional por Centrum PUC. Más de 16 años de experiencia en gestión de proyectos, responsabilidad social y desarrollo sostenible. Experiencia profesional en Antapacay, Glencore, London Consulting Group y Ripley. Formación adicional: conciliación extrajudicial y certificación en gestión de proyectos PMI.</div>
+                  <a href="https://www.youtube.com/watch?v=WPgcz4OmjyE&start=1728" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:28:48)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">7.2</span>
+                  <span class="subsection-title">Inicio del tema y metodología</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Enfoque participativo y dialogado. Docente invita a interacción y preguntas de los asistentes. Objetivo de conversar más que impartir conferencia unidireccional.</div>
+                  <a href="https://www.youtube.com/watch?v=WPgcz4OmjyE&start=1894" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:31:34)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="8">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">8</span>
+              <span class="section-title">Fundamentos conceptuales: comportamiento humano y seguridad</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">8.1</span>
+                  <span class="subsection-title">Perspectiva general sobre seguridad</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Multiperspectividad del tema. Seguridad abordada tanto a nivel de tareas específicas como desde la gestión de habilidades blandas. Necesidad de análisis de procesos, levantamiento y tratamiento de información para minimizar riesgos.</div>
+                  <a href="https://www.youtube.com/watch?v=WPgcz4OmjyE&start=2159" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:35:59)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">8.2</span>
+                  <span class="subsection-title">Comportamiento humano como fenómeno dinámico</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Ser humano como variable estocástica. Contraste entre modelos lineales deterministas y comportamiento humano con múltiples respuestas posibles. Concepto de zona de ruido donde para una misma entrada (X) pueden surgir múltiples salidas (Y).</div>
+                  <div class="content-text">Implicaciones para seguridad basada en el comportamiento. Se requiere atención a soft skills, coaching y feedback para manejar la variabilidad humana. Poner a las personas en el centro y reconocer la complejidad de sus respuestas.</div>
+                  <a href="https://www.youtube.com/watch?v=WPgcz4OmjyE&start=2318" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:38:38)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">8.3</span>
+                  <span class="subsection-title">Emoción, pulsión y decisión</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Prioridad de las emociones según Maturana. Idea de que los seres humanos son primero emocionales y luego racionales. Las emociones anteceden y condicionan decisiones y acciones.</div>
+                  <div class="content-text">Definición y diferencias entre pulsión, emoción y sentimiento. Pulsión: impulso primitivo, reacción en microsegundos mediada por la amígdala. Ejemplos: miedo ante una situación de peligro, atracción pasajera ante un estímulo visual. Emoción: respuesta consecuente y más duradera a estímulos repetidos o significativos. Pueden coexistir múltiples emociones a lo largo del día; existe utilidad de nombrarlas. Sentimiento: estado perdurable que se construye a lo largo del tiempo y persiste en la identidad. Ejemplo: amor filial que se extiende desde el origen hasta la muerte del sujeto.</div>
+                  <div class="content-text">Tiempo y transición entre niveles. La diferencia esencial entre pulsión, emoción y sentimiento es la escala temporal y la repetición. Pulsiones pueden convertirse en emociones si se repiten y en sentimientos si se consolidan a largo plazo.</div>
+                  <a href="https://www.youtube.com/watch?v=WPgcz4OmjyE&start=3208" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:53:28)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="9">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">9</span>
+              <span class="section-title">Dinámicas en la clase y participaciones</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">9.1</span>
+                  <span class="subsection-title">Interacción con asistentes y ejemplos</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Participación de asistentes. Aportes sobre conceptos de pulsión, emoción y sentimiento por Percy y otros. Intervenciones prácticas sobre seguridad, planificación y comunicación por César, Gabriela y otros.</div>
+                  <a href="https://www.youtube.com/watch?v=WPgcz4OmjyE&start=1940" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:32:20)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">9.2</span>
+                  <span class="subsection-title">Uso de ejemplos cotidianos para ilustrar conceptos</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Ejemplos de estímulos y respuestas. Preferencias al elegir qué ver en televisión según motivación emocional. Diferenciación entre pulsión, emoción y sentimiento como marcos explicativos del comportamiento.</div>
+                  <div class="content-text">Dinámica de clase orientada a debate. Docente fomenta respuestas y casos concretos para comprender la variabilidad humana. Actividad enfocada en identificar características personales que impactan la seguridad del equipo. Ejemplos: orden y programación como base; comunicación asertiva y empatía como facilitadores; riesgo de normalización de peligros por exceso de confianza.</div>
+                  <a href="https://www.youtube.com/watch?v=WPgcz4OmjyE&start=3361" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:56:01)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="10">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">10</span>
+              <span class="section-title">Liderar desde dentro y estructuras disipativas</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">10.1</span>
+                  <span class="subsection-title">Liderar desde lo personal</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Autogestión emocional y responsabilidad. Capacidad de manejar las propias emociones y decidir no dejarse afectar por las emociones ajenas. Reconocer límites personales, taras y la importancia de construir hábitos y disciplina.</div>
+                  <div class="content-text">Identidad, valores y propósito en seguridad. Reconocer identidad y propósito antes de enfocarse en el hacer; conectar el ser con la práctica de seguridad. Liderar desde quien se es para influir en la cultura de seguridad del equipo.</div>
+                  <a href="https://www.youtube.com/watch?v=WPgcz4OmjyE&start=4780" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:19:40)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">10.2</span>
+                  <span class="subsection-title">Estructuras disipativas y orden en el caos</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Concepto de estructuras disipativas. Ilya Prigogine: sistemas que generan orden gracias a flujos de materia y energía, ejemplo del torbellino en un pozo. Analogía: a pesar del caos emocional y la multiplicidad de pulsiones y emociones, emergen patrones y estructuras de comportamiento.</div>
+                  <div class="content-text">Aplicación al comportamiento humano en entornos laborales. Reconocer que las interacciones diarias generan movimientos emocionales que pueden escalar si no se gestionan. Liderazgo interno evita que pequeñas afectaciones acumuladas deriven en conflictos y deterioro de seguridad.</div>
+                  <a href="https://www.youtube.com/watch?v=WPgcz4OmjyE&start=4441" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:14:01)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="11">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">11</span>
+              <span class="section-title">Desarrollo generacional, cultura y cambio social</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">11.1</span>
+                  <span class="subsection-title">Migración generacional y nuevas prácticas</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Cambios en crianza y normas sociales. Diferencias en formas de disciplina y en el modelo de autoridad entre generaciones. Influencia de avances en neurociencias, coaching y gestión de soft skills en la conducta actual.</div>
+                  <div class="content-text">Transformación cultural y cuestionamiento de roles. Deconstrucción de modelos tradicionales (machismo, romanticismo meloso) y aparición de nuevas formas de relacionarse. Ejemplos musicales como reflejo de cambios en normas y discursos sociales.</div>
+                  <a href="https://www.youtube.com/watch?v=WPgcz4OmjyE&start=4806" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:20:06)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">11.2</span>
+                  <span class="subsection-title">Identidad y diversidad en la interacción</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Relación con lo otro y brechas culturales. Diferentes creencias, orientaciones y lenguajes generan abismos que deben ser reconocidos para cerrarlos. Importancia de la conciencia emocional para gestionar distancias culturales y evitar reacciones inmediatas basadas solo en la primera emoción.</div>
+                  <a href="https://www.youtube.com/watch?v=WPgcz4OmjyE&start=5321" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:28:41)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="12">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">12</span>
+              <span class="section-title">Tecnología, automatización e impacto en la seguridad</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">12.1</span>
+                  <span class="subsection-title">Limitaciones humanas frente a máquinas</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Capacidades comparadas. Las máquinas procesan grandes volúmenes de datos y operaciones repetitivas con mayor rapidez. Los humanos aportan reflexión profunda e inteligencia emocional; la automatización no reemplaza la capacidad de reflexión y liderazgo emocional.</div>
+                  <div class="content-text">Perspectiva temporal y preparación profesional. Rápida aparición de nuevas IA y tecnologías; necesidad de orientar la formación hacia habilidades humanas diferenciadoras. Riesgo de obsolescencia de trabajos en 5–10 años si no se desarrollan competencias complementarias a la automatización.</div>
+                  <a href="https://www.youtube.com/watch?v=WPgcz4OmjyE&start=6742" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:52:22)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">12.2</span>
+                  <span class="subsection-title">Integración de IA y realidad aumentada en procesos de seguridad</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Ejemplos de aplicaciones prácticas. Sistemas tipo control aeroportuario para validar EPP mediante cámaras y realidad aumentada. Alertas automáticas que impiden acceso si falta un EPP y configuración de criterios por parte de humanos.</div>
+                  <div class="content-text">Futuro híbrido máquina-humano. Las máquinas ejecutarán la verificación y el monitoreo; los criterios, interpretación y liderazgo seguirán requiriendo juicio humano y gestión emocional.</div>
+                  <a href="https://www.youtube.com/watch?v=WPgcz4OmjyE&start=7070" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:57:50)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="13">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">13</span>
+              <span class="section-title">Prácticas, cambio organizacional y capacitación continua</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">13.1</span>
+                  <span class="subsection-title">Riesgos de la conducta automática en tareas</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Comportamientos de riesgo por descuido en acciones rutinarias. Quitarse guantes, barbijo o lentes durante la tarea y exponerse sin darse cuenta. La familiaridad con la tarea puede ocultar elementos del entorno que sostienen el riesgo.</div>
+                  <div class="content-text">Necesidad de perspectiva amplia para resolver problemas. Repetir la misma solución sin cambiar la perspectiva produce resultados fallidos. Uso de análisis de causa raíz e Ishikawa para identificar factores del entorno que alimentan el problema. Aplicar múltiples diagramas y técnicas para ver diversas perspectivas y actuar sobre causas ocultas.</div>
+                  <a href="https://www.youtube.com/watch?v=WPgcz4OmjyE&start=7201" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(02:00:01)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">13.2</span>
+                  <span class="subsection-title">Cambio cultural sostenible y formación de identidad</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Identidad y valores como base del cambio. Si los trabajadores no se identifican como responsables de su seguridad, las acciones serán superficiales y temporales. Trabajar la mentalidad, valores y sentido de responsabilidad para lograr impacto duradero.</div>
+                  <div class="content-text">Recursos, conocimiento y voluntad para materializar cambios. Tres componentes para ejecutar una acción: recursos, saber (conocimiento) y querer (voluntad). Ejemplos: disponer de materiales y herramientas adecuadas, tener claridad de procedimiento y deseo de realizar la tarea.</div>
+                  <a href="https://www.youtube.com/watch?v=WPgcz4OmjyE&start=7390" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(02:03:10)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">13.3</span>
+                  <span class="subsection-title">Capacitación continua ante la automatización</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Reentrenamiento y oportunidades frente a reducción de personal operativo. Cuando procesos requieren menos operarios, priorizar supercapacitación y reconversión en lugar de despidos. Capacitar a parte del personal para operar con realidad virtual/aumentada y formar al resto en nuevas habilidades.</div>
+                  <div class="content-text">Aprendizaje permanente como estrategia profesional. Capacitación constante es imprescindible; la llegada de IA debe verse como oportunidad si existe capital humano preparado. Ejemplo personal del docente: continuar estudios (maestrías, doctorado) como modelo de formación continua.</div>
+                  <a href="https://www.youtube.com/watch?v=WPgcz4OmjyE&start=7482" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(02:04:42)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="14">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">14</span>
+              <span class="section-title">Liderazgo, decisiones y práctica reflexiva</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">14.1</span>
+                  <span class="subsection-title">Ser como fundamento del liderazgo en seguridad</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Reflexión y decisiones conscientes. La seguridad no se sostiene solo con normas, sino con quienes somos cuando tomamos decisiones. Una decisión no reflexionada no merece ser tomada; el liderazgo requiere contemplación y evaluación de consecuencias.</div>
+                  <div class="content-text">Estilos de liderazgo y ritmo. Liderazgo lento y firme favorece contemplación, comprensión y cálculo de consecuencias. Liderazgo apresurado prioriza acción inmediata; el taller enfatiza la ventaja del liderazgo reflexivo para seguridad.</div>
+                  <a href="https://www.youtube.com/watch?v=WPgcz4OmjyE&start=8214" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(02:16:54)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">14.2</span>
+                  <span class="subsection-title">Motivación al cambio y cadena de cambios</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Cómo motivar al equipo que no es proactivo. Entender la cadena de cambios y el papel de la demanda del mercado como motor del cambio. Reconocer que el deseo del mercado varía y obliga a repensar procesos y productos.</div>
+                  <div class="content-text">Estrategias para promover adopción. Vincular cambios a beneficios concretos, formación y participación en la definición de soluciones. Incentivar la pertenencia a la demanda/oferta y el sentido de propósito para generar proactividad.</div>
+                  <a href="https://www.youtube.com/watch?v=WPgcz4OmjyE&start=8833" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(02:27:13)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="15">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">15</span>
+              <span class="section-title">Cierre de la sección y pasos siguientes</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">15.1</span>
+                  <span class="subsection-title">Transición a la sesión práctica</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Preparación para el taller práctico tras la inducción. Resolución de temas técnicos y conexión del docente antes de iniciar el contenido práctico.</div>
+                  <div class="content-text">Reiteración de canales abiertos. Recordatorio de medios para consultas posteriores y disponibilidad del equipo académico.</div>
+                  <a href="https://www.youtube.com/watch?v=WPgcz4OmjyE&start=1653" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:27:33)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">15.2</span>
+                  <span class="subsection-title">Despedida y logística final</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Agradecimientos y convocatoria a futuros programas. Agradecimiento a Edumín y asistentes; invitación a próximos cursos y diplomados.</div>
+                  <div class="content-text">Distribución de grabación y cierre administrativo. Grabación de la clase será enviada por WhatsApp; fin de la sesión y recordatorio de canales para dudas.</div>
+                  <a href="https://www.youtube.com/watch?v=WPgcz4OmjyE&start=9104" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(02:31:44)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <a href="https://www.edumin.pe/" target="_blank">
+        <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/LOGO%20BLANCO%20CANVA-mIKMypQ452RzmXVMUadb6mnvPaejXD.png" alt="EDUMIN Logo" class="footer-logo" />
+      </a>
+      <p class="footer-text">
+        <span style="display: block; font-weight: bold">Contenido desarrollado por EDUMIN - Centro de Capacitación Especializado en Minería, Industria y Negocios</span>
+        <span style="display: block; font-style: italic">Material exclusivo para estudiantes de EDUMIN</span>
+        <a href="https://www.edumin.pe/" target="_blank" style="color: var(--color-principal); text-decoration: none; display: block">https://www.edumin.pe/</a>
+      </p>
+    </div>
+
+    <script>
+      let originalTextMap = {};
+
+      const TITULO_DIPLOMADO = "INDUCCIÓN ACADÉMICA".toUpperCase();
+      const TITULO_CLASE = "TALLER DE SEGURIDAD BASADA EN EL COMPORTAMIENTO".toUpperCase();
+
+      const elementoDiplomado = document.getElementById("tituloDiplomado");
+      if (elementoDiplomado) {
+        elementoDiplomado.innerText = TITULO_DIPLOMADO;
+      }
+
+      document.title = TITULO_CLASE;
+      const tituloPrincipal = document.getElementById("tituloPrincipal");
+      if (tituloPrincipal) {
+        tituloPrincipal.innerText = TITULO_CLASE;
+      }
+
+      const tituloCompacto = document.getElementById("tituloCompacto");
+      if (tituloCompacto) {
+        tituloCompacto.innerText = TITULO_CLASE;
+      }
+
+      function cacheOriginalTexts() {
+        const searchableItems = document.querySelectorAll(".section-title, .subsection-title, .content-text");
+
+        let idCounter = 0;
+
+        searchableItems.forEach((item) => {
+          if (!item.id) {
+            item.id = `search-item-${idCounter++}`;
+          }
+
+          originalTextMap[item.id] = item.textContent.trim();
+        });
+      }
+
+      document.addEventListener("DOMContentLoaded", cacheOriginalTexts);
+
+      function toggleSection(element) {
+        const section = element.closest(".section");
+        const wasActive = section.classList.contains("active");
+
+        section.classList.toggle("active");
+
+        if (wasActive) {
+          const subsections = section.querySelectorAll(".subsection");
+          subsections.forEach((subsection) => {
+            subsection.classList.remove("active");
+          });
+        }
+      }
+
+      function toggleSubsection(element) {
+        const subsection = element.closest(".subsection");
+        subsection.classList.toggle("active");
+      }
+
+      function expandAll() {
+        const sections = document.querySelectorAll(".section");
+        sections.forEach((section) => {
+          section.classList.add("active");
+        });
+
+        const subsections = document.querySelectorAll(".subsection");
+        subsections.forEach((subsection) => {
+          subsection.classList.add("active");
+        });
+      }
+
+      function collapseAll() {
+        const sections = document.querySelectorAll(".section");
+        sections.forEach((section) => {
+          section.classList.remove("active");
+        });
+
+        const subsections = document.querySelectorAll(".subsection");
+        subsections.forEach((subsection) => {
+          subsection.classList.remove("active");
+        });
+      }
+
+      function debounce(func, delay) {
+        let timeout;
+        return function (...args) {
+          const later = () => {
+            clearTimeout(timeout);
+            func.apply(this, args);
+          };
+          clearTimeout(timeout);
+          timeout = setTimeout(later, delay);
+        };
+      }
+
+      function clearSearch() {
+        const searchInput = document.getElementById("searchInput");
+        const clearBtn = document.querySelector(".search-actions .clear-search");
+        searchInput.value = "";
+        clearBtn.style.display = "none";
+        searchContent();
+        searchInput.focus();
+      }
+
+      const createDiacriticInsensitiveRegex = (term) => {
+        const charMap = {
+          a: "[aáAÁ]",
+          e: "[eéEÉ]",
+          i: "[iíIÍ]",
+          o: "[oóOÓ]",
+          u: "[uúUÚ]",
+        };
+
+        const regexString = term
+          .split("")
+          .map((char) => {
+            const lowerChar = char.toLowerCase();
+            return charMap[lowerChar] || char;
+          })
+          .join("");
+
+        return new RegExp(`(${regexString})`, "gi");
+      };
+      function searchContent() {
+        const inputElement = document.getElementById("searchInput");
+        const searchTerm = inputElement.value.trim();
+
+        const searchableElements = document.querySelectorAll(".content-text, .section-title, .subsection-title");
+        let found = false;
+        let firstMatchElement = null;
+
+        // 1. Limpia clases 'active'
+        document.querySelectorAll(".section.active").forEach((el) => el.classList.remove("active"));
+        document.querySelectorAll(".subsection.active").forEach((el) => el.classList.remove("active"));
+
+        // 2. RESTAURACIÓN DEL CONTENIDO (CORRECCIÓN CLAVE 1)
+        // Se usa el mapa en memoria para restaurar el HTML de los elementos
+        searchableElements.forEach((element) => {
+          // Usamos el ID del elemento para buscar el texto original en la memoria
+          element.innerHTML = originalTextMap[element.id] || element.textContent;
+        });
+
+        if (searchTerm.length < 3) {
+          // Si el término es muy corto, restauramos y salimos
+          return;
+        }
+
+        const searchRegex = createDiacriticInsensitiveRegex(searchTerm);
+
+        searchableElements.forEach((element) => {
+          // 3. OBTENCIÓN DEL TEXTO PARA BÚSQUEDA (CORRECCIÓN CLAVE 2)
+          // Usamos la variable de bucle 'element' para obtener el ID
+          const originalText = originalTextMap[element.id] || element.textContent; // ¡Corregido de 'item.id' a 'element.id'!
+
+          if (searchRegex.test(originalText)) {
+            found = true;
+
+            // Resaltado
+            element.innerHTML = originalText.replace(searchRegex, `<span class="highlight">$1</span>`);
+
+            // Activación de secciones y subsecciones
+            const subsection = element.closest(".subsection");
+            if (subsection) {
+              subsection.classList.add("active");
+              subsection.closest(".section")?.classList.add("active");
+            } else if (element.classList.contains("section-title")) {
+              element.closest(".section")?.classList.add("active");
+            }
+
+            if (!firstMatchElement) {
+              firstMatchElement = element;
+            }
+          }
+        });
+
+        // Lógica de desplazamiento
+        if (firstMatchElement) {
+          requestAnimationFrame(() => {
+            firstMatchElement.scrollIntoView({
+              behavior: "smooth",
+              block: "center",
+            });
+          });
+        } else if (searchTerm.length >= 3) {
+          alert("No se encontraron resultados para: " + searchTerm);
+        }
+      }
+
+      const debouncedSearch = debounce(searchContent, 300);
+
+      document.getElementById("searchInput").addEventListener("input", function () {
+        const clearBtn = document.querySelector(".search-actions .clear-search");
+        clearBtn.style.display = this.value.length > 0 ? "block" : "none";
+        debouncedSearch();
+      });
+
+      document.getElementById("searchInput").addEventListener("keypress", function (e) {
+        if (e.key === "Enter") {
+          clearTimeout(this._timeoutId);
+          searchContent();
+        }
+      });
+
+      // --- Lógica del Header Compacto ---
+      const header = document.querySelector(".header");
+      const headerSpacer = document.querySelector(".header-spacer");
+      let initialHeaderHeight = 0; // Altura del header original
+      let compactHeaderHeight = 0; // Altura del header en modo compacto
+      let scrollTriggerPoint = 0; // Punto de scroll para activar el cambio
+
+      function handleHeaderState() {
+        const scrollY = window.scrollY || document.documentElement.scrollTop;
+
+        if (scrollY > scrollTriggerPoint) {
+          if (!header.classList.contains("compact")) {
+            header.classList.add("compact");
+            headerSpacer.style.height = `${initialHeaderHeight}px`;
+          }
+        } else {
+          if (header.classList.contains("compact")) {
+            header.classList.remove("compact");
+            headerSpacer.style.height = "0px";
+          }
+        }
+      }
+
+      function initializeHeader() {
+        initialHeaderHeight = header.offsetHeight;
+        const headerClone = header.cloneNode(true);
+        headerClone.classList.add("compact");
+        headerClone.style.visibility = "hidden";
+        headerClone.style.position = "absolute";
+        document.body.appendChild(headerClone);
+        compactHeaderHeight = headerClone.offsetHeight;
+        document.body.removeChild(headerClone);
+
+        scrollTriggerPoint = initialHeaderHeight - compactHeaderHeight;
+      }
+
+      document.addEventListener("DOMContentLoaded", initializeHeader);
+      window.addEventListener("scroll", handleHeaderState);
+      window.addEventListener("resize", debounce(initializeHeader, 200));
+    </script>
+  </body>
+</html>
